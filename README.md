@@ -34,3 +34,12 @@ poetry build
 poetry publish
 ```
 * [PyPI](https://pypi.org/project/politylink/) が更新されていることを確認
+
+## パッケージの利用
+```
+poetry add politylink
+poetry run python
+>>> from politylink import graphql
+>>> graphql.hello()
+'graphql'
+```
