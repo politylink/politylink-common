@@ -5,18 +5,16 @@
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 ```
 
-## パッケージの作成
-* pyenvでinstallしたpython3.8.2の環境で以下を実行した。
+## poetry環境の構築
 ```
-poetry new politylink
-cd politylink
-poetry add pandas
+git clone https://github.com/politylink/politylink-common.git
+cd politylink-common
+poetry init
 ```
-* テストとしてpandasへのdependencyも追加しておいた。addをした時に自動でvirtualenvが`~/Library/Caches/pypoetry/virtualenvs`以下に作成される。
 
 ## テストの実行
 ```
-poetry run test
+poetry run pytest
 ```
 
 ## パッケージの配布
@@ -26,7 +24,7 @@ poetry publish
 ```
 * [PyPI](https://pypi.org/project/politylink/) が更新されていることを確認
 
-## パッケージの利用
+## パッケージを他のプロジェクトから呼び出す
 ```
 poetry add politylink
 poetry run python
