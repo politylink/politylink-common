@@ -16,14 +16,12 @@ poetry add pandas
 
 ## PyCharmの設定
 * set poetry interpreter as project intepreter
-    * add poetry plugin first
-        * https://plugins.jetbrains.com/plugin/14307-poetry
+    * add [poetry plugin](https://plugins.jetbrains.com/plugin/14307-poetry) first
     * Preferences -> Project -> Project Interpreter and select the target poetry virtualenv
-* change default testing to pytest from UnitTest
-    * https://pleiades.io/help/pycharm/pytest.html
+* change default testing to pytest from UnitTest ( [ref](https://pleiades.io/help/pycharm/pytest.html) )
     * Preferences -> Tools -> Python Integrated Tools
     * add a new Run configuration to run all pytest in
-        * set test directory as Target and Working directory
+        * set tests directory as Target directory and Working directory
 
 ## テストの実行
 ```
