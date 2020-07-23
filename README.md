@@ -39,7 +39,9 @@ poetry run python
 * poetry interpreterをproject intepreterとして設定する
     * [poetry plugin](https://plugins.jetbrains.com/plugin/14307-poetry)を入れる
     * Preferences -> Project -> Project Interpreter から目的のpoetry virtualenvを選ぶ
-* PycharmのデフォルトテストをUnitTestからpytestに変更する（[参考](https://pleiades.io/help/pycharm/pytest.html) ）
-    * Preferences -> Tools -> Python Integrated Tools
-    * tests以下の全てのテストを実行するための新しいRun configurationを設定する
+* pytestを実行できるようにする
+   * PycharmのデフォルトテストをUnitTestからpytestに変更する（[参考](https://pleiades.io/help/pycharm/pytest.html) ）
+      * Preferences -> Tools -> Python Integrated Tools
+      * pytestの関数の横に実行アイコンが出ることを確認
+   * tests以下の全てのテストをまとめて実行するための新しいRun configurationを設定する
         * Target directory と Working directoryをtestsに設定したpytest configurationを追加する
