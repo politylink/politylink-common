@@ -43,3 +43,4 @@ poetry run python
       * pytestの関数の横に実行アイコンが出ることを確認
    * tests以下の全てのテストをまとめて実行するための新しいRun configurationを設定する
         * Target directory と Working directoryをtestsに設定したpytest configurationを追加する
+
