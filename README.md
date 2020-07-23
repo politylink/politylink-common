@@ -14,15 +14,6 @@ poetry add pandas
 ```
 * テストとしてpandasへのdependencyも追加しておいた。addをした時に自動でvirtualenvが`~/Library/Caches/pypoetry/virtualenvs`以下に作成される。
 
-## PyCharmの設定
-* set poetry interpreter as project intepreter
-    * add [poetry plugin](https://plugins.jetbrains.com/plugin/14307-poetry) first
-    * Preferences -> Project -> Project Interpreter and select the target poetry virtualenv
-* change default testing to pytest from UnitTest ( [ref](https://pleiades.io/help/pycharm/pytest.html) )
-    * Preferences -> Tools -> Python Integrated Tools
-    * add a new Run configuration to run all pytest in
-        * set tests directory as Target directory and Working directory
-
 ## テストの実行
 ```
 poetry run test
@@ -43,3 +34,12 @@ poetry run python
 >>> graphql.hello()
 'graphql'
 ```
+
+## PyCharmの設定
+* poetry interpreterをproject intepreterとして設定する
+    * [poetry plugin](https://plugins.jetbrains.com/plugin/14307-poetry)を入れる
+    * Preferences -> Project -> Project Interpreter から目的のpoetry virtualenvを選ぶ
+* PycharmのデフォルトテストをUnitTestからpytestに変更する（[参考](https://pleiades.io/help/pycharm/pytest.html) ）
+    * Preferences -> Tools -> Python Integrated Tools
+    * tests以下の全てのテストを実行するための新しいRun configurationを設定する
+        * Target directory と Working directoryをtestsに設定したpytest configurationを追加する
