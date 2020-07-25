@@ -8,13 +8,14 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 ```
 git clone https://github.com/politylink/politylink-common.git
 cd politylink-common
-poetry init
+poetry install
 ```
 * `~/Library/Caches/pypoetry/virtualenvs`に仮想環境が作られる
 
 ## テストの実行
 ```
 poetry run pytest
+poetry run pytest -o log_cli=true  # enable logging
 ```
 
 ## パッケージの配布
@@ -28,9 +29,8 @@ poetry publish
 ```
 poetry add politylink
 poetry run python
->>> from politylink import graphql
->>> graphql.hello()
-'graphql'
+>>> from politylink.graphql.client import GraphQLClient
+>>> client = GraphQLClient()
 ```
 
 ## PyCharmの設定
