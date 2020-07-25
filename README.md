@@ -4,7 +4,7 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 ```
 * [公式ドキュメント](https://python-poetry.org/docs/)参照
 
-## poetry環境の構築
+## 仮想環境の構築
 ```
 git clone https://github.com/politylink/politylink-common.git
 cd politylink-common
@@ -25,7 +25,7 @@ poetry publish
 ```
 * [PyPI](https://pypi.org/project/politylink/)が更新されていることを確認
 
-## パッケージを他のプロジェクトから呼び出す
+## パッケージの利用
 ```
 poetry add politylink
 poetry run python
