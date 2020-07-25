@@ -10,30 +10,55 @@ class GraphQLException(Exception):
 
 
 class GraphQLClient:
+    """
+    GraphQLClient for politylink endpoint
+    """
+
     def __init__(self):
         self.endpoint = HTTPEndpoint(GRAPHQL_URL, {'Authorization': GRAPHQL_AUTH})
 
-    def all_bills(self):
-        op = self._get_all_bills_op()
+    def exec(self, query_str):
+        """
+        General method to execute GraphQL query or mutation
+        :param query_str: GraphQL query/mutation string
+        :return: json response
+        """
+
+        data = self.endpoint(query_str)
+        self._validate_or_raise(data)
+        return data
+
+    def exec_all_bills(self):
+        """
+        Special method to execute allBills query
+        :return: list of Bill
+        """
+
+        op = self._build_all_bills_operation()
         data = self.endpoint(op)
-        self._validate_or_fail(data)
+        self._validate_or_raise(data)
         bills = (op + data).all_bills
         return bills
 
-    def create_bill(self, id_, bill_title, bill_category, bill_number, bill_type, bill_status):
-        op = self._get_create_bill_op(id_, bill_title, bill_category, bill_number, bill_type, bill_status)
+    def exec_create_bill(self, id_, bill_title, bill_category, bill_number, bill_type, bill_status):
+        """
+        Special method to execute createBill mutation
+        :return: created Bill
+        """
+
+        op = self._build_create_bill_operation(id_, bill_title, bill_category, bill_number, bill_type, bill_status)
         data = self.endpoint(op)
-        self._validate_or_fail(data)
+        self._validate_or_raise(data)
         bill = (op + data).create_bill
         return bill
 
     @staticmethod
-    def _validate_or_fail(data):
+    def _validate_or_raise(data):
         if 'errors' in data:
             raise GraphQLException(data['errors'])
 
     @staticmethod
-    def _get_all_bills_op():
+    def _build_all_bills_operation():
         op = Operation(Query)
         bills = op.all_bills()
         bills.id()
@@ -41,12 +66,10 @@ class GraphQLClient:
         minutes = bills.discussed_at()
         minutes.id()
         minutes.minutes_number()
-        minutes.discussed_bills()
-        minutes.discussed_bills().bill_title()
         return op
 
     @staticmethod
-    def _get_create_bill_op(id_, bill_title, bill_category, bill_number, bill_type, bill_status):
+    def _build_create_bill_operation(id_, bill_title, bill_category, bill_number, bill_type, bill_status):
         op = Operation(Mutation)
         bill = op.create_bill(
             id=id_,
