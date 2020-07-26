@@ -1,7 +1,7 @@
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
-from politylink.graphql import GRAPHQL_AUTH, GRAPHQL_URL
+from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
 
 
@@ -15,7 +15,7 @@ class GraphQLClient:
     """
 
     def __init__(self):
-        self.endpoint = HTTPEndpoint(GRAPHQL_URL, {'Authorization': GRAPHQL_AUTH})
+        self.endpoint = HTTPEndpoint(POLITYLINK_URL, {'Authorization': POLITYLINK_AUTH})
 
     def exec(self, query_str):
         """
