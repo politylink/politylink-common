@@ -42,8 +42,8 @@ class GraphQLClient:
 
     def exec_merge_bill(self, bill):
         """
-            Special method to execute createBill mutation
-            :return: merged Bill
+        Special method to execute createBill mutation
+        :return: merged Bill
         """
 
         op = self._build_merge_bill_operation(bill)
