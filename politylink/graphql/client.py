@@ -15,7 +15,7 @@ class GraphQLClient:
     """
 
     def __init__(self):
-        self.endpoint = HTTPEndpoint(POLITYLINK_URL, {'Authorization': POLITYLINK_AUTH})
+        self.endpoint = HTTPEndpoint(POLITYLINK_URL, {'Authorization': POLITYLINK_AUTH}, timeout=3)
 
     def exec(self, query_str):
         """
@@ -40,16 +40,16 @@ class GraphQLClient:
         bills = (op + data).all_bills
         return bills
 
-    def exec_create_bill(self, id_, bill_title, bill_category, bill_number, bill_type, bill_status):
+    def exec_merge_bill(self, bill):
         """
-        Special method to execute createBill mutation
-        :return: created Bill
+            Special method to execute createBill mutation
+            :return: merged Bill
         """
 
-        op = self._build_create_bill_operation(id_, bill_title, bill_category, bill_number, bill_type, bill_status)
+        op = self._build_merge_bill_operation(bill)
         data = self.endpoint(op)
         self._validate_or_raise(data)
-        bill = (op + data).create_bill
+        bill = (op + data).merge_bill
         return bill
 
     @staticmethod
@@ -63,22 +63,18 @@ class GraphQLClient:
         bills = op.all_bills()
         bills.id()
         bills.bill_title()
-        minutes = bills.discussed_at()
+        minutes = bills.be_discussed_by_minutes()
         minutes.id()
         minutes.minutes_number()
         return op
 
     @staticmethod
-    def _build_create_bill_operation(id_, bill_title, bill_category, bill_number, bill_type, bill_status):
+    def _build_merge_bill_operation(bill):
         op = Operation(Mutation)
-        bill = op.create_bill(
-            id=id_,
-            bill_title=bill_title,
-            bill_category=bill_category,
-            bill_number=bill_number,
-            bill_type=bill_type,
-            bill_status=bill_status
-        )
-        bill.id()
-        bill.bill_title()
+        param = dict()
+        for field in Bill.__field_names__:
+            if hasattr(bill, field):
+                param[field] = getattr(bill, field)
+        merged_bill = op.merge_bill(**param)
+        merged_bill.id()
         return op
