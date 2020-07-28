@@ -2,8 +2,9 @@ from logging import getLogger
 
 import pytest
 
-from politylink.graphql import GRAPHQL_AUTH
-from politylink.graphql.client import GraphQLClient, BillCategory, BillType, BillStatus
+from politylink.graphql import POLITYLINK_AUTH
+from politylink.graphql.client import GraphQLClient
+from politylink.graphql.schema import Bill
 
 LOGGER = getLogger(__name__)
 
@@ -26,26 +27,22 @@ class TestGraphQLClient:
         LOGGER.warning(bills)
         assert len(bills) > 0
 
-    @pytest.mark.skipif(not GRAPHQL_AUTH, reason='requires authorization')
-    def test_exec_create_bill(self):
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='requires authorization')
+    def test_exec_merge_bill(self):
         client = GraphQLClient()
-        bill = client.exec_create_bill(
-            id_='test',
-            bill_title='test',
-            bill_category=BillCategory.KAKUHOU,
-            bill_number=1,
-            bill_type=BillType.NEW,
-            bill_status=BillStatus.ACCEPTED)
-        LOGGER.warning(bill)
-        assert bill
+        bill = self._build_sample_bill()
+        merged_bill = client.exec_merge_bill(bill)
+        LOGGER.warning(merged_bill)
+        assert merged_bill.id == bill.id
 
     def test_show_all_ops(self):
         LOGGER.warning(GraphQLClient._build_all_bills_operation())
-        LOGGER.warning(GraphQLClient._build_create_bill_operation(
-            id_='test',
-            bill_title='test',
-            bill_category=BillCategory.KAKUHOU,
-            bill_number=1,
-            bill_type=BillType.NEW,
-            bill_status=BillStatus.ACCEPTED)
-        )
+        LOGGER.warning(GraphQLClient._build_merge_bill_operation(self._build_sample_bill()))
+
+    @staticmethod
+    def _build_sample_bill():
+        bill = Bill(None)
+        bill.id = 'bill:195-SYUHOU-4'
+        bill.bill_title = '公文書等の管理に関する法律の一部を改正する法律案'
+        bill.invalid_field = 'このfieldはmerge_billに使われない'
+        return bill
