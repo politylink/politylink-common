@@ -3,6 +3,7 @@ from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
+from politylink.graphql.schema import _UrlInput, _BillInput
 
 
 class GraphQLException(Exception):
@@ -29,11 +30,6 @@ class GraphQLClient:
         return data
 
     def exec_all_bills(self):
-        """
-        Special method to execute allBills query
-        :return: list of Bill
-        """
-
         op = self._build_all_bills_operation()
         data = self.endpoint(op)
         self._validate_or_raise(data)
@@ -41,16 +37,25 @@ class GraphQLClient:
         return bills
 
     def exec_merge_bill(self, bill):
-        """
-        Special method to execute createBill mutation
-        :return: merged Bill
-        """
-
         op = self._build_merge_bill_operation(bill)
         data = self.endpoint(op)
         self._validate_or_raise(data)
         bill = (op + data).merge_bill
         return bill
+
+    def exec_merge_url(self, url):
+        op = self._build_merge_url_operation(url)
+        data = self.endpoint(op)
+        self._validate_or_raise(data)
+        url = (op + data).merge_url
+        return url
+
+    def exec_merge_url_referred_bills(self, url_id, bill_id):
+        op = self._build_merge_url_referred_bills(url_id, bill_id)
+        data = self.endpoint(op)
+        self._validate_or_raise(data)
+        res = (op + data).merge_url_referred_bills
+        return res
 
     @staticmethod
     def _validate_or_raise(data):
@@ -77,4 +82,27 @@ class GraphQLClient:
                 param[field] = getattr(bill, field)
         merged_bill = op.merge_bill(**param)
         merged_bill.id()
+        return op
+
+    @staticmethod
+    def _build_merge_url_operation(url):
+        op = Operation(Mutation)
+        param = dict()
+        for field in Url.__field_names__:
+            if hasattr(url, field):
+                param[field] = getattr(url, field)
+        merged_url = op.merge_url(**param)
+        merged_url.id()
+        return op
+
+    @staticmethod
+    def _build_merge_url_referred_bills(url_id, bill_id):
+        op = Operation(Mutation)
+        _url_input = _UrlInput()
+        _url_input.id = url_id
+        _bill_input = _BillInput()
+        _bill_input.id = bill_id
+        res = op.merge_url_referred_bills(from_=_url_input, to=_bill_input)
+        res.from_.id()
+        res.to.id()
         return op
