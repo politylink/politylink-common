@@ -64,8 +64,7 @@ class TestGraphQLClient:
     @staticmethod
     def _build_sample_bill():
         bill = Bill(None)
-        bill.id = 'bill:195-SYUHOU-4'
-        bill.bill_title = '公文書等の管理に関する法律の一部を改正する法律案'
+        bill.name = '公文書等の管理に関する法律の一部を改正する法律案'
         bill.invalid_field = 'このfieldはmerge_billに使われない'
         return bill
 
