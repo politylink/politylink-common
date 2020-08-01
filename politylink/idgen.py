@@ -8,7 +8,7 @@ from politylink.graphql.schema import *
 Minimal content based ID generator in form of ${class}:${base}
 
 $class = class name
-$base = base64 string of MD5 hash (length = 22)
+$base = URL-safe base64 string of MD5 hash (length = 22)
 """
 
 
@@ -31,7 +31,7 @@ def idgen(obj):
 def _basegen_str(s):
     h = hashlib.md5()
     h.update(s.encode('UTF-8'))
-    b = base64.b64encode(h.digest())
+    b = base64.b64encode(h.digest(), altchars=b'-_')
     return b.decode('UTF-8')[:-2]  # last 2 bit is always padding (=)
 
 
