@@ -5,6 +5,7 @@ import pytest
 from politylink.graphql import POLITYLINK_AUTH
 from politylink.graphql.client import GraphQLClient
 from politylink.graphql.schema import Bill, Url
+from politylink.idgen import idgen
 
 LOGGER = getLogger(__name__)
 
@@ -14,7 +15,8 @@ class TestGraphQLClient:
         client = GraphQLClient()
         query = """{
             allBills {
-                billTitle
+                name
+                billNumber
             }
         }"""
         data = client.exec(query)
@@ -25,7 +27,6 @@ class TestGraphQLClient:
         client = GraphQLClient()
         bills = client.exec_all_bills()
         LOGGER.warning(bills)
-        assert len(bills) > 0
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_exec_merge_bill(self):
@@ -44,7 +45,7 @@ class TestGraphQLClient:
         assert merged_url.id == url.id
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_url(self):
+    def test_exec_merge_url_referred_bills(self):
         client = GraphQLClient()
         url = self._build_sample_url()
         bill = self._build_sample_bill()
@@ -64,14 +65,15 @@ class TestGraphQLClient:
     @staticmethod
     def _build_sample_bill():
         bill = Bill(None)
-        bill.id = 'bill:195-SYUHOU-4'
-        bill.bill_title = '公文書等の管理に関する法律の一部を改正する法律案'
+        bill.name = '公文書等の管理に関する法律の一部を改正する法律案'
+        bill.bill_number = '第195回衆法第4号'
+        bill.id = idgen(bill)
         bill.invalid_field = 'このfieldはmerge_billに使われない'
         return bill
 
     @staticmethod
     def _build_sample_url():
         url = Url(None)
-        url.id = 'url:http://www.shugiin.go.jp/internet/itdb_gian.nsf/html/gian/honbun/g19505004.htm'
         url.url = 'http://www.shugiin.go.jp/internet/itdb_gian.nsf/html/gian/honbun/g19505004.htm'
+        url.id = idgen(url)
         return url
