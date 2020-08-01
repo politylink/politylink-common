@@ -27,7 +27,6 @@ class TestGraphQLClient:
         client = GraphQLClient()
         bills = client.exec_all_bills()
         LOGGER.warning(bills)
-        assert len(bills) > 0
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_exec_merge_bill(self):

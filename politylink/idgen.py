@@ -5,14 +5,16 @@ from urllib.parse import urlparse
 from politylink.graphql.schema import *
 
 """
-Minimal content based ID generator in form of ${class}:${base}
+Minimal content based ID generator
 
+ID = ${class}:${base}
 $class = class name
 $base = URL-safe base64 string of MD5 hash (length = 22)
 """
 
 
 def idgen(obj):
+    class_ = obj.__class__.__name__
     if isinstance(obj, str):
         base = _basegen_str(obj)
     elif isinstance(obj, Bill):
@@ -24,11 +26,13 @@ def idgen(obj):
     elif hasattr(obj, 'name'):
         base = _basegen_str(getattr(obj, 'name'))
     else:
-        base = _basegen_str(str(obj))
-    return f'{obj.__class__.__name__}:{base}'
+        raise ValueError(f'can not calculate ID for {class_}')
+    return f'{class_}:{base}'
 
 
 def _basegen_str(s):
+    if not s:
+        raise ValueError(f'non-empty string is required to calculate ID')
     h = hashlib.md5()
     h.update(s.encode('UTF-8'))
     b = base64.b64encode(h.digest(), altchars=b'-_')
