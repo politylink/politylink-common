@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "politylink"
-version = "0.1.6"
+version = "0.1.7"
 description = ""
 authors = ["Mitsuki Usui"]
 
@@ -8,6 +8,7 @@ authors = ["Mitsuki Usui"]
 python = "^3.8"
 pandas = "^1.0.5"
 sgqlc = "^11.0"
+kanjize = "^0.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

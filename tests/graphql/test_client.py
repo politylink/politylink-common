@@ -5,6 +5,7 @@ import pytest
 from politylink.graphql import POLITYLINK_AUTH
 from politylink.graphql.client import GraphQLClient
 from politylink.graphql.schema import Bill, Url
+from politylink.graphql.schema import _Neo4jDateTimeInput
 from politylink.idgen import idgen
 
 LOGGER = getLogger(__name__)
@@ -67,6 +68,7 @@ class TestGraphQLClient:
         bill = Bill(None)
         bill.name = '公文書等の管理に関する法律の一部を改正する法律案'
         bill.bill_number = '第195回衆法第4号'
+        bill.submitted_date = _Neo4jDateTimeInput(year=2020, month=1, day=1)
         bill.id = idgen(bill)
         bill.invalid_field = 'このfieldはmerge_billに使われない'
         return bill
