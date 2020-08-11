@@ -3,7 +3,7 @@ from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
-from politylink.graphql.schema import _UrlInput, _BillInput
+from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput
 
 
 class GraphQLException(Exception):
@@ -50,11 +50,32 @@ class GraphQLClient:
         url = (op + data).merge_url
         return url
 
+    def exec_merge_minutes(self, minutes):
+        op = self._build_merge_minutes_operation(minutes)
+        data = self.endpoint(op)
+        self._validate_or_raise(data)
+        minutes = (op + data).merge_minutes
+        return minutes
+
+    def exec_merge_speech(self, speech):
+        op = self._build_merge_speech_operation(speech)
+        data = self.endpoint(op)
+        self._validate_or_raise(data)
+        speech = (op + data).merge_speech
+        return speech
+
     def exec_merge_url_referred_bills(self, url_id, bill_id):
         op = self._build_merge_url_referred_bills(url_id, bill_id)
         data = self.endpoint(op)
         self._validate_or_raise(data)
         res = (op + data).merge_url_referred_bills
+        return res
+
+    def exec_merge_speech_belonged_to_minutes(self, speech_id, minutes_id):
+        op = self._build_merge_speech_belonged_to_minutes(speech_id, minutes_id)
+        data = self.endpoint(op)
+        self._validate_or_raise(data)
+        res = (op + data).merge_speech_belonged_to_minutes
         return res
 
     @staticmethod
@@ -71,16 +92,13 @@ class GraphQLClient:
         bills.bill_number()
         minutes = bills.be_discussed_by_minutes()
         minutes.id()
-        minutes.minutes_number()
+        minutes.name()
         return op
 
     @staticmethod
     def _build_merge_bill_operation(bill):
         op = Operation(Mutation)
-        param = dict()
-        for field in Bill.__field_names__:
-            if hasattr(bill, field):
-                param[field] = getattr(bill, field)
+        param = GraphQLClient._build_merge_obj_param(bill, Bill.__field_names__)
         merged_bill = op.merge_bill(**param)
         merged_bill.id()
         return op
@@ -88,22 +106,53 @@ class GraphQLClient:
     @staticmethod
     def _build_merge_url_operation(url):
         op = Operation(Mutation)
-        param = dict()
-        for field in Url.__field_names__:
-            if hasattr(url, field):
-                param[field] = getattr(url, field)
+        param = GraphQLClient._build_merge_obj_param(url, Url.__field_names__)
         merged_url = op.merge_url(**param)
         merged_url.id()
         return op
 
     @staticmethod
+    def _build_merge_minutes_operation(minutes):
+        op = Operation(Mutation)
+        param = GraphQLClient._build_merge_obj_param(minutes, Minutes.__field_names__)
+        merged_minutes = op.merge_minutes(**param)
+        merged_minutes.id()
+        return op
+
+    @staticmethod
+    def _build_merge_speech_operation(speech):
+        op = Operation(Mutation)
+        param = GraphQLClient._build_merge_obj_param(speech, Speech.__field_names__)
+        merged_speech = op.merge_speech(**param)
+        merged_speech.id()
+        return op
+
+    @staticmethod
+    def _build_merge_obj_param(obj, field_names):
+        param = dict()
+        for field_name in field_names:
+            if hasattr(obj, field_name):
+                param[field_name] = getattr(obj, field_name)
+        return param
+
+    @staticmethod
     def _build_merge_url_referred_bills(url_id, bill_id):
         op = Operation(Mutation)
-        _url_input = _UrlInput()
-        _url_input.id = url_id
-        _bill_input = _BillInput()
-        _bill_input.id = bill_id
-        res = op.merge_url_referred_bills(from_=_url_input, to=_bill_input)
+        res = op.merge_url_referred_bills(
+            from_=_UrlInput({'id': url_id}),
+            to=_BillInput({'id': bill_id})
+        )
+        res.from_.id()
+        res.to.id()
+        return op
+
+    @staticmethod
+    def _build_merge_speech_belonged_to_minutes(speech_id, minutes_id):
+        op = Operation(Mutation)
+        res = op.merge_speech_belonged_to_minutes(
+            from_=_SpeechInput({'id': speech_id}),
+            to=_MinutesInput({'id': minutes_id})
+        )
         res.from_.id()
         res.to.id()
         return op
