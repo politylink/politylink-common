@@ -78,6 +78,13 @@ class GraphQLClient:
         res = (op + data).merge_speech_belonged_to_minutes
         return res
 
+    def exec_merge_minutes_discussed_bills(self, minutes_id, bill_id):
+        op = self._build_merge_minutes_discussed_bills(minutes_id, bill_id)
+        data = self.endpoint(op)
+        self._validate_or_raise(data)
+        res = (op + data).merge_minutes_discussed_bills
+        return res
+
     @staticmethod
     def _validate_or_raise(data):
         if 'errors' in data:
@@ -152,6 +159,17 @@ class GraphQLClient:
         res = op.merge_speech_belonged_to_minutes(
             from_=_SpeechInput({'id': speech_id}),
             to=_MinutesInput({'id': minutes_id})
+        )
+        res.from_.id()
+        res.to.id()
+        return op
+
+    @staticmethod
+    def _build_merge_minutes_discussed_bills(minutes_id, bill_id):
+        op = Operation(Mutation)
+        res = op.merge_minutes_discussed_bills(
+            from_=_MinutesInput({'id': minutes_id}),
+            to=_BillInput({'id': bill_id})
         )
         res.from_.id()
         res.to.id()

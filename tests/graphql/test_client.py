@@ -81,6 +81,16 @@ class TestGraphQLClient:
         assert res.from_.id == speech.id
         assert res.to.id == minutes.id
 
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
+    def test_exec_merge_minutes_discussed_bills(self):
+        client = GraphQLClient()
+        minutes = self._build_sample_minutes()
+        bill = self._build_sample_bill()
+        res = client.exec_merge_minutes_discussed_bills(minutes.id, bill.id)
+        LOGGER.warning(res)
+        assert res.from_.id == minutes.id
+        assert res.to.id == bill.id
+
     def test_show_all_ops(self):
         bill = self._build_sample_bill()
         url = self._build_sample_url()
@@ -93,6 +103,7 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient._build_merge_speech_operation(speech))
         LOGGER.warning(GraphQLClient._build_merge_url_referred_bills(url.id, bill.id))
         LOGGER.warning(GraphQLClient._build_merge_speech_belonged_to_minutes(speech.id, minutes.id))
+        LOGGER.warning(GraphQLClient._build_merge_minutes_discussed_bills(minutes.id, bill.id))
 
     @staticmethod
     def _build_sample_bill():
