@@ -85,7 +85,7 @@ class _RelationDirections(sgqlc.types.Enum):
 
 class _SpeechOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'speekerName_asc', 'speekerName_desc', 'orderInMinutes_asc', 'orderInMinutes_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'speakerName_asc', 'speakerName_desc', 'orderInMinutes_asc', 'orderInMinutes_desc', '_id_asc', '_id_desc')
 
 
 class _UrlOrdering(sgqlc.types.Enum):
@@ -882,7 +882,7 @@ class _Neo4jTimeInput(sgqlc.types.Input):
 
 class _SpeechFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'speeker_name', 'speeker_name_not', 'speeker_name_in', 'speeker_name_not_in', 'speeker_name_contains', 'speeker_name_not_contains', 'speeker_name_starts_with', 'speeker_name_not_starts_with', 'speeker_name_ends_with', 'speeker_name_not_ends_with', 'order_in_minutes', 'order_in_minutes_not', 'order_in_minutes_in', 'order_in_minutes_not_in', 'order_in_minutes_lt', 'order_in_minutes_lte', 'order_in_minutes_gt', 'order_in_minutes_gte', 'belonged_to_minutes', 'belonged_to_minutes_not', 'belonged_to_minutes_in', 'belonged_to_minutes_not_in', 'be_delivered_by_member', 'be_delivered_by_member_not', 'be_delivered_by_member_in', 'be_delivered_by_member_not_in')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'speaker_name', 'speaker_name_not', 'speaker_name_in', 'speaker_name_not_in', 'speaker_name_contains', 'speaker_name_not_contains', 'speaker_name_starts_with', 'speaker_name_not_starts_with', 'speaker_name_ends_with', 'speaker_name_not_ends_with', 'order_in_minutes', 'order_in_minutes_not', 'order_in_minutes_in', 'order_in_minutes_not_in', 'order_in_minutes_lt', 'order_in_minutes_lte', 'order_in_minutes_gt', 'order_in_minutes_gte', 'belonged_to_minutes', 'belonged_to_minutes_not', 'belonged_to_minutes_in', 'belonged_to_minutes_not_in', 'be_delivered_by_member', 'be_delivered_by_member_not', 'be_delivered_by_member_in', 'be_delivered_by_member_not_in')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_SpeechFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_SpeechFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -905,16 +905,16 @@ class _SpeechFilter(sgqlc.types.Input):
     name_not_starts_with = sgqlc.types.Field(String, graphql_name='name_not_starts_with')
     name_ends_with = sgqlc.types.Field(String, graphql_name='name_ends_with')
     name_not_ends_with = sgqlc.types.Field(String, graphql_name='name_not_ends_with')
-    speeker_name = sgqlc.types.Field(String, graphql_name='speekerName')
-    speeker_name_not = sgqlc.types.Field(String, graphql_name='speekerName_not')
-    speeker_name_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speekerName_in')
-    speeker_name_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speekerName_not_in')
-    speeker_name_contains = sgqlc.types.Field(String, graphql_name='speekerName_contains')
-    speeker_name_not_contains = sgqlc.types.Field(String, graphql_name='speekerName_not_contains')
-    speeker_name_starts_with = sgqlc.types.Field(String, graphql_name='speekerName_starts_with')
-    speeker_name_not_starts_with = sgqlc.types.Field(String, graphql_name='speekerName_not_starts_with')
-    speeker_name_ends_with = sgqlc.types.Field(String, graphql_name='speekerName_ends_with')
-    speeker_name_not_ends_with = sgqlc.types.Field(String, graphql_name='speekerName_not_ends_with')
+    speaker_name = sgqlc.types.Field(String, graphql_name='speakerName')
+    speaker_name_not = sgqlc.types.Field(String, graphql_name='speakerName_not')
+    speaker_name_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speakerName_in')
+    speaker_name_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speakerName_not_in')
+    speaker_name_contains = sgqlc.types.Field(String, graphql_name='speakerName_contains')
+    speaker_name_not_contains = sgqlc.types.Field(String, graphql_name='speakerName_not_contains')
+    speaker_name_starts_with = sgqlc.types.Field(String, graphql_name='speakerName_starts_with')
+    speaker_name_not_starts_with = sgqlc.types.Field(String, graphql_name='speakerName_not_starts_with')
+    speaker_name_ends_with = sgqlc.types.Field(String, graphql_name='speakerName_ends_with')
+    speaker_name_not_ends_with = sgqlc.types.Field(String, graphql_name='speakerName_not_ends_with')
     order_in_minutes = sgqlc.types.Field(Int, graphql_name='orderInMinutes')
     order_in_minutes_not = sgqlc.types.Field(Int, graphql_name='orderInMinutes_not')
     order_in_minutes_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(Int)), graphql_name='orderInMinutes_in')
@@ -2024,14 +2024,14 @@ class Mutation(sgqlc.types.Type):
     create_speech = sgqlc.types.Field('Speech', graphql_name='CreateSpeech', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
         ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
-        ('speeker_name', sgqlc.types.Arg(String, graphql_name='speekerName', default=None)),
+        ('speaker_name', sgqlc.types.Arg(String, graphql_name='speakerName', default=None)),
         ('order_in_minutes', sgqlc.types.Arg(Int, graphql_name='orderInMinutes', default=None)),
 ))
     )
     update_speech = sgqlc.types.Field('Speech', graphql_name='UpdateSpeech', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='id', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
-        ('speeker_name', sgqlc.types.Arg(String, graphql_name='speekerName', default=None)),
+        ('speaker_name', sgqlc.types.Arg(String, graphql_name='speakerName', default=None)),
         ('order_in_minutes', sgqlc.types.Arg(Int, graphql_name='orderInMinutes', default=None)),
 ))
     )
@@ -2042,7 +2042,7 @@ class Mutation(sgqlc.types.Type):
     merge_speech = sgqlc.types.Field('Speech', graphql_name='MergeSpeech', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='id', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
-        ('speeker_name', sgqlc.types.Arg(String, graphql_name='speekerName', default=None)),
+        ('speaker_name', sgqlc.types.Arg(String, graphql_name='speakerName', default=None)),
         ('order_in_minutes', sgqlc.types.Arg(Int, graphql_name='orderInMinutes', default=None)),
 ))
     )
@@ -2316,7 +2316,7 @@ class Query(sgqlc.types.Type):
     speech = sgqlc.types.Field(sgqlc.types.list_of('Speech'), graphql_name='Speech', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
-        ('speeker_name', sgqlc.types.Arg(String, graphql_name='speekerName', default=None)),
+        ('speaker_name', sgqlc.types.Arg(String, graphql_name='speakerName', default=None)),
         ('order_in_minutes', sgqlc.types.Arg(Int, graphql_name='orderInMinutes', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
@@ -2342,10 +2342,10 @@ class Query(sgqlc.types.Type):
 
 class Speech(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'speeker_name', 'order_in_minutes', 'belonged_to_minutes', 'be_delivered_by_member', '_id')
+    __field_names__ = ('id', 'name', 'speaker_name', 'order_in_minutes', 'belonged_to_minutes', 'be_delivered_by_member', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
-    speeker_name = sgqlc.types.Field(String, graphql_name='speekerName')
+    speaker_name = sgqlc.types.Field(String, graphql_name='speakerName')
     order_in_minutes = sgqlc.types.Field(Int, graphql_name='orderInMinutes')
     belonged_to_minutes = sgqlc.types.Field(Minutes, graphql_name='belongedToMinutes', args=sgqlc.types.ArgDict((
         ('filter', sgqlc.types.Arg(_MinutesFilter, graphql_name='filter', default=None)),
