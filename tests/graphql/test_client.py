@@ -115,6 +115,7 @@ class TestGraphQLClient:
     def _build_sample_minutes():
         minutes = Minutes(None)
         minutes.name = '第201回国会衆議院環境委員会第4号'
+        minutes.topics = ["天気について", "カレーライスの件"]
         minutes.id = idgen(minutes)
         return minutes
 
