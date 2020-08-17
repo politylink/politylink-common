@@ -97,9 +97,6 @@ class GraphQLClient:
         bills.id()
         bills.name()
         bills.bill_number()
-        minutes = bills.be_discussed_by_minutes()
-        minutes.id()
-        minutes.name()
         return op
 
     @staticmethod
