@@ -75,7 +75,7 @@ class _MemberOrdering(sgqlc.types.Enum):
 
 class _MinutesOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'startDateTime_asc', 'startDateTime_desc', 'endDateTime_asc', 'endDateTime_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'startDateTime_asc', 'startDateTime_desc', 'endDateTime_asc', 'endDateTime_desc', 'url_asc', 'url_desc', '_id_asc', '_id_desc')
 
 
 class _RelationDirections(sgqlc.types.Enum):
@@ -708,7 +708,7 @@ class _MemberInput(sgqlc.types.Input):
 
 class _MinutesFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'start_date_time', 'start_date_time_not', 'start_date_time_in', 'start_date_time_not_in', 'start_date_time_lt', 'start_date_time_lte', 'start_date_time_gt', 'start_date_time_gte', 'end_date_time', 'end_date_time_not', 'end_date_time_in', 'end_date_time_not_in', 'end_date_time_lt', 'end_date_time_lte', 'end_date_time_gt', 'end_date_time_gte', 'belonged_to_diet', 'belonged_to_diet_not', 'belonged_to_diet_in', 'belonged_to_diet_not_in', 'belonged_to_committee', 'belonged_to_committee_not', 'belonged_to_committee_in', 'belonged_to_committee_not_in', 'be_attended_by_members', 'be_attended_by_members_not', 'be_attended_by_members_in', 'be_attended_by_members_not_in', 'be_attended_by_members_some', 'be_attended_by_members_none', 'be_attended_by_members_single', 'be_attended_by_members_every', 'speeches', 'speeches_not', 'speeches_in', 'speeches_not_in', 'speeches_some', 'speeches_none', 'speeches_single', 'speeches_every', 'discussed_bills', 'discussed_bills_not', 'discussed_bills_in', 'discussed_bills_not_in', 'discussed_bills_some', 'discussed_bills_none', 'discussed_bills_single', 'discussed_bills_every', 'discussed_laws', 'discussed_laws_not', 'discussed_laws_in', 'discussed_laws_not_in', 'discussed_laws_some', 'discussed_laws_none', 'discussed_laws_single', 'discussed_laws_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'start_date_time', 'start_date_time_not', 'start_date_time_in', 'start_date_time_not_in', 'start_date_time_lt', 'start_date_time_lte', 'start_date_time_gt', 'start_date_time_gte', 'end_date_time', 'end_date_time_not', 'end_date_time_in', 'end_date_time_not_in', 'end_date_time_lt', 'end_date_time_lte', 'end_date_time_gt', 'end_date_time_gte', 'belonged_to_diet', 'belonged_to_diet_not', 'belonged_to_diet_in', 'belonged_to_diet_not_in', 'belonged_to_committee', 'belonged_to_committee_not', 'belonged_to_committee_in', 'belonged_to_committee_not_in', 'be_attended_by_members', 'be_attended_by_members_not', 'be_attended_by_members_in', 'be_attended_by_members_not_in', 'be_attended_by_members_some', 'be_attended_by_members_none', 'be_attended_by_members_single', 'be_attended_by_members_every', 'url', 'url_not', 'url_in', 'url_not_in', 'url_contains', 'url_not_contains', 'url_starts_with', 'url_not_starts_with', 'url_ends_with', 'url_not_ends_with', 'speeches', 'speeches_not', 'speeches_in', 'speeches_not_in', 'speeches_some', 'speeches_none', 'speeches_single', 'speeches_every', 'discussed_bills', 'discussed_bills_not', 'discussed_bills_in', 'discussed_bills_not_in', 'discussed_bills_some', 'discussed_bills_none', 'discussed_bills_single', 'discussed_bills_every', 'discussed_laws', 'discussed_laws_not', 'discussed_laws_in', 'discussed_laws_not_in', 'discussed_laws_some', 'discussed_laws_none', 'discussed_laws_single', 'discussed_laws_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -763,6 +763,16 @@ class _MinutesFilter(sgqlc.types.Input):
     be_attended_by_members_none = sgqlc.types.Field(_MemberFilter, graphql_name='beAttendedByMembers_none')
     be_attended_by_members_single = sgqlc.types.Field(_MemberFilter, graphql_name='beAttendedByMembers_single')
     be_attended_by_members_every = sgqlc.types.Field(_MemberFilter, graphql_name='beAttendedByMembers_every')
+    url = sgqlc.types.Field(String, graphql_name='url')
+    url_not = sgqlc.types.Field(String, graphql_name='url_not')
+    url_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='url_in')
+    url_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='url_not_in')
+    url_contains = sgqlc.types.Field(String, graphql_name='url_contains')
+    url_not_contains = sgqlc.types.Field(String, graphql_name='url_not_contains')
+    url_starts_with = sgqlc.types.Field(String, graphql_name='url_starts_with')
+    url_not_starts_with = sgqlc.types.Field(String, graphql_name='url_not_starts_with')
+    url_ends_with = sgqlc.types.Field(String, graphql_name='url_ends_with')
+    url_not_ends_with = sgqlc.types.Field(String, graphql_name='url_not_ends_with')
     speeches = sgqlc.types.Field('_SpeechFilter', graphql_name='speeches')
     speeches_not = sgqlc.types.Field('_SpeechFilter', graphql_name='speeches_not')
     speeches_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_SpeechFilter')), graphql_name='speeches_in')
@@ -1269,7 +1279,7 @@ class Member(sgqlc.types.Type):
 
 class Minutes(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'speeches', 'discussed_bills', 'discussed_laws', '_id')
+    __field_names__ = ('id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'url', 'speeches', 'discussed_bills', 'discussed_laws', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     start_date_time = sgqlc.types.Field('_Neo4jDateTime', graphql_name='startDateTime')
@@ -1290,6 +1300,7 @@ class Minutes(sgqlc.types.Type):
 ))
     )
     topics = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(String))), graphql_name='topics')
+    url = sgqlc.types.Field(String, graphql_name='url')
     speeches = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Speech'))), graphql_name='speeches', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -1969,6 +1980,7 @@ class Mutation(sgqlc.types.Type):
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(String))), graphql_name='topics', default=None)),
+        ('url', sgqlc.types.Arg(String, graphql_name='url', default=None)),
 ))
     )
     update_minutes = sgqlc.types.Field(Minutes, graphql_name='UpdateMinutes', args=sgqlc.types.ArgDict((
@@ -1977,6 +1989,7 @@ class Mutation(sgqlc.types.Type):
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topics', default=None)),
+        ('url', sgqlc.types.Arg(String, graphql_name='url', default=None)),
 ))
     )
     delete_minutes = sgqlc.types.Field(Minutes, graphql_name='DeleteMinutes', args=sgqlc.types.ArgDict((
@@ -1989,6 +2002,7 @@ class Mutation(sgqlc.types.Type):
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topics', default=None)),
+        ('url', sgqlc.types.Arg(String, graphql_name='url', default=None)),
 ))
     )
     add_speech_belonged_to_minutes = sgqlc.types.Field('_AddSpeechBelongedToMinutesPayload', graphql_name='AddSpeechBelongedToMinutes', args=sgqlc.types.ArgDict((
@@ -2306,6 +2320,7 @@ class Query(sgqlc.types.Type):
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(String, graphql_name='topics', default=None)),
+        ('url', sgqlc.types.Arg(String, graphql_name='url', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
