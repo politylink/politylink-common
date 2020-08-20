@@ -14,15 +14,17 @@ LOGGER = getLogger(__name__)
 class TestGraphQLClient:
     def test_exec(self):
         client = GraphQLClient()
-        query = """{
-            allBills {
+        query = """
+        {
+            Bill {
                 name
                 billNumber
             }
-        }"""
+        }
+        """
         data = client.exec(query)
         LOGGER.warning(data)
-        assert 'allBills' in data['data']
+        assert 'Bill' in data['data']
 
     def test_exec_all_bills(self):
         client = GraphQLClient()

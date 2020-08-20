@@ -33,7 +33,7 @@ class GraphQLClient:
         op = self._build_all_bills_operation()
         data = self.endpoint(op)
         self._validate_or_raise(data)
-        bills = (op + data).all_bills
+        bills = (op + data).bill
         return bills
 
     def exec_merge_bill(self, bill):
@@ -93,7 +93,7 @@ class GraphQLClient:
     @staticmethod
     def _build_all_bills_operation():
         op = Operation(Query)
-        bills = op.all_bills()
+        bills = op.bill()
         bills.id()
         bills.name()
         bills.bill_number()
