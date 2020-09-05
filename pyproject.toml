@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "politylink"
-version = "0.1.13"
+version = "0.1.14"
 description = ""
 authors = ["Mitsuki Usui"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6"
 pandas = "^1.0.5"
 sgqlc = "^11.0"
 kanjize = "^0.1.0"
