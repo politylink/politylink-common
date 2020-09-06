@@ -2,3 +2,7 @@ dist/
 poetry.lock
 politylink.egg-info/
 .pytest_cache/
+__pycache__
+venv
+.python-version
+.idea

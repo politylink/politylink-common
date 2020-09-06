@@ -40,7 +40,7 @@ String = sgqlc.types.String
 
 class _BillOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'billNumber_asc', 'billNumber_desc', 'category_asc', 'category_desc', 'isAmendment_asc', 'isAmendment_desc', 'reason_asc', 'reason_desc', 'alias_asc', 'alias_desc', 'submittedDate_asc', 'submittedDate_desc', 'passedRepresentativesCommitteeDate_asc', 'passedRepresentativesCommitteeDate_desc', 'passedRepresentativesDate_asc', 'passedRepresentativesDate_desc', 'passedCouncilorsCommitteeDate_asc', 'passedCouncilorsCommitteeDate_desc', 'passedCouncilorsDate_asc', 'passedCouncilorsDate_desc', 'proclaimedDate_asc', 'proclaimedDate_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'billNumber_asc', 'billNumber_desc', 'category_asc', 'category_desc', 'isAmendment_asc', 'isAmendment_desc', 'reason_asc', 'reason_desc', 'alias_asc', 'alias_desc', 'submittedDate_asc', 'submittedDate_desc', 'firstHouse_asc', 'firstHouse_desc', 'passedRepresentativesCommitteeDate_asc', 'passedRepresentativesCommitteeDate_desc', 'passedRepresentativesDate_asc', 'passedRepresentativesDate_desc', 'passedCouncilorsCommitteeDate_asc', 'passedCouncilorsCommitteeDate_desc', 'passedCouncilorsDate_asc', 'passedCouncilorsDate_desc', 'proclaimedDate_asc', 'proclaimedDate_desc', '_id_asc', '_id_desc')
 
 
 class _CommitteeOrdering(sgqlc.types.Enum):
@@ -99,7 +99,7 @@ class _UrlOrdering(sgqlc.types.Enum):
 ########################################################################
 class _BillFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'bill_number', 'bill_number_not', 'bill_number_in', 'bill_number_not_in', 'bill_number_contains', 'bill_number_not_contains', 'bill_number_starts_with', 'bill_number_not_starts_with', 'bill_number_ends_with', 'bill_number_not_ends_with', 'category', 'category_not', 'category_in', 'category_not_in', 'is_amendment', 'is_amendment_not', 'reason', 'reason_not', 'reason_in', 'reason_not_in', 'reason_contains', 'reason_not_contains', 'reason_starts_with', 'reason_not_starts_with', 'reason_ends_with', 'reason_not_ends_with', 'alias', 'alias_not', 'alias_in', 'alias_not_in', 'alias_contains', 'alias_not_contains', 'alias_starts_with', 'alias_not_starts_with', 'alias_ends_with', 'alias_not_ends_with', 'be_submitted_by_members', 'be_submitted_by_members_not', 'be_submitted_by_members_in', 'be_submitted_by_members_not_in', 'be_submitted_by_members_some', 'be_submitted_by_members_none', 'be_submitted_by_members_single', 'be_submitted_by_members_every', 'be_received_by_diet', 'be_received_by_diet_not', 'be_received_by_diet_in', 'be_received_by_diet_not_in', 'be_discussed_by_minutes', 'be_discussed_by_minutes_not', 'be_discussed_by_minutes_in', 'be_discussed_by_minutes_not_in', 'be_discussed_by_minutes_some', 'be_discussed_by_minutes_none', 'be_discussed_by_minutes_single', 'be_discussed_by_minutes_every', 'amended_laws', 'amended_laws_not', 'amended_laws_in', 'amended_laws_not_in', 'amended_laws_some', 'amended_laws_none', 'amended_laws_single', 'amended_laws_every', 'submitted_date', 'submitted_date_not', 'submitted_date_in', 'submitted_date_not_in', 'submitted_date_lt', 'submitted_date_lte', 'submitted_date_gt', 'submitted_date_gte', 'passed_representatives_committee_date', 'passed_representatives_committee_date_not', 'passed_representatives_committee_date_in', 'passed_representatives_committee_date_not_in', 'passed_representatives_committee_date_lt', 'passed_representatives_committee_date_lte', 'passed_representatives_committee_date_gt', 'passed_representatives_committee_date_gte', 'passed_representatives_date', 'passed_representatives_date_not', 'passed_representatives_date_in', 'passed_representatives_date_not_in', 'passed_representatives_date_lt', 'passed_representatives_date_lte', 'passed_representatives_date_gt', 'passed_representatives_date_gte', 'passed_councilors_committee_date', 'passed_councilors_committee_date_not', 'passed_councilors_committee_date_in', 'passed_councilors_committee_date_not_in', 'passed_councilors_committee_date_lt', 'passed_councilors_committee_date_lte', 'passed_councilors_committee_date_gt', 'passed_councilors_committee_date_gte', 'passed_councilors_date', 'passed_councilors_date_not', 'passed_councilors_date_in', 'passed_councilors_date_not_in', 'passed_councilors_date_lt', 'passed_councilors_date_lte', 'passed_councilors_date_gt', 'passed_councilors_date_gte', 'proclaimed_date', 'proclaimed_date_not', 'proclaimed_date_in', 'proclaimed_date_not_in', 'proclaimed_date_lt', 'proclaimed_date_lte', 'proclaimed_date_gt', 'proclaimed_date_gte', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'bill_number', 'bill_number_not', 'bill_number_in', 'bill_number_not_in', 'bill_number_contains', 'bill_number_not_contains', 'bill_number_starts_with', 'bill_number_not_starts_with', 'bill_number_ends_with', 'bill_number_not_ends_with', 'category', 'category_not', 'category_in', 'category_not_in', 'is_amendment', 'is_amendment_not', 'reason', 'reason_not', 'reason_in', 'reason_not_in', 'reason_contains', 'reason_not_contains', 'reason_starts_with', 'reason_not_starts_with', 'reason_ends_with', 'reason_not_ends_with', 'alias', 'alias_not', 'alias_in', 'alias_not_in', 'alias_contains', 'alias_not_contains', 'alias_starts_with', 'alias_not_starts_with', 'alias_ends_with', 'alias_not_ends_with', 'be_submitted_by_members', 'be_submitted_by_members_not', 'be_submitted_by_members_in', 'be_submitted_by_members_not_in', 'be_submitted_by_members_some', 'be_submitted_by_members_none', 'be_submitted_by_members_single', 'be_submitted_by_members_every', 'be_received_by_diet', 'be_received_by_diet_not', 'be_received_by_diet_in', 'be_received_by_diet_not_in', 'be_discussed_by_minutes', 'be_discussed_by_minutes_not', 'be_discussed_by_minutes_in', 'be_discussed_by_minutes_not_in', 'be_discussed_by_minutes_some', 'be_discussed_by_minutes_none', 'be_discussed_by_minutes_single', 'be_discussed_by_minutes_every', 'amended_laws', 'amended_laws_not', 'amended_laws_in', 'amended_laws_not_in', 'amended_laws_some', 'amended_laws_none', 'amended_laws_single', 'amended_laws_every', 'submitted_date', 'submitted_date_not', 'submitted_date_in', 'submitted_date_not_in', 'submitted_date_lt', 'submitted_date_lte', 'submitted_date_gt', 'submitted_date_gte', 'first_house', 'first_house_not', 'first_house_in', 'first_house_not_in', 'passed_representatives_committee_date', 'passed_representatives_committee_date_not', 'passed_representatives_committee_date_in', 'passed_representatives_committee_date_not_in', 'passed_representatives_committee_date_lt', 'passed_representatives_committee_date_lte', 'passed_representatives_committee_date_gt', 'passed_representatives_committee_date_gte', 'passed_representatives_date', 'passed_representatives_date_not', 'passed_representatives_date_in', 'passed_representatives_date_not_in', 'passed_representatives_date_lt', 'passed_representatives_date_lte', 'passed_representatives_date_gt', 'passed_representatives_date_gte', 'passed_councilors_committee_date', 'passed_councilors_committee_date_not', 'passed_councilors_committee_date_in', 'passed_councilors_committee_date_not_in', 'passed_councilors_committee_date_lt', 'passed_councilors_committee_date_lte', 'passed_councilors_committee_date_gt', 'passed_councilors_committee_date_gte', 'passed_councilors_date', 'passed_councilors_date_not', 'passed_councilors_date_in', 'passed_councilors_date_not_in', 'passed_councilors_date_lt', 'passed_councilors_date_lte', 'passed_councilors_date_gt', 'passed_councilors_date_gte', 'proclaimed_date', 'proclaimed_date_not', 'proclaimed_date_in', 'proclaimed_date_not_in', 'proclaimed_date_lt', 'proclaimed_date_lte', 'proclaimed_date_gt', 'proclaimed_date_gte', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_BillFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_BillFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -194,6 +194,10 @@ class _BillFilter(sgqlc.types.Input):
     submitted_date_lte = sgqlc.types.Field('_Neo4jDateTimeInput', graphql_name='submittedDate_lte')
     submitted_date_gt = sgqlc.types.Field('_Neo4jDateTimeInput', graphql_name='submittedDate_gt')
     submitted_date_gte = sgqlc.types.Field('_Neo4jDateTimeInput', graphql_name='submittedDate_gte')
+    first_house = sgqlc.types.Field(House, graphql_name='firstHouse')
+    first_house_not = sgqlc.types.Field(House, graphql_name='firstHouse_not')
+    first_house_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(House)), graphql_name='firstHouse_in')
+    first_house_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(House)), graphql_name='firstHouse_not_in')
     passed_representatives_committee_date = sgqlc.types.Field('_Neo4jDateTimeInput', graphql_name='passedRepresentativesCommitteeDate')
     passed_representatives_committee_date_not = sgqlc.types.Field('_Neo4jDateTimeInput', graphql_name='passedRepresentativesCommitteeDate_not')
     passed_representatives_committee_date_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_Neo4jDateTimeInput')), graphql_name='passedRepresentativesCommitteeDate_in')
@@ -1052,7 +1056,7 @@ class _UrlInput(sgqlc.types.Input):
 ########################################################################
 class Bill(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'bill_number', 'category', 'is_amendment', 'reason', 'alias', 'be_submitted_by_members', 'be_received_by_diet', 'be_discussed_by_minutes', 'amended_laws', 'submitted_date', 'passed_representatives_committee_date', 'passed_representatives_date', 'passed_councilors_committee_date', 'passed_councilors_date', 'proclaimed_date', 'urls', '_id')
+    __field_names__ = ('id', 'name', 'bill_number', 'category', 'is_amendment', 'reason', 'alias', 'be_submitted_by_members', 'be_received_by_diet', 'be_discussed_by_minutes', 'amended_laws', 'submitted_date', 'first_house', 'passed_representatives_committee_date', 'passed_representatives_date', 'passed_councilors_committee_date', 'passed_councilors_date', 'proclaimed_date', 'urls', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     bill_number = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='billNumber')
@@ -1086,6 +1090,7 @@ class Bill(sgqlc.types.Type):
 ))
     )
     submitted_date = sgqlc.types.Field('_Neo4jDateTime', graphql_name='submittedDate')
+    first_house = sgqlc.types.Field(House, graphql_name='firstHouse')
     passed_representatives_committee_date = sgqlc.types.Field('_Neo4jDateTime', graphql_name='passedRepresentativesCommitteeDate')
     passed_representatives_date = sgqlc.types.Field('_Neo4jDateTime', graphql_name='passedRepresentativesDate')
     passed_councilors_committee_date = sgqlc.types.Field('_Neo4jDateTime', graphql_name='passedCouncilorsCommitteeDate')
@@ -1813,6 +1818,7 @@ class Mutation(sgqlc.types.Type):
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
         ('alias', sgqlc.types.Arg(String, graphql_name='alias', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
+        ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('passed_representatives_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesCommitteeDate', default=None)),
         ('passed_representatives_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesDate', default=None)),
         ('passed_councilors_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedCouncilorsCommitteeDate', default=None)),
@@ -1829,6 +1835,7 @@ class Mutation(sgqlc.types.Type):
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
         ('alias', sgqlc.types.Arg(String, graphql_name='alias', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
+        ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('passed_representatives_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesCommitteeDate', default=None)),
         ('passed_representatives_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesDate', default=None)),
         ('passed_councilors_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedCouncilorsCommitteeDate', default=None)),
@@ -1849,6 +1856,7 @@ class Mutation(sgqlc.types.Type):
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
         ('alias', sgqlc.types.Arg(String, graphql_name='alias', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
+        ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('passed_representatives_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesCommitteeDate', default=None)),
         ('passed_representatives_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesDate', default=None)),
         ('passed_councilors_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedCouncilorsCommitteeDate', default=None)),
@@ -2246,6 +2254,7 @@ class Query(sgqlc.types.Type):
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
         ('alias', sgqlc.types.Arg(String, graphql_name='alias', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
+        ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('passed_representatives_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesCommitteeDate', default=None)),
         ('passed_representatives_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesDate', default=None)),
         ('passed_councilors_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedCouncilorsCommitteeDate', default=None)),
