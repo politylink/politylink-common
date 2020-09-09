@@ -31,7 +31,7 @@ client.exec(query)
    {'name': '平成三十年度歳入歳出の決算上の剰余金の処理の特例に関する法律案'}]}}
 ```
 
-GraphQLClientは[sgglc](https://github.com/profusion/sgqlc)のラッパークラスであり、クエリをコードで組み立てることも可能です。例として上と同じクエリを組み立ててみましょう。
+GraphQLClientは[sgglc](https://github.com/profusion/sgqlc)のラッパークラスであり、クエリをコードで組み立てることも可能です。例えば上のクエリを組み立てると以下のようになります。
 ```
 from politylink.graphql.schema import Query, _BillFilter, _Neo4jDateTimeInput
 from sgqlc.operation import Operation
