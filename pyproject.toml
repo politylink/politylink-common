@@ -1,7 +1,9 @@
 [tool.poetry]
 name = "politylink"
-version = "0.1.16"
+version = "0.1.17"
 description = ""
+readme = "README.md"
+homepage = "https://politylink.jp"
 authors = ["Mitsuki Usui"]
 
 [tool.poetry.dependencies]
