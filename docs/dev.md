@@ -40,9 +40,8 @@ poetry install
 PolityLinkではPythonの統合開発環境である[PyCharm](https://www.jetbrains.com/ja-jp/pycharm/)を使って開発をしています。
 
 ### 基本設定
-* poetry interpreterをproject intepreterとして設定する
-    * [poetry plugin](https://plugins.jetbrains.com/plugin/14307-poetry)を入れる
-    * Preferences -> Project -> Project Interpreter から目的のpoetry virtualenvを選ぶ
+* [poetry plugin](https://plugins.jetbrains.com/plugin/14307-poetry)を入れる
+    * Poetry InterpreterをProject Interpreterとして設定できるようになる
 * pytestを実行できるようにする
    * PycharmのデフォルトテストをUnitTestからpytestに変更する（[参考](https://pleiades.io/help/pycharm/pytest.html)）
       * Preferences -> Tools -> Python Integrated Tools
@@ -51,11 +50,11 @@ PolityLinkではPythonの統合開発環境である[PyCharm](https://www.jetbra
         * Target directory と Working directoryをtestsに設定したpytest configurationを追加する
 
 ### プロジェクトを開く
-* 1つのwindowでpolitylinkに関する全てのプロジェクトを開くことができます。
+* 1つのwindowでpolitylinkに関する全てのプロジェクト（e.g. politylink-common, politylink-crawler, etc）を開くことができます。
     * 2つ目以降を開く時はFile -> Open -> Detach
 * プロジェクトごとに異なるinterpreterを設定できます。
-    * Preferences -> Project -> Project Interpreter
-* プロジェクト間でDependencyを定義できます。
+    * Preferences -> Project -> Project InterpreterからそれぞれのプロジェクトのPoetry Interpreterを選択
+* プロジェクト間で依存関係を定義できます。
     * Preferences -> Project -> Project Dependencies
     * 例えばpolitylink-crawlerをpolitylink-commonに依存させると、poetry環境のpolitylink-commonではなく、ローカルのpolitylink-commonに基づいてコード補完やコードジャンプが行われるようになります。
 
@@ -77,9 +76,9 @@ poetry run pytest -o log_cli=true  # enable logging
 ```   
 
 * GraphQLスキーマを更新したいとき
-    * politylink-backendのapi/src/schema.graphqlを更新する
-    * politylink-backendのコンテナを再起動する
-    * politylink-commonのpolitylink/graphql/schema.pyをschema.shで更新する
+    1. politylink-backendのapi/src/schema.graphqlを更新する
+    2. politylink-backendのコンテナを再起動する
+    3. politylink-commonのpolitylink/graphql/schema.pyをschema.shで更新する
 ```
 cd politylink-common/politylink/graphql
 poetry run bash schema.sh
@@ -88,18 +87,20 @@ poetry run bash schema.sh
 * ローカルのGraphQLエンドポイントを使いたいとき
     * 例えば新しいクローラーのテストをしているときなど、ローカルで立てたGraphQLエンドポイントを使いたい場合があります。
     * POLITYLINK_URLとPOLITYLINK_AUTHという2つの環境変数をローカルのエンドポイント用に変更しましょう。
-    * `~/.bash_profile`に以下のように書いておけばデフォルトでローカルを使うようにできます。
+    * 例えば`~/.bash_profile`に以下のように書いておけばデフォルトでローカルを使うようにできます。
 ```
 export POLITYLINK_URL='http://localhost:4000/'
 export POLITYLINK_AUTH=
 ```
 
-* ローカルのpolitylink-commonを他のレポジトリから使いたい場合
-    * 例えばpolitylink-crawlerとpolitylink-commonを同時に更新しているときなど、ローカルのpolitylink-commonライブラリをpolitylink-crawlerから呼び出したい場合があります。
+* ローカルのpolitylink-commonライブラリを他のレポジトリから使いたい場合
+    * 例えばpolitylink-crawlerとpolitylink-commonを同時に更新しているときなど、ローカルのpolitylink-commonをpolitylink-crawlerから呼び出したい場合があります。
     * ローカルでbuildされたtar.gzを直接pipでinstallすることができます。
+    * PyCharm上ではDependenciesを設定することでローカルのコードを優先できます。
 ```
 cd politylink-crawler
 poetry shell # activate poetry environment of politylink-crawler
 pip install ../politylink-common/dist/politylink-0.1.9.tar.gz
 ```
+   
 
