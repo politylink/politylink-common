@@ -37,7 +37,7 @@ poetry install
 * `poetry update`で依存ライブラリを更新できます。
 
 ## PyCharm
-PolityLinkではPythonの統合開発環境であるPyCharm(https://www.jetbrains.com/ja-jp/pycharm/)を使って開発をしています。
+PolityLinkではPythonの統合開発環境である[PyCharm](https://www.jetbrains.com/ja-jp/pycharm/)を使って開発をしています。
 
 ### 基本設定
 * poetry interpreterをproject intepreterとして設定する
@@ -62,7 +62,7 @@ PolityLinkではPythonの統合開発環境であるPyCharm(https://www.jetbrain
 
 ## FAQ
 * politylinkパッケージを更新したいとき
-    * politylink-commonは他のレポジトリやjupyter notebookなどの解析環境から呼び出せるようにPyPI(https://pypi.org/project/politylink/)にパッケージを公開しています。
+    * politylink-commonは他のレポジトリやjupyter notebookなどの解析環境から呼び出せるように[PyPI](https://pypi.org/project/politylink/)にパッケージを公開しています。
     * Poetryを使ってパッケージを公開できます。必要に応じてバージョンをpyproject.tomlから変更してください。
 ```
 poetry build  # build tar.gz and wheel under ./dist
