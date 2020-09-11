@@ -26,67 +26,74 @@ class GraphQLClient:
         """
 
         data = self.endpoint(query_str)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         return data
 
     def exec_all_bills(self):
         op = self._build_all_bills_operation()
         data = self.endpoint(op)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         bills = (op + data).bill
         return bills
 
     def exec_merge_bill(self, bill):
         op = self._build_merge_bill_operation(bill)
         data = self.endpoint(op)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         bill = (op + data).merge_bill
         return bill
 
     def exec_merge_url(self, url):
         op = self._build_merge_url_operation(url)
         data = self.endpoint(op)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         url = (op + data).merge_url
         return url
 
     def exec_merge_minutes(self, minutes):
         op = self._build_merge_minutes_operation(minutes)
         data = self.endpoint(op)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         minutes = (op + data).merge_minutes
         return minutes
 
     def exec_merge_speech(self, speech):
         op = self._build_merge_speech_operation(speech)
         data = self.endpoint(op)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         speech = (op + data).merge_speech
         return speech
 
     def exec_merge_url_referred_bills(self, url_id, bill_id):
         op = self._build_merge_url_referred_bills(url_id, bill_id)
         data = self.endpoint(op)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         res = (op + data).merge_url_referred_bills
+        return res
+
+    def exec_merge_url_referred_minutes(self, url_id, minutes_id):
+        op = self._build_merge_url_referred_minutes(url_id, minutes_id)
+        data = self.endpoint(op)
+        self.validate_response_or_raise(data)
+        res = (op + data).merge_url_referred_minutes
         return res
 
     def exec_merge_speech_belonged_to_minutes(self, speech_id, minutes_id):
         op = self._build_merge_speech_belonged_to_minutes(speech_id, minutes_id)
         data = self.endpoint(op)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         res = (op + data).merge_speech_belonged_to_minutes
         return res
 
     def exec_merge_minutes_discussed_bills(self, minutes_id, bill_id):
         op = self._build_merge_minutes_discussed_bills(minutes_id, bill_id)
         data = self.endpoint(op)
-        self._validate_or_raise(data)
+        self.validate_response_or_raise(data)
         res = (op + data).merge_minutes_discussed_bills
         return res
 
     @staticmethod
-    def _validate_or_raise(data):
+    def validate_response_or_raise(data):
         if 'errors' in data:
             raise GraphQLException(data['errors'])
 
@@ -145,6 +152,17 @@ class GraphQLClient:
         res = op.merge_url_referred_bills(
             from_=_UrlInput({'id': url_id}),
             to=_BillInput({'id': bill_id})
+        )
+        res.from_.id()
+        res.to.id()
+        return op
+
+    @staticmethod
+    def _build_merge_url_referred_minutes(url_id, minutes_id):
+        op = Operation(Mutation)
+        res = op.merge_url_referred_minutes(
+            from_=_UrlInput({'id': url_id}),
+            to=_MinutesInput({'id': minutes_id})
         )
         res.from_.id()
         res.to.id()

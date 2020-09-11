@@ -23,13 +23,7 @@ class TestGraphQLClient:
         }
         """
         data = client.exec(query)
-        LOGGER.warning(data)
         assert 'Bill' in data['data']
-
-    def test_exec_all_bills(self):
-        client = GraphQLClient()
-        bills = client.exec_all_bills()
-        LOGGER.warning(bills)
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_exec_merge_bill(self):
