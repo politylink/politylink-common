@@ -8,11 +8,11 @@ class MinutesFinder:
     def __init__(self):
         self.client = GraphQLClient()
 
-    def find(self, text, year, month, day):
+    def find(self, text, dt):
         op = Operation(Query)
         minutes_filter = _MinutesFilter(None)
         minutes_filter.name_contains = text
-        minutes_filter.start_date_time = _Neo4jDateTimeInput(year=year, month=month, day=day)
+        minutes_filter.start_date_time = _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
         minutes = op.minutes(filter=minutes_filter)
         minutes.id()
         minutes.name()
