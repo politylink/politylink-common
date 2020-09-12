@@ -1,6 +1,5 @@
 import base64
 import hashlib
-from urllib.parse import urlparse
 
 from politylink.graphql.schema import *
 
@@ -48,5 +47,5 @@ def _basegen_law(law):
 
 
 def _basegen_url(url):
-    o = urlparse(url.url)
-    return _basegen_str(o.netloc + o.path)
+    protocol, body = url.url.split('://')
+    return _basegen_str(body)
