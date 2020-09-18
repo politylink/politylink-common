@@ -1142,12 +1142,13 @@ class Bill(sgqlc.types.Type):
 
 class Committee(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'matters', 'num_members', 'house', 'members', 'minutes', '_id')
+    __field_names__ = ('id', 'name', 'matters', 'num_members', 'house', 'aliases', 'members', 'minutes', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     matters = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(String))), graphql_name='matters')
     num_members = sgqlc.types.Field(Int, graphql_name='numMembers')
     house = sgqlc.types.Field(House, graphql_name='house')
+    aliases = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(String))), graphql_name='aliases')
     members = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Member'))), graphql_name='members', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -1943,6 +1944,7 @@ class Mutation(sgqlc.types.Type):
         ('matters', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(String))), graphql_name='matters', default=None)),
         ('num_members', sgqlc.types.Arg(Int, graphql_name='numMembers', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
+        ('aliases', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(String))), graphql_name='aliases', default=None)),
 ))
     )
     update_committee = sgqlc.types.Field(Committee, graphql_name='UpdateCommittee', args=sgqlc.types.ArgDict((
@@ -1951,6 +1953,7 @@ class Mutation(sgqlc.types.Type):
         ('matters', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='matters', default=None)),
         ('num_members', sgqlc.types.Arg(Int, graphql_name='numMembers', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
+        ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
 ))
     )
     delete_committee = sgqlc.types.Field(Committee, graphql_name='DeleteCommittee', args=sgqlc.types.ArgDict((
@@ -1963,6 +1966,7 @@ class Mutation(sgqlc.types.Type):
         ('matters', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='matters', default=None)),
         ('num_members', sgqlc.types.Arg(Int, graphql_name='numMembers', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
+        ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
 ))
     )
     add_minutes_belonged_to_diet = sgqlc.types.Field('_AddMinutesBelongedToDietPayload', graphql_name='AddMinutesBelongedToDiet', args=sgqlc.types.ArgDict((
@@ -2355,6 +2359,7 @@ class Query(sgqlc.types.Type):
         ('matters', sgqlc.types.Arg(String, graphql_name='matters', default=None)),
         ('num_members', sgqlc.types.Arg(Int, graphql_name='numMembers', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
+        ('aliases', sgqlc.types.Arg(String, graphql_name='aliases', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
