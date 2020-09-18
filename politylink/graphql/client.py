@@ -3,7 +3,7 @@ from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
-from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput
+from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput, _CommitteeInput
 
 
 class GraphQLException(Exception):
@@ -57,6 +57,13 @@ class GraphQLClient:
         minutes = (op + data).merge_minutes
         return minutes
 
+    def exec_merge_committee(self, committee):
+        op = self._build_merge_committee_operation(committee)
+        data = self.endpoint(op)
+        self.validate_response_or_raise(data)
+        committee = (op + data).merge_committee
+        return committee
+
     def exec_merge_speech(self, speech):
         op = self._build_merge_speech_operation(speech)
         data = self.endpoint(op)
@@ -90,6 +97,13 @@ class GraphQLClient:
         data = self.endpoint(op)
         self.validate_response_or_raise(data)
         res = (op + data).merge_minutes_discussed_bills
+        return res
+
+    def exec_merge_minutes_belonged_to_committee(self, minutes_id, committee_id):
+        op = self._build_merge_minutes_belonged_to_committee(minutes_id, committee_id)
+        data = self.endpoint(op)
+        self.validate_response_or_raise(data)
+        res = (op + data).merge_minutes_belonged_to_committee
         return res
 
     @staticmethod
@@ -128,6 +142,14 @@ class GraphQLClient:
         param = GraphQLClient._build_merge_obj_param(minutes, Minutes.__field_names__)
         merged_minutes = op.merge_minutes(**param)
         merged_minutes.id()
+        return op
+
+    @staticmethod
+    def _build_merge_committee_operation(committee):
+        op = Operation(Mutation)
+        param = GraphQLClient._build_merge_obj_param(committee, Committee.__field_names__)
+        merged_committee = op.merge_committee(**param)
+        merged_committee.id()
         return op
 
     @staticmethod
@@ -185,6 +207,17 @@ class GraphQLClient:
         res = op.merge_minutes_discussed_bills(
             from_=_MinutesInput({'id': minutes_id}),
             to=_BillInput({'id': bill_id})
+        )
+        res.from_.id()
+        res.to.id()
+        return op
+
+    @staticmethod
+    def _build_merge_minutes_belonged_to_committee(minutes_id, committee_id):
+        op = Operation(Mutation)
+        res = op.merge_minutes_belonged_to_committee(
+            from_=_MinutesInput({'id': minutes_id}),
+            to=_CommitteeInput({'id': committee_id})
         )
         res.from_.id()
         res.to.id()
