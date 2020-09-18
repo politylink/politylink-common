@@ -18,11 +18,11 @@ class CommitteeFinder:
 
     @staticmethod
     def match(committee, text):
-        if hasattr(committee, 'name'):
-            if text in committee.name:
+        if hasattr(committee, 'name') and committee.name:
+            if text in committee.name or committee.name in text:
                 return True
-        if hasattr(committee, 'aliases'):
+        if hasattr(committee, 'aliases') and committee.aliases:
             for alias in committee.aliases:
-                if text in alias:
+                if text in alias or alias in text:
                     return True
         return False
