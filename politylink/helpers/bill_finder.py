@@ -4,6 +4,10 @@ from politylink.graphql.client import GraphQLClient
 
 
 class BillFinder:
+    """
+    Cache based Bill finder
+    """
+
     def __init__(self, bills=None):
         if bills:
             self.bills = bills

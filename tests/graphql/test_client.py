@@ -103,6 +103,7 @@ class TestGraphQLClient:
         committee = self._build_sample_committee()
         speech = self._build_sample_speech()
         LOGGER.warning(GraphQLClient._build_all_bills_operation())
+        LOGGER.warning(GraphQLClient._build_all_committees_operation())
         LOGGER.warning(GraphQLClient._build_merge_bill_operation(bill))
         LOGGER.warning(GraphQLClient._build_merge_url_operation(url))
         LOGGER.warning(GraphQLClient._build_merge_minutes_operation(minutes))

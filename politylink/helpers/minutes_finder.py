@@ -5,6 +5,10 @@ from politylink.graphql.schema import Query, _MinutesFilter, _Neo4jDateTimeInput
 
 
 class MinutesFinder:
+    """
+    GraphQL based Minutes finder
+    """
+
     def __init__(self):
         self.client = GraphQLClient()
 

@@ -36,6 +36,13 @@ class GraphQLClient:
         bills = (op + data).bill
         return bills
 
+    def exec_all_committees(self):
+        op = self._build_all_committees_operation()
+        data = self.endpoint(op)
+        self.validate_response_or_raise(data)
+        committees = (op + data).committee
+        return committees
+
     def exec_merge_bill(self, bill):
         op = self._build_merge_bill_operation(bill)
         data = self.endpoint(op)
@@ -118,6 +125,15 @@ class GraphQLClient:
         bills.id()
         bills.name()
         bills.bill_number()
+        return op
+
+    @staticmethod
+    def _build_all_committees_operation():
+        op = Operation(Query)
+        committees = op.committee()
+        committees.id()
+        committees.name()
+        committees.aliases()
         return op
 
     @staticmethod
