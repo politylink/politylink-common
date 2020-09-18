@@ -61,8 +61,8 @@ class GraphQLClient:
         op = self._build_merge_committee_operation(committee)
         data = self.endpoint(op)
         self.validate_response_or_raise(data)
-        minutes = (op + data).merge_committee
-        return minutes
+        committee = (op + data).merge_committee
+        return committee
 
     def exec_merge_speech(self, speech):
         op = self._build_merge_speech_operation(speech)
