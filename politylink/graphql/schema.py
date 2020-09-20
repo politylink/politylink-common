@@ -10,7 +10,7 @@ schema = sgqlc.types.Schema()
 ########################################################################
 class BillCategory(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('KAKUHOU', 'SYUHOU', 'SANHOU')
+    __choices__ = ('KAKUHOU', 'SHUHOU', 'SANHOU')
 
 
 Boolean = sgqlc.types.Boolean
