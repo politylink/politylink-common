@@ -40,12 +40,12 @@ String = sgqlc.types.String
 
 class _BillOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'billNumber_asc', 'billNumber_desc', 'category_asc', 'category_desc', 'isAmendment_asc', 'isAmendment_desc', 'isPassed_asc', 'isPassed_desc', 'reason_asc', 'reason_desc', 'firstHouse_asc', 'firstHouse_desc', 'submittedDate_asc', 'submittedDate_desc', 'passedRepresentativesCommitteeDate_asc', 'passedRepresentativesCommitteeDate_desc', 'passedRepresentativesDate_asc', 'passedRepresentativesDate_desc', 'passedCouncilorsCommitteeDate_asc', 'passedCouncilorsCommitteeDate_desc', 'passedCouncilorsDate_asc', 'passedCouncilorsDate_desc', 'proclaimedDate_asc', 'proclaimedDate_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'billNumber_asc', 'billNumber_desc', 'category_asc', 'category_desc', 'isAmendment_asc', 'isAmendment_desc', 'isPassed_asc', 'isPassed_desc', 'reason_asc', 'reason_desc', 'summary_asc', 'summary_desc', 'firstHouse_asc', 'firstHouse_desc', 'submittedDate_asc', 'submittedDate_desc', 'passedRepresentativesCommitteeDate_asc', 'passedRepresentativesCommitteeDate_desc', 'passedRepresentativesDate_asc', 'passedRepresentativesDate_desc', 'passedCouncilorsCommitteeDate_asc', 'passedCouncilorsCommitteeDate_desc', 'passedCouncilorsDate_asc', 'passedCouncilorsDate_desc', 'proclaimedDate_asc', 'proclaimedDate_desc', '_id_asc', '_id_desc')
 
 
 class _CommitteeOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'numMembers_asc', 'numMembers_desc', 'house_asc', 'house_desc', 'summary_asc', 'summary_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'numMembers_asc', 'numMembers_desc', 'house_asc', 'house_desc', 'description_asc', 'description_desc', '_id_asc', '_id_desc')
 
 
 class _DietOrdering(sgqlc.types.Enum):
@@ -65,12 +65,12 @@ class _ElectionResultOrdering(sgqlc.types.Enum):
 
 class _LawOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'lawNumber_asc', 'lawNumber_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'lawNumber_asc', 'lawNumber_desc', 'summary_asc', 'summary_desc', '_id_asc', '_id_desc')
 
 
 class _MemberOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'nameHira_asc', 'nameHira_desc', 'firstName_asc', 'firstName_desc', 'firstNameHira_asc', 'firstNameHira_desc', 'lastName_asc', 'lastName_desc', 'lastNameHira_asc', 'lastNameHira_desc', 'house_asc', 'house_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'nameHira_asc', 'nameHira_desc', 'firstName_asc', 'firstName_desc', 'firstNameHira_asc', 'firstNameHira_desc', 'lastName_asc', 'lastName_desc', 'lastNameHira_asc', 'lastNameHira_desc', 'house_asc', 'house_desc', 'description_asc', 'description_desc', '_id_asc', '_id_desc')
 
 
 class _MinutesOrdering(sgqlc.types.Enum):
@@ -99,7 +99,7 @@ class _UrlOrdering(sgqlc.types.Enum):
 ########################################################################
 class _BillFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'bill_number', 'bill_number_not', 'bill_number_in', 'bill_number_not_in', 'bill_number_contains', 'bill_number_not_contains', 'bill_number_starts_with', 'bill_number_not_starts_with', 'bill_number_ends_with', 'bill_number_not_ends_with', 'category', 'category_not', 'category_in', 'category_not_in', 'is_amendment', 'is_amendment_not', 'is_passed', 'is_passed_not', 'reason', 'reason_not', 'reason_in', 'reason_not_in', 'reason_contains', 'reason_not_contains', 'reason_starts_with', 'reason_not_starts_with', 'reason_ends_with', 'reason_not_ends_with', 'first_house', 'first_house_not', 'first_house_in', 'first_house_not_in', 'be_submitted_by_members', 'be_submitted_by_members_not', 'be_submitted_by_members_in', 'be_submitted_by_members_not_in', 'be_submitted_by_members_some', 'be_submitted_by_members_none', 'be_submitted_by_members_single', 'be_submitted_by_members_every', 'be_received_by_diet', 'be_received_by_diet_not', 'be_received_by_diet_in', 'be_received_by_diet_not_in', 'be_discussed_by_minutes', 'be_discussed_by_minutes_not', 'be_discussed_by_minutes_in', 'be_discussed_by_minutes_not_in', 'be_discussed_by_minutes_some', 'be_discussed_by_minutes_none', 'be_discussed_by_minutes_single', 'be_discussed_by_minutes_every', 'amended_laws', 'amended_laws_not', 'amended_laws_in', 'amended_laws_not_in', 'amended_laws_some', 'amended_laws_none', 'amended_laws_single', 'amended_laws_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'submitted_date', 'submitted_date_not', 'submitted_date_in', 'submitted_date_not_in', 'submitted_date_lt', 'submitted_date_lte', 'submitted_date_gt', 'submitted_date_gte', 'passed_representatives_committee_date', 'passed_representatives_committee_date_not', 'passed_representatives_committee_date_in', 'passed_representatives_committee_date_not_in', 'passed_representatives_committee_date_lt', 'passed_representatives_committee_date_lte', 'passed_representatives_committee_date_gt', 'passed_representatives_committee_date_gte', 'passed_representatives_date', 'passed_representatives_date_not', 'passed_representatives_date_in', 'passed_representatives_date_not_in', 'passed_representatives_date_lt', 'passed_representatives_date_lte', 'passed_representatives_date_gt', 'passed_representatives_date_gte', 'passed_councilors_committee_date', 'passed_councilors_committee_date_not', 'passed_councilors_committee_date_in', 'passed_councilors_committee_date_not_in', 'passed_councilors_committee_date_lt', 'passed_councilors_committee_date_lte', 'passed_councilors_committee_date_gt', 'passed_councilors_committee_date_gte', 'passed_councilors_date', 'passed_councilors_date_not', 'passed_councilors_date_in', 'passed_councilors_date_not_in', 'passed_councilors_date_lt', 'passed_councilors_date_lte', 'passed_councilors_date_gt', 'passed_councilors_date_gte', 'proclaimed_date', 'proclaimed_date_not', 'proclaimed_date_in', 'proclaimed_date_not_in', 'proclaimed_date_lt', 'proclaimed_date_lte', 'proclaimed_date_gt', 'proclaimed_date_gte')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'bill_number', 'bill_number_not', 'bill_number_in', 'bill_number_not_in', 'bill_number_contains', 'bill_number_not_contains', 'bill_number_starts_with', 'bill_number_not_starts_with', 'bill_number_ends_with', 'bill_number_not_ends_with', 'category', 'category_not', 'category_in', 'category_not_in', 'is_amendment', 'is_amendment_not', 'is_passed', 'is_passed_not', 'reason', 'reason_not', 'reason_in', 'reason_not_in', 'reason_contains', 'reason_not_contains', 'reason_starts_with', 'reason_not_starts_with', 'reason_ends_with', 'reason_not_ends_with', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'first_house', 'first_house_not', 'first_house_in', 'first_house_not_in', 'be_submitted_by_members', 'be_submitted_by_members_not', 'be_submitted_by_members_in', 'be_submitted_by_members_not_in', 'be_submitted_by_members_some', 'be_submitted_by_members_none', 'be_submitted_by_members_single', 'be_submitted_by_members_every', 'be_received_by_diet', 'be_received_by_diet_not', 'be_received_by_diet_in', 'be_received_by_diet_not_in', 'be_discussed_by_minutes', 'be_discussed_by_minutes_not', 'be_discussed_by_minutes_in', 'be_discussed_by_minutes_not_in', 'be_discussed_by_minutes_some', 'be_discussed_by_minutes_none', 'be_discussed_by_minutes_single', 'be_discussed_by_minutes_every', 'amended_laws', 'amended_laws_not', 'amended_laws_in', 'amended_laws_not_in', 'amended_laws_some', 'amended_laws_none', 'amended_laws_single', 'amended_laws_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'submitted_date', 'submitted_date_not', 'submitted_date_in', 'submitted_date_not_in', 'submitted_date_lt', 'submitted_date_lte', 'submitted_date_gt', 'submitted_date_gte', 'passed_representatives_committee_date', 'passed_representatives_committee_date_not', 'passed_representatives_committee_date_in', 'passed_representatives_committee_date_not_in', 'passed_representatives_committee_date_lt', 'passed_representatives_committee_date_lte', 'passed_representatives_committee_date_gt', 'passed_representatives_committee_date_gte', 'passed_representatives_date', 'passed_representatives_date_not', 'passed_representatives_date_in', 'passed_representatives_date_not_in', 'passed_representatives_date_lt', 'passed_representatives_date_lte', 'passed_representatives_date_gt', 'passed_representatives_date_gte', 'passed_councilors_committee_date', 'passed_councilors_committee_date_not', 'passed_councilors_committee_date_in', 'passed_councilors_committee_date_not_in', 'passed_councilors_committee_date_lt', 'passed_councilors_committee_date_lte', 'passed_councilors_committee_date_gt', 'passed_councilors_committee_date_gte', 'passed_councilors_date', 'passed_councilors_date_not', 'passed_councilors_date_in', 'passed_councilors_date_not_in', 'passed_councilors_date_lt', 'passed_councilors_date_lte', 'passed_councilors_date_gt', 'passed_councilors_date_gte', 'proclaimed_date', 'proclaimed_date_not', 'proclaimed_date_in', 'proclaimed_date_not_in', 'proclaimed_date_lt', 'proclaimed_date_lte', 'proclaimed_date_gt', 'proclaimed_date_gte')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_BillFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_BillFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -150,6 +150,16 @@ class _BillFilter(sgqlc.types.Input):
     reason_not_starts_with = sgqlc.types.Field(String, graphql_name='reason_not_starts_with')
     reason_ends_with = sgqlc.types.Field(String, graphql_name='reason_ends_with')
     reason_not_ends_with = sgqlc.types.Field(String, graphql_name='reason_not_ends_with')
+    summary = sgqlc.types.Field(String, graphql_name='summary')
+    summary_not = sgqlc.types.Field(String, graphql_name='summary_not')
+    summary_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='summary_in')
+    summary_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='summary_not_in')
+    summary_contains = sgqlc.types.Field(String, graphql_name='summary_contains')
+    summary_not_contains = sgqlc.types.Field(String, graphql_name='summary_not_contains')
+    summary_starts_with = sgqlc.types.Field(String, graphql_name='summary_starts_with')
+    summary_not_starts_with = sgqlc.types.Field(String, graphql_name='summary_not_starts_with')
+    summary_ends_with = sgqlc.types.Field(String, graphql_name='summary_ends_with')
+    summary_not_ends_with = sgqlc.types.Field(String, graphql_name='summary_not_ends_with')
     first_house = sgqlc.types.Field(House, graphql_name='firstHouse')
     first_house_not = sgqlc.types.Field(House, graphql_name='firstHouse_not')
     first_house_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(House)), graphql_name='firstHouse_in')
@@ -248,7 +258,7 @@ class _BillInput(sgqlc.types.Input):
 
 class _CommitteeFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'num_members', 'num_members_not', 'num_members_in', 'num_members_not_in', 'num_members_lt', 'num_members_lte', 'num_members_gt', 'num_members_gte', 'house', 'house_not', 'house_in', 'house_not_in', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'members', 'members_not', 'members_in', 'members_not_in', 'members_some', 'members_none', 'members_single', 'members_every', 'minutes', 'minutes_not', 'minutes_in', 'minutes_not_in', 'minutes_some', 'minutes_none', 'minutes_single', 'minutes_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'num_members', 'num_members_not', 'num_members_in', 'num_members_not_in', 'num_members_lt', 'num_members_lte', 'num_members_gt', 'num_members_gte', 'house', 'house_not', 'house_in', 'house_not_in', 'description', 'description_not', 'description_in', 'description_not_in', 'description_contains', 'description_not_contains', 'description_starts_with', 'description_not_starts_with', 'description_ends_with', 'description_not_ends_with', 'members', 'members_not', 'members_in', 'members_not_in', 'members_some', 'members_none', 'members_single', 'members_every', 'minutes', 'minutes_not', 'minutes_in', 'minutes_not_in', 'minutes_some', 'minutes_none', 'minutes_single', 'minutes_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_CommitteeFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_CommitteeFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -283,16 +293,16 @@ class _CommitteeFilter(sgqlc.types.Input):
     house_not = sgqlc.types.Field(House, graphql_name='house_not')
     house_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(House)), graphql_name='house_in')
     house_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(House)), graphql_name='house_not_in')
-    summary = sgqlc.types.Field(String, graphql_name='summary')
-    summary_not = sgqlc.types.Field(String, graphql_name='summary_not')
-    summary_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='summary_in')
-    summary_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='summary_not_in')
-    summary_contains = sgqlc.types.Field(String, graphql_name='summary_contains')
-    summary_not_contains = sgqlc.types.Field(String, graphql_name='summary_not_contains')
-    summary_starts_with = sgqlc.types.Field(String, graphql_name='summary_starts_with')
-    summary_not_starts_with = sgqlc.types.Field(String, graphql_name='summary_not_starts_with')
-    summary_ends_with = sgqlc.types.Field(String, graphql_name='summary_ends_with')
-    summary_not_ends_with = sgqlc.types.Field(String, graphql_name='summary_not_ends_with')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    description_not = sgqlc.types.Field(String, graphql_name='description_not')
+    description_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='description_in')
+    description_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='description_not_in')
+    description_contains = sgqlc.types.Field(String, graphql_name='description_contains')
+    description_not_contains = sgqlc.types.Field(String, graphql_name='description_not_contains')
+    description_starts_with = sgqlc.types.Field(String, graphql_name='description_starts_with')
+    description_not_starts_with = sgqlc.types.Field(String, graphql_name='description_not_starts_with')
+    description_ends_with = sgqlc.types.Field(String, graphql_name='description_ends_with')
+    description_not_ends_with = sgqlc.types.Field(String, graphql_name='description_not_ends_with')
     members = sgqlc.types.Field('_MemberFilter', graphql_name='members')
     members_not = sgqlc.types.Field('_MemberFilter', graphql_name='members_not')
     members_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MemberFilter')), graphql_name='members_in')
@@ -514,7 +524,7 @@ class _ElectionResultInput(sgqlc.types.Input):
 
 class _LawFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'law_number', 'law_number_not', 'law_number_in', 'law_number_not_in', 'law_number_contains', 'law_number_not_contains', 'law_number_starts_with', 'law_number_not_starts_with', 'law_number_ends_with', 'law_number_not_ends_with', 'be_discussed_by_minutes', 'be_discussed_by_minutes_not', 'be_discussed_by_minutes_in', 'be_discussed_by_minutes_not_in', 'be_discussed_by_minutes_some', 'be_discussed_by_minutes_none', 'be_discussed_by_minutes_single', 'be_discussed_by_minutes_every', 'referred_laws', 'referred_laws_not', 'referred_laws_in', 'referred_laws_not_in', 'referred_laws_some', 'referred_laws_none', 'referred_laws_single', 'referred_laws_every', 'be_referred_by_laws', 'be_referred_by_laws_not', 'be_referred_by_laws_in', 'be_referred_by_laws_not_in', 'be_referred_by_laws_some', 'be_referred_by_laws_none', 'be_referred_by_laws_single', 'be_referred_by_laws_every', 'be_amended_by_bills', 'be_amended_by_bills_not', 'be_amended_by_bills_in', 'be_amended_by_bills_not_in', 'be_amended_by_bills_some', 'be_amended_by_bills_none', 'be_amended_by_bills_single', 'be_amended_by_bills_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'law_number', 'law_number_not', 'law_number_in', 'law_number_not_in', 'law_number_contains', 'law_number_not_contains', 'law_number_starts_with', 'law_number_not_starts_with', 'law_number_ends_with', 'law_number_not_ends_with', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'be_discussed_by_minutes', 'be_discussed_by_minutes_not', 'be_discussed_by_minutes_in', 'be_discussed_by_minutes_not_in', 'be_discussed_by_minutes_some', 'be_discussed_by_minutes_none', 'be_discussed_by_minutes_single', 'be_discussed_by_minutes_every', 'referred_laws', 'referred_laws_not', 'referred_laws_in', 'referred_laws_not_in', 'referred_laws_some', 'referred_laws_none', 'referred_laws_single', 'referred_laws_every', 'be_referred_by_laws', 'be_referred_by_laws_not', 'be_referred_by_laws_in', 'be_referred_by_laws_not_in', 'be_referred_by_laws_some', 'be_referred_by_laws_none', 'be_referred_by_laws_single', 'be_referred_by_laws_every', 'be_amended_by_bills', 'be_amended_by_bills_not', 'be_amended_by_bills_in', 'be_amended_by_bills_not_in', 'be_amended_by_bills_some', 'be_amended_by_bills_none', 'be_amended_by_bills_single', 'be_amended_by_bills_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_LawFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_LawFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -547,6 +557,16 @@ class _LawFilter(sgqlc.types.Input):
     law_number_not_starts_with = sgqlc.types.Field(String, graphql_name='lawNumber_not_starts_with')
     law_number_ends_with = sgqlc.types.Field(String, graphql_name='lawNumber_ends_with')
     law_number_not_ends_with = sgqlc.types.Field(String, graphql_name='lawNumber_not_ends_with')
+    summary = sgqlc.types.Field(String, graphql_name='summary')
+    summary_not = sgqlc.types.Field(String, graphql_name='summary_not')
+    summary_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='summary_in')
+    summary_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='summary_not_in')
+    summary_contains = sgqlc.types.Field(String, graphql_name='summary_contains')
+    summary_not_contains = sgqlc.types.Field(String, graphql_name='summary_not_contains')
+    summary_starts_with = sgqlc.types.Field(String, graphql_name='summary_starts_with')
+    summary_not_starts_with = sgqlc.types.Field(String, graphql_name='summary_not_starts_with')
+    summary_ends_with = sgqlc.types.Field(String, graphql_name='summary_ends_with')
+    summary_not_ends_with = sgqlc.types.Field(String, graphql_name='summary_not_ends_with')
     be_discussed_by_minutes = sgqlc.types.Field('_MinutesFilter', graphql_name='beDiscussedByMinutes')
     be_discussed_by_minutes_not = sgqlc.types.Field('_MinutesFilter', graphql_name='beDiscussedByMinutes_not')
     be_discussed_by_minutes_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='beDiscussedByMinutes_in')
@@ -597,7 +617,7 @@ class _LawInput(sgqlc.types.Input):
 
 class _MemberFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'name_hira', 'name_hira_not', 'name_hira_in', 'name_hira_not_in', 'name_hira_contains', 'name_hira_not_contains', 'name_hira_starts_with', 'name_hira_not_starts_with', 'name_hira_ends_with', 'name_hira_not_ends_with', 'first_name', 'first_name_not', 'first_name_in', 'first_name_not_in', 'first_name_contains', 'first_name_not_contains', 'first_name_starts_with', 'first_name_not_starts_with', 'first_name_ends_with', 'first_name_not_ends_with', 'first_name_hira', 'first_name_hira_not', 'first_name_hira_in', 'first_name_hira_not_in', 'first_name_hira_contains', 'first_name_hira_not_contains', 'first_name_hira_starts_with', 'first_name_hira_not_starts_with', 'first_name_hira_ends_with', 'first_name_hira_not_ends_with', 'last_name', 'last_name_not', 'last_name_in', 'last_name_not_in', 'last_name_contains', 'last_name_not_contains', 'last_name_starts_with', 'last_name_not_starts_with', 'last_name_ends_with', 'last_name_not_ends_with', 'last_name_hira', 'last_name_hira_not', 'last_name_hira_in', 'last_name_hira_not_in', 'last_name_hira_contains', 'last_name_hira_not_contains', 'last_name_hira_starts_with', 'last_name_hira_not_starts_with', 'last_name_hira_ends_with', 'last_name_hira_not_ends_with', 'house', 'house_not', 'house_in', 'house_not_in', 'be_elected_by_elections', 'be_elected_by_elections_not', 'be_elected_by_elections_in', 'be_elected_by_elections_not_in', 'be_elected_by_elections_some', 'be_elected_by_elections_none', 'be_elected_by_elections_single', 'be_elected_by_elections_every', 'submitted_bills', 'submitted_bills_not', 'submitted_bills_in', 'submitted_bills_not_in', 'submitted_bills_some', 'submitted_bills_none', 'submitted_bills_single', 'submitted_bills_every', 'attended_diets', 'attended_diets_not', 'attended_diets_in', 'attended_diets_not_in', 'attended_diets_some', 'attended_diets_none', 'attended_diets_single', 'attended_diets_every', 'attended_minutes', 'attended_minutes_not', 'attended_minutes_in', 'attended_minutes_not_in', 'attended_minutes_some', 'attended_minutes_none', 'attended_minutes_single', 'attended_minutes_every', 'delivered_speeches', 'delivered_speeches_not', 'delivered_speeches_in', 'delivered_speeches_not_in', 'delivered_speeches_some', 'delivered_speeches_none', 'delivered_speeches_single', 'delivered_speeches_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'name_hira', 'name_hira_not', 'name_hira_in', 'name_hira_not_in', 'name_hira_contains', 'name_hira_not_contains', 'name_hira_starts_with', 'name_hira_not_starts_with', 'name_hira_ends_with', 'name_hira_not_ends_with', 'first_name', 'first_name_not', 'first_name_in', 'first_name_not_in', 'first_name_contains', 'first_name_not_contains', 'first_name_starts_with', 'first_name_not_starts_with', 'first_name_ends_with', 'first_name_not_ends_with', 'first_name_hira', 'first_name_hira_not', 'first_name_hira_in', 'first_name_hira_not_in', 'first_name_hira_contains', 'first_name_hira_not_contains', 'first_name_hira_starts_with', 'first_name_hira_not_starts_with', 'first_name_hira_ends_with', 'first_name_hira_not_ends_with', 'last_name', 'last_name_not', 'last_name_in', 'last_name_not_in', 'last_name_contains', 'last_name_not_contains', 'last_name_starts_with', 'last_name_not_starts_with', 'last_name_ends_with', 'last_name_not_ends_with', 'last_name_hira', 'last_name_hira_not', 'last_name_hira_in', 'last_name_hira_not_in', 'last_name_hira_contains', 'last_name_hira_not_contains', 'last_name_hira_starts_with', 'last_name_hira_not_starts_with', 'last_name_hira_ends_with', 'last_name_hira_not_ends_with', 'house', 'house_not', 'house_in', 'house_not_in', 'description', 'description_not', 'description_in', 'description_not_in', 'description_contains', 'description_not_contains', 'description_starts_with', 'description_not_starts_with', 'description_ends_with', 'description_not_ends_with', 'be_elected_by_elections', 'be_elected_by_elections_not', 'be_elected_by_elections_in', 'be_elected_by_elections_not_in', 'be_elected_by_elections_some', 'be_elected_by_elections_none', 'be_elected_by_elections_single', 'be_elected_by_elections_every', 'submitted_bills', 'submitted_bills_not', 'submitted_bills_in', 'submitted_bills_not_in', 'submitted_bills_some', 'submitted_bills_none', 'submitted_bills_single', 'submitted_bills_every', 'attended_diets', 'attended_diets_not', 'attended_diets_in', 'attended_diets_not_in', 'attended_diets_some', 'attended_diets_none', 'attended_diets_single', 'attended_diets_every', 'attended_minutes', 'attended_minutes_not', 'attended_minutes_in', 'attended_minutes_not_in', 'attended_minutes_some', 'attended_minutes_none', 'attended_minutes_single', 'attended_minutes_every', 'delivered_speeches', 'delivered_speeches_not', 'delivered_speeches_in', 'delivered_speeches_not_in', 'delivered_speeches_some', 'delivered_speeches_none', 'delivered_speeches_single', 'delivered_speeches_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MemberFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MemberFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -674,6 +694,16 @@ class _MemberFilter(sgqlc.types.Input):
     house_not = sgqlc.types.Field(House, graphql_name='house_not')
     house_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(House)), graphql_name='house_in')
     house_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(House)), graphql_name='house_not_in')
+    description = sgqlc.types.Field(String, graphql_name='description')
+    description_not = sgqlc.types.Field(String, graphql_name='description_not')
+    description_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='description_in')
+    description_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='description_not_in')
+    description_contains = sgqlc.types.Field(String, graphql_name='description_contains')
+    description_not_contains = sgqlc.types.Field(String, graphql_name='description_not_contains')
+    description_starts_with = sgqlc.types.Field(String, graphql_name='description_starts_with')
+    description_not_starts_with = sgqlc.types.Field(String, graphql_name='description_not_starts_with')
+    description_ends_with = sgqlc.types.Field(String, graphql_name='description_ends_with')
+    description_not_ends_with = sgqlc.types.Field(String, graphql_name='description_not_ends_with')
     be_elected_by_elections = sgqlc.types.Field(_ElectionFilter, graphql_name='beElectedByElections')
     be_elected_by_elections_not = sgqlc.types.Field(_ElectionFilter, graphql_name='beElectedByElections_not')
     be_elected_by_elections_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(_ElectionFilter)), graphql_name='beElectedByElections_in')
@@ -1082,7 +1112,7 @@ class _UrlInput(sgqlc.types.Input):
 ########################################################################
 class Bill(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'bill_number', 'category', 'is_amendment', 'is_passed', 'reason', 'aliases', 'first_house', 'be_submitted_by_members', 'be_received_by_diet', 'be_discussed_by_minutes', 'amended_laws', 'urls', 'submitted_date', 'passed_representatives_committee_date', 'passed_representatives_date', 'passed_councilors_committee_date', 'passed_councilors_date', 'proclaimed_date', '_id')
+    __field_names__ = ('id', 'name', 'bill_number', 'category', 'is_amendment', 'is_passed', 'reason', 'summary', 'aliases', 'first_house', 'be_submitted_by_members', 'be_received_by_diet', 'be_discussed_by_minutes', 'amended_laws', 'urls', 'submitted_date', 'passed_representatives_committee_date', 'passed_representatives_date', 'passed_councilors_committee_date', 'passed_councilors_date', 'proclaimed_date', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     bill_number = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='billNumber')
@@ -1090,6 +1120,7 @@ class Bill(sgqlc.types.Type):
     is_amendment = sgqlc.types.Field(Boolean, graphql_name='isAmendment')
     is_passed = sgqlc.types.Field(Boolean, graphql_name='isPassed')
     reason = sgqlc.types.Field(String, graphql_name='reason')
+    summary = sgqlc.types.Field(String, graphql_name='summary')
     aliases = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='aliases')
     first_house = sgqlc.types.Field(House, graphql_name='firstHouse')
     be_submitted_by_members = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Member'))), graphql_name='beSubmittedByMembers', args=sgqlc.types.ArgDict((
@@ -1135,13 +1166,13 @@ class Bill(sgqlc.types.Type):
 
 class Committee(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'topics', 'num_members', 'house', 'summary', 'aliases', 'members', 'minutes', '_id')
+    __field_names__ = ('id', 'name', 'topics', 'num_members', 'house', 'description', 'aliases', 'members', 'minutes', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     topics = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topics')
     num_members = sgqlc.types.Field(Int, graphql_name='numMembers')
     house = sgqlc.types.Field(House, graphql_name='house')
-    summary = sgqlc.types.Field(String, graphql_name='summary')
+    description = sgqlc.types.Field(String, graphql_name='description')
     aliases = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='aliases')
     members = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Member'))), graphql_name='members', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
@@ -1226,10 +1257,11 @@ class ElectionResult(sgqlc.types.Type):
 
 class Law(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'law_number', 'be_discussed_by_minutes', 'referred_laws', 'be_referred_by_laws', 'be_amended_by_bills', 'urls', '_id')
+    __field_names__ = ('id', 'name', 'law_number', 'summary', 'be_discussed_by_minutes', 'referred_laws', 'be_referred_by_laws', 'be_amended_by_bills', 'urls', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     law_number = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='lawNumber')
+    summary = sgqlc.types.Field(String, graphql_name='summary')
     be_discussed_by_minutes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Minutes'))), graphql_name='beDiscussedByMinutes', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -1270,7 +1302,7 @@ class Law(sgqlc.types.Type):
 
 class Member(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'name_hira', 'first_name', 'first_name_hira', 'last_name', 'last_name_hira', 'house', 'be_elected_by_elections', 'submitted_bills', 'attended_diets', 'attended_minutes', 'delivered_speeches', 'urls', '_id')
+    __field_names__ = ('id', 'name', 'name_hira', 'first_name', 'first_name_hira', 'last_name', 'last_name_hira', 'house', 'description', 'be_elected_by_elections', 'submitted_bills', 'attended_diets', 'attended_minutes', 'delivered_speeches', 'urls', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     name_hira = sgqlc.types.Field(String, graphql_name='nameHira')
@@ -1279,6 +1311,7 @@ class Member(sgqlc.types.Type):
     last_name = sgqlc.types.Field(String, graphql_name='lastName')
     last_name_hira = sgqlc.types.Field(String, graphql_name='lastNameHira')
     house = sgqlc.types.Field(House, graphql_name='house')
+    description = sgqlc.types.Field(String, graphql_name='description')
     be_elected_by_elections = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(Election))), graphql_name='beElectedByElections', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -1491,6 +1524,7 @@ class Mutation(sgqlc.types.Type):
         ('last_name', sgqlc.types.Arg(String, graphql_name='lastName', default=None)),
         ('last_name_hira', sgqlc.types.Arg(String, graphql_name='lastNameHira', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
 ))
     )
     update_member = sgqlc.types.Field(Member, graphql_name='UpdateMember', args=sgqlc.types.ArgDict((
@@ -1502,6 +1536,7 @@ class Mutation(sgqlc.types.Type):
         ('last_name', sgqlc.types.Arg(String, graphql_name='lastName', default=None)),
         ('last_name_hira', sgqlc.types.Arg(String, graphql_name='lastNameHira', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
 ))
     )
     delete_member = sgqlc.types.Field(Member, graphql_name='DeleteMember', args=sgqlc.types.ArgDict((
@@ -1517,6 +1552,7 @@ class Mutation(sgqlc.types.Type):
         ('last_name', sgqlc.types.Arg(String, graphql_name='lastName', default=None)),
         ('last_name_hira', sgqlc.types.Arg(String, graphql_name='lastNameHira', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
 ))
     )
     add_election_election_results = sgqlc.types.Field('_AddElectionElectionResultsPayload', graphql_name='AddElectionElectionResults', args=sgqlc.types.ArgDict((
@@ -1754,12 +1790,14 @@ class Mutation(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
         ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
         ('law_number', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='lawNumber', default=None)),
+        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
 ))
     )
     update_law = sgqlc.types.Field(Law, graphql_name='UpdateLaw', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='id', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('law_number', sgqlc.types.Arg(String, graphql_name='lawNumber', default=None)),
+        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
 ))
     )
     delete_law = sgqlc.types.Field(Law, graphql_name='DeleteLaw', args=sgqlc.types.ArgDict((
@@ -1770,6 +1808,7 @@ class Mutation(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='id', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('law_number', sgqlc.types.Arg(String, graphql_name='lawNumber', default=None)),
+        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
 ))
     )
     add_bill_be_submitted_by_members = sgqlc.types.Field('_AddBillBeSubmittedByMembersPayload', graphql_name='AddBillBeSubmittedByMembers', args=sgqlc.types.ArgDict((
@@ -1855,6 +1894,7 @@ class Mutation(sgqlc.types.Type):
         ('is_amendment', sgqlc.types.Arg(Boolean, graphql_name='isAmendment', default=None)),
         ('is_passed', sgqlc.types.Arg(Boolean, graphql_name='isPassed', default=None)),
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
+        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='aliases', default=None)),
         ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
@@ -1873,6 +1913,7 @@ class Mutation(sgqlc.types.Type):
         ('is_amendment', sgqlc.types.Arg(Boolean, graphql_name='isAmendment', default=None)),
         ('is_passed', sgqlc.types.Arg(Boolean, graphql_name='isPassed', default=None)),
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
+        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
         ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
@@ -1895,6 +1936,7 @@ class Mutation(sgqlc.types.Type):
         ('is_amendment', sgqlc.types.Arg(Boolean, graphql_name='isAmendment', default=None)),
         ('is_passed', sgqlc.types.Arg(Boolean, graphql_name='isPassed', default=None)),
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
+        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
         ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
@@ -1941,7 +1983,7 @@ class Mutation(sgqlc.types.Type):
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topics', default=None)),
         ('num_members', sgqlc.types.Arg(Int, graphql_name='numMembers', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
-        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='aliases', default=None)),
 ))
     )
@@ -1951,7 +1993,7 @@ class Mutation(sgqlc.types.Type):
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topics', default=None)),
         ('num_members', sgqlc.types.Arg(Int, graphql_name='numMembers', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
-        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
 ))
     )
@@ -1965,7 +2007,7 @@ class Mutation(sgqlc.types.Type):
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topics', default=None)),
         ('num_members', sgqlc.types.Arg(Int, graphql_name='numMembers', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
-        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
 ))
     )
@@ -2272,6 +2314,7 @@ class Query(sgqlc.types.Type):
         ('last_name', sgqlc.types.Arg(String, graphql_name='lastName', default=None)),
         ('last_name_hira', sgqlc.types.Arg(String, graphql_name='lastNameHira', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2321,6 +2364,7 @@ class Query(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('law_number', sgqlc.types.Arg(String, graphql_name='lawNumber', default=None)),
+        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2336,6 +2380,7 @@ class Query(sgqlc.types.Type):
         ('is_amendment', sgqlc.types.Arg(Boolean, graphql_name='isAmendment', default=None)),
         ('is_passed', sgqlc.types.Arg(Boolean, graphql_name='isPassed', default=None)),
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
+        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('aliases', sgqlc.types.Arg(String, graphql_name='aliases', default=None)),
         ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
@@ -2357,7 +2402,7 @@ class Query(sgqlc.types.Type):
         ('topics', sgqlc.types.Arg(String, graphql_name='topics', default=None)),
         ('num_members', sgqlc.types.Arg(Int, graphql_name='numMembers', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
-        ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('aliases', sgqlc.types.Arg(String, graphql_name='aliases', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
