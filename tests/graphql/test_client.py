@@ -150,6 +150,6 @@ class TestGraphQLClient:
     def _build_sample_committee():
         committee = Committee(None)
         committee.name = '衆議院環境委員会'
-        committee.matters = ['環境省の所管に属する事項']
+        committee.topics = ['環境省の所管に属する事項']
         committee.id = idgen(committee)
         return committee
