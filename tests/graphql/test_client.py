@@ -40,6 +40,13 @@ class TestGraphQLClient:
         assert merged_url.id == url.id
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
+    def test_exec_merge_news(self):
+        client = GraphQLClient()
+        news = self._build_sample_news()
+        merged_news = client.exec_merge_news(news)
+        assert merged_news.id == news.id
+
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_exec_merge_minutes(self):
         client = GraphQLClient()
         minutes = self._build_sample_minutes()
@@ -67,6 +74,15 @@ class TestGraphQLClient:
         bill = self._build_sample_bill()
         res = client.exec_merge_url_referred_bills(url.id, bill.id)
         assert res.from_.id == url.id
+        assert res.to.id == bill.id
+
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
+    def test_exec_merge_news_referred_bills(self):
+        client = GraphQLClient()
+        news = self._build_sample_news()
+        bill = self._build_sample_bill()
+        res = client.exec_merge_news_referred_bills(news.id, bill.id)
+        assert res.from_.id == news.id
         assert res.to.id == bill.id
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
@@ -99,6 +115,7 @@ class TestGraphQLClient:
     def test_show_all_ops(self):
         bill = self._build_sample_bill()
         url = self._build_sample_url()
+        news = self._build_sample_news()
         minutes = self._build_sample_minutes()
         committee = self._build_sample_committee()
         speech = self._build_sample_speech()
@@ -106,10 +123,12 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient._build_all_committees_operation())
         LOGGER.warning(GraphQLClient._build_merge_bill_operation(bill))
         LOGGER.warning(GraphQLClient._build_merge_url_operation(url))
+        LOGGER.warning(GraphQLClient._build_merge_news_operation(news))
         LOGGER.warning(GraphQLClient._build_merge_minutes_operation(minutes))
         LOGGER.warning(GraphQLClient._build_merge_committee_operation(committee))
         LOGGER.warning(GraphQLClient._build_merge_speech_operation(speech))
         LOGGER.warning(GraphQLClient._build_merge_url_referred_bills(url.id, bill.id))
+        LOGGER.warning(GraphQLClient._build_merge_news_referred_bills(news.id, bill.id))
         LOGGER.warning(GraphQLClient._build_merge_speech_belonged_to_minutes(speech.id, minutes.id))
         LOGGER.warning(GraphQLClient._build_merge_minutes_discussed_bills(minutes.id, bill.id))
         LOGGER.warning(GraphQLClient._build_merge_minutes_belonged_to_committee(minutes.id, committee.id))
@@ -130,6 +149,13 @@ class TestGraphQLClient:
         url.url = 'http://www.shugiin.go.jp/internet/itdb_gian.nsf/html/gian/honbun/g19505004.htm'
         url.id = idgen(url)
         return url
+
+    @staticmethod
+    def _build_sample_news():
+        news = News(None)
+        news.url = 'https://www.nikkei.com/article/DGXMZO64119940S0A920C2000000/'
+        news.id = idgen(news)
+        return news
 
     @staticmethod
     def _build_sample_minutes():
