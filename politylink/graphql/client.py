@@ -3,7 +3,7 @@ from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
-from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput, _CommitteeInput
+from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput, _CommitteeInput, _NewsInput
 
 
 class GraphQLException(Exception):
@@ -57,6 +57,13 @@ class GraphQLClient:
         url = (op + data).merge_url
         return url
 
+    def exec_merge_news(self, news):
+        op = self._build_merge_news_operation(news)
+        data = self.endpoint(op)
+        self.validate_response_or_raise(data)
+        news = (op + data).merge_news
+        return news
+
     def exec_merge_minutes(self, minutes):
         op = self._build_merge_minutes_operation(minutes)
         data = self.endpoint(op)
@@ -90,6 +97,20 @@ class GraphQLClient:
         data = self.endpoint(op)
         self.validate_response_or_raise(data)
         res = (op + data).merge_url_referred_minutes
+        return res
+
+    def exec_merge_news_referred_bills(self, news_id, bill_id):
+        op = self._build_merge_news_referred_bills(news_id, bill_id)
+        data = self.endpoint(op)
+        self.validate_response_or_raise(data)
+        res = (op + data).merge_news_referred_bills
+        return res
+
+    def exec_merge_news_referred_minutes(self, news_id, minutes_id):
+        op = self._build_merge_news_referred_minutes(news_id, minutes_id)
+        data = self.endpoint(op)
+        self.validate_response_or_raise(data)
+        res = (op + data).merge_news_referred_minutes
         return res
 
     def exec_merge_speech_belonged_to_minutes(self, speech_id, minutes_id):
@@ -153,6 +174,14 @@ class GraphQLClient:
         return op
 
     @staticmethod
+    def _build_merge_news_operation(news):
+        op = Operation(Mutation)
+        param = GraphQLClient._build_merge_obj_param(news, News.__field_names__)
+        merged_news = op.merge_news(**param)
+        merged_news.id()
+        return op
+
+    @staticmethod
     def _build_merge_minutes_operation(minutes):
         op = Operation(Mutation)
         param = GraphQLClient._build_merge_obj_param(minutes, Minutes.__field_names__)
@@ -200,6 +229,28 @@ class GraphQLClient:
         op = Operation(Mutation)
         res = op.merge_url_referred_minutes(
             from_=_UrlInput({'id': url_id}),
+            to=_MinutesInput({'id': minutes_id})
+        )
+        res.from_.id()
+        res.to.id()
+        return op
+
+    @staticmethod
+    def _build_merge_news_referred_bills(news_id, bill_id):
+        op = Operation(Mutation)
+        res = op.merge_news_referred_bills(
+            from_=_NewsInput({'id': news_id}),
+            to=_BillInput({'id': bill_id})
+        )
+        res.from_.id()
+        res.to.id()
+        return op
+
+    @staticmethod
+    def _build_merge_news_referred_minutes(news_id, minutes_id):
+        op = Operation(Mutation)
+        res = op.merge_news_referred_minutes(
+            from_=_NewsInput({'id': news_id}),
             to=_MinutesInput({'id': minutes_id})
         )
         res.from_.id()

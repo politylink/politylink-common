@@ -22,5 +22,5 @@ def test_idgen_fail():
 
 
 def test_basegen_url():
-    url = Url({'url': 'https://kokkai.ndl.go.jp/#/detail?minId=120105254X03220200610'})
+    url = 'https://kokkai.ndl.go.jp/#/detail?minId=120105254X03220200610'
     assert _basegen_url(url) == _basegen_str('kokkai.ndl.go.jp/#/detail?minId=120105254X03220200610')

@@ -20,8 +20,8 @@ def idgen(obj):
         base = _basegen_bill(obj)
     elif isinstance(obj, Law):
         base = _basegen_law(obj)
-    elif isinstance(obj, Url):
-        base = _basegen_url(obj)
+    elif isinstance(obj, Url) or isinstance(obj, News):
+        base = _basegen_url(obj.url)
     elif hasattr(obj, 'name'):
         base = _basegen_str(getattr(obj, 'name'))
     else:
@@ -47,5 +47,5 @@ def _basegen_law(law):
 
 
 def _basegen_url(url):
-    protocol, body = url.url.split('://')
+    protocol, body = url.split('://')
     return _basegen_str(body)
