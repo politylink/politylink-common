@@ -15,8 +15,8 @@ class GraphQLClient:
     GraphQLClient for politylink endpoint
     """
 
-    def __init__(self):
-        self.endpoint = HTTPEndpoint(POLITYLINK_URL, {'Authorization': POLITYLINK_AUTH}, timeout=3)
+    def __init__(self, url=POLITYLINK_URL, auth=POLITYLINK_AUTH):
+        self.endpoint = HTTPEndpoint(url, {'Authorization': auth}, timeout=3)
 
     def exec(self, query_str):
         """
