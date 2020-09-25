@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from elasticsearch import Elasticsearch
 
 from politylink.elasticsearch.schema import NewsText, BillText, AbstractText
@@ -12,8 +14,12 @@ class ElasticsearchClient:
     Elasticsearch client for politylink endpoint
     """
 
-    def __init__(self):
-        self.client = Elasticsearch()  # ToDo: use PROD host by default
+    def __init__(self, url='http://localhost:9200'):
+        def to_node(url):
+            res = urlparse(url)
+            return {'host': res.hostname, 'port': res.port}
+
+        self.client = Elasticsearch(hosts=[to_node(url)])
 
     def index(self, obj):
         """
