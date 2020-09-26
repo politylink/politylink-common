@@ -1252,7 +1252,7 @@ class _UrlInput(sgqlc.types.Input):
 ########################################################################
 class Bill(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'bill_number', 'category', 'is_amendment', 'is_passed', 'reason', 'summary', 'aliases', 'first_house', 'be_submitted_by_members', 'be_received_by_diet', 'be_discussed_by_minutes', 'amended_laws', 'urls', 'news', 'submitted_date', 'passed_representatives_committee_date', 'passed_representatives_date', 'passed_councilors_committee_date', 'passed_councilors_date', 'proclaimed_date', '_id')
+    __field_names__ = ('id', 'name', 'bill_number', 'category', 'is_amendment', 'is_passed', 'reason', 'summary', 'aliases', 'tags', 'first_house', 'be_submitted_by_members', 'be_received_by_diet', 'be_discussed_by_minutes', 'amended_laws', 'urls', 'news', 'submitted_date', 'passed_representatives_committee_date', 'passed_representatives_date', 'passed_councilors_committee_date', 'passed_councilors_date', 'proclaimed_date', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     bill_number = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='billNumber')
@@ -1262,6 +1262,7 @@ class Bill(sgqlc.types.Type):
     reason = sgqlc.types.Field(String, graphql_name='reason')
     summary = sgqlc.types.Field(String, graphql_name='summary')
     aliases = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='aliases')
+    tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
     first_house = sgqlc.types.Field(House, graphql_name='firstHouse')
     be_submitted_by_members = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Member'))), graphql_name='beSubmittedByMembers', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
@@ -1313,7 +1314,7 @@ class Bill(sgqlc.types.Type):
 
 class Committee(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'topics', 'num_members', 'house', 'description', 'aliases', 'members', 'minutes', '_id')
+    __field_names__ = ('id', 'name', 'topics', 'num_members', 'house', 'description', 'aliases', 'tags', 'members', 'minutes', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     topics = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topics')
@@ -1321,6 +1322,7 @@ class Committee(sgqlc.types.Type):
     house = sgqlc.types.Field(House, graphql_name='house')
     description = sgqlc.types.Field(String, graphql_name='description')
     aliases = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='aliases')
+    tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
     members = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Member'))), graphql_name='members', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -1404,11 +1406,12 @@ class ElectionResult(sgqlc.types.Type):
 
 class Law(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'law_number', 'summary', 'be_discussed_by_minutes', 'referred_laws', 'be_referred_by_laws', 'be_amended_by_bills', 'urls', 'news', '_id')
+    __field_names__ = ('id', 'name', 'law_number', 'summary', 'tags', 'be_discussed_by_minutes', 'referred_laws', 'be_referred_by_laws', 'be_amended_by_bills', 'urls', 'news', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     law_number = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='lawNumber')
     summary = sgqlc.types.Field(String, graphql_name='summary')
+    tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
     be_discussed_by_minutes = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Minutes'))), graphql_name='beDiscussedByMinutes', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -1456,7 +1459,7 @@ class Law(sgqlc.types.Type):
 
 class Member(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'name_hira', 'first_name', 'first_name_hira', 'last_name', 'last_name_hira', 'house', 'description', 'be_elected_by_elections', 'submitted_bills', 'attended_diets', 'attended_minutes', 'delivered_speeches', 'urls', 'news', '_id')
+    __field_names__ = ('id', 'name', 'name_hira', 'first_name', 'first_name_hira', 'last_name', 'last_name_hira', 'house', 'description', 'tags', 'be_elected_by_elections', 'submitted_bills', 'attended_diets', 'attended_minutes', 'delivered_speeches', 'urls', 'news', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     name_hira = sgqlc.types.Field(String, graphql_name='nameHira')
@@ -1466,6 +1469,7 @@ class Member(sgqlc.types.Type):
     last_name_hira = sgqlc.types.Field(String, graphql_name='lastNameHira')
     house = sgqlc.types.Field(House, graphql_name='house')
     description = sgqlc.types.Field(String, graphql_name='description')
+    tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
     be_elected_by_elections = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(Election))), graphql_name='beElectedByElections', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -1520,7 +1524,7 @@ class Member(sgqlc.types.Type):
 
 class Minutes(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'summary', 'urls', 'news', 'speeches', 'discussed_bills', 'discussed_laws', '_id')
+    __field_names__ = ('id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'summary', 'tags', 'urls', 'news', 'speeches', 'discussed_bills', 'discussed_laws', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     start_date_time = sgqlc.types.Field('_Neo4jDateTime', graphql_name='startDateTime')
@@ -1542,6 +1546,7 @@ class Minutes(sgqlc.types.Type):
     )
     topics = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topics')
     summary = sgqlc.types.Field(String, graphql_name='summary')
+    tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
     urls = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Url'))), graphql_name='urls', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -1710,6 +1715,7 @@ class Mutation(sgqlc.types.Type):
         ('last_name_hira', sgqlc.types.Arg(String, graphql_name='lastNameHira', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
 ))
     )
     update_member = sgqlc.types.Field(Member, graphql_name='UpdateMember', args=sgqlc.types.ArgDict((
@@ -1722,6 +1728,7 @@ class Mutation(sgqlc.types.Type):
         ('last_name_hira', sgqlc.types.Arg(String, graphql_name='lastNameHira', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     delete_member = sgqlc.types.Field(Member, graphql_name='DeleteMember', args=sgqlc.types.ArgDict((
@@ -1738,6 +1745,7 @@ class Mutation(sgqlc.types.Type):
         ('last_name_hira', sgqlc.types.Arg(String, graphql_name='lastNameHira', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     add_election_election_results = sgqlc.types.Field('_AddElectionElectionResultsPayload', graphql_name='AddElectionElectionResults', args=sgqlc.types.ArgDict((
@@ -1991,6 +1999,7 @@ class Mutation(sgqlc.types.Type):
         ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
         ('law_number', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='lawNumber', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
 ))
     )
     update_law = sgqlc.types.Field(Law, graphql_name='UpdateLaw', args=sgqlc.types.ArgDict((
@@ -1998,6 +2007,7 @@ class Mutation(sgqlc.types.Type):
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('law_number', sgqlc.types.Arg(String, graphql_name='lawNumber', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     delete_law = sgqlc.types.Field(Law, graphql_name='DeleteLaw', args=sgqlc.types.ArgDict((
@@ -2009,6 +2019,7 @@ class Mutation(sgqlc.types.Type):
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('law_number', sgqlc.types.Arg(String, graphql_name='lawNumber', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     add_bill_be_submitted_by_members = sgqlc.types.Field('_AddBillBeSubmittedByMembersPayload', graphql_name='AddBillBeSubmittedByMembers', args=sgqlc.types.ArgDict((
@@ -2111,6 +2122,7 @@ class Mutation(sgqlc.types.Type):
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='aliases', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
         ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
         ('passed_representatives_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesCommitteeDate', default=None)),
@@ -2130,6 +2142,7 @@ class Mutation(sgqlc.types.Type):
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
         ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
         ('passed_representatives_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesCommitteeDate', default=None)),
@@ -2153,6 +2166,7 @@ class Mutation(sgqlc.types.Type):
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
         ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
         ('passed_representatives_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesCommitteeDate', default=None)),
@@ -2200,6 +2214,7 @@ class Mutation(sgqlc.types.Type):
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='aliases', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
 ))
     )
     update_committee = sgqlc.types.Field(Committee, graphql_name='UpdateCommittee', args=sgqlc.types.ArgDict((
@@ -2210,6 +2225,7 @@ class Mutation(sgqlc.types.Type):
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     delete_committee = sgqlc.types.Field(Committee, graphql_name='DeleteCommittee', args=sgqlc.types.ArgDict((
@@ -2224,6 +2240,7 @@ class Mutation(sgqlc.types.Type):
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('aliases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='aliases', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     add_minutes_belonged_to_diet = sgqlc.types.Field('_AddMinutesBelongedToDietPayload', graphql_name='AddMinutesBelongedToDiet', args=sgqlc.types.ArgDict((
@@ -2353,6 +2370,7 @@ class Mutation(sgqlc.types.Type):
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topics', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
 ))
     )
     update_minutes = sgqlc.types.Field(Minutes, graphql_name='UpdateMinutes', args=sgqlc.types.ArgDict((
@@ -2362,6 +2380,7 @@ class Mutation(sgqlc.types.Type):
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topics', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     delete_minutes = sgqlc.types.Field(Minutes, graphql_name='DeleteMinutes', args=sgqlc.types.ArgDict((
@@ -2375,6 +2394,7 @@ class Mutation(sgqlc.types.Type):
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topics', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     add_speech_belonged_to_minutes = sgqlc.types.Field('_AddSpeechBelongedToMinutesPayload', graphql_name='AddSpeechBelongedToMinutes', args=sgqlc.types.ArgDict((
@@ -2412,6 +2432,7 @@ class Mutation(sgqlc.types.Type):
         ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
         ('speaker_name', sgqlc.types.Arg(String, graphql_name='speakerName', default=None)),
         ('order_in_minutes', sgqlc.types.Arg(Int, graphql_name='orderInMinutes', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
 ))
     )
     update_speech = sgqlc.types.Field('Speech', graphql_name='UpdateSpeech', args=sgqlc.types.ArgDict((
@@ -2419,6 +2440,7 @@ class Mutation(sgqlc.types.Type):
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('speaker_name', sgqlc.types.Arg(String, graphql_name='speakerName', default=None)),
         ('order_in_minutes', sgqlc.types.Arg(Int, graphql_name='orderInMinutes', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     delete_speech = sgqlc.types.Field('Speech', graphql_name='DeleteSpeech', args=sgqlc.types.ArgDict((
@@ -2430,6 +2452,7 @@ class Mutation(sgqlc.types.Type):
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('speaker_name', sgqlc.types.Arg(String, graphql_name='speakerName', default=None)),
         ('order_in_minutes', sgqlc.types.Arg(Int, graphql_name='orderInMinutes', default=None)),
+        ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
     )
     add_url_referred_bills = sgqlc.types.Field('_AddUrlReferredBillsPayload', graphql_name='AddUrlReferredBills', args=sgqlc.types.ArgDict((
@@ -2681,6 +2704,7 @@ class Query(sgqlc.types.Type):
         ('last_name_hira', sgqlc.types.Arg(String, graphql_name='lastNameHira', default=None)),
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
+        ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2731,6 +2755,7 @@ class Query(sgqlc.types.Type):
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('law_number', sgqlc.types.Arg(String, graphql_name='lawNumber', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2748,6 +2773,7 @@ class Query(sgqlc.types.Type):
         ('reason', sgqlc.types.Arg(String, graphql_name='reason', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('aliases', sgqlc.types.Arg(String, graphql_name='aliases', default=None)),
+        ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
         ('first_house', sgqlc.types.Arg(House, graphql_name='firstHouse', default=None)),
         ('submitted_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='submittedDate', default=None)),
         ('passed_representatives_committee_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='passedRepresentativesCommitteeDate', default=None)),
@@ -2770,6 +2796,7 @@ class Query(sgqlc.types.Type):
         ('house', sgqlc.types.Arg(House, graphql_name='house', default=None)),
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('aliases', sgqlc.types.Arg(String, graphql_name='aliases', default=None)),
+        ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2784,6 +2811,7 @@ class Query(sgqlc.types.Type):
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(String, graphql_name='topics', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
+        ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2796,6 +2824,7 @@ class Query(sgqlc.types.Type):
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('speaker_name', sgqlc.types.Arg(String, graphql_name='speakerName', default=None)),
         ('order_in_minutes', sgqlc.types.Arg(Int, graphql_name='orderInMinutes', default=None)),
+        ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2835,11 +2864,12 @@ class Query(sgqlc.types.Type):
 
 class Speech(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'speaker_name', 'order_in_minutes', 'belonged_to_minutes', 'be_delivered_by_member', '_id')
+    __field_names__ = ('id', 'name', 'speaker_name', 'order_in_minutes', 'tags', 'belonged_to_minutes', 'be_delivered_by_member', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     speaker_name = sgqlc.types.Field(String, graphql_name='speakerName')
     order_in_minutes = sgqlc.types.Field(Int, graphql_name='orderInMinutes')
+    tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
     belonged_to_minutes = sgqlc.types.Field(Minutes, graphql_name='belongedToMinutes', args=sgqlc.types.ArgDict((
         ('filter', sgqlc.types.Arg(_MinutesFilter, graphql_name='filter', default=None)),
 ))
