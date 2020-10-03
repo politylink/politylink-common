@@ -26,46 +26,11 @@ class TestGraphQLClient:
         assert 'Bill' in data['data']
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_bill(self):
+    def test_merge_bill(self):
         client = GraphQLClient()
         bill = self._build_sample_bill()
-        merged_bill = client.exec_merge_bill(bill)
-        assert merged_bill.id == bill.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_url(self):
-        client = GraphQLClient()
-        url = self._build_sample_url()
-        merged_url = client.exec_merge_url(url)
-        assert merged_url.id == url.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_news(self):
-        client = GraphQLClient()
-        news = self._build_sample_news()
-        merged_news = client.exec_merge_news(news)
-        assert merged_news.id == news.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_minutes(self):
-        client = GraphQLClient()
-        minutes = self._build_sample_minutes()
-        merged_minutes = client.exec_merge_minutes(minutes)
-        assert merged_minutes.id == minutes.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_committee(self):
-        client = GraphQLClient()
-        committee = self._build_sample_committee()
-        merged_committee = client.exec_merge_committee(committee)
-        assert merged_committee.id == committee.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_speech(self):
-        client = GraphQLClient()
-        speech = self._build_sample_speech()
-        merged_speech = client.exec_merge_speech(speech)
-        assert merged_speech.id == speech.id
+        res = client.merge(bill)
+        assert res['data']['MergeBill']['id'] == bill.id
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_exec_merge_url_referred_bills(self):
@@ -121,12 +86,7 @@ class TestGraphQLClient:
         speech = self._build_sample_speech()
         LOGGER.warning(GraphQLClient._build_all_bills_operation())
         LOGGER.warning(GraphQLClient._build_all_committees_operation())
-        LOGGER.warning(GraphQLClient._build_merge_bill_operation(bill))
-        LOGGER.warning(GraphQLClient._build_merge_url_operation(url))
-        LOGGER.warning(GraphQLClient._build_merge_news_operation(news))
-        LOGGER.warning(GraphQLClient._build_merge_minutes_operation(minutes))
-        LOGGER.warning(GraphQLClient._build_merge_committee_operation(committee))
-        LOGGER.warning(GraphQLClient._build_merge_speech_operation(speech))
+        LOGGER.warning(GraphQLClient.build_merge_operation(bill))
         LOGGER.warning(GraphQLClient._build_merge_url_referred_bills(url.id, bill.id))
         LOGGER.warning(GraphQLClient._build_merge_news_referred_bills(news.id, bill.id))
         LOGGER.warning(GraphQLClient._build_merge_speech_belonged_to_minutes(speech.id, minutes.id))
@@ -138,9 +98,9 @@ class TestGraphQLClient:
         bill = Bill(None)
         bill.name = '公文書等の管理に関する法律の一部を改正する法律案'
         bill.bill_number = '第195回衆法第4号'
+        bill.invalid_field = 'このfieldはmerge_billに使われない'
         bill.submitted_date = _Neo4jDateTimeInput(year=2020, month=1, day=1)
         bill.id = idgen(bill)
-        bill.invalid_field = 'このfieldはmerge_billに使われない'
         return bill
 
     @staticmethod

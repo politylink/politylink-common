@@ -12,7 +12,7 @@ class GraphQLException(Exception):
 
 class GraphQLClient:
     """
-    GraphQLClient for politylink endpoint
+    GraphQLClient for PolityLink endpoint
     """
 
     def __init__(self, url=POLITYLINK_URL, auth=POLITYLINK_AUTH):
@@ -29,6 +29,16 @@ class GraphQLClient:
         self.validate_response_or_raise(data)
         return data
 
+    def merge(self, obj):
+        """
+        General method to merge GraphQL object
+        :param obj: GraphQL object
+        :return: json response
+        """
+
+        op = self.build_merge_operation(obj)
+        return self.exec(op)
+
     def exec_all_bills(self):
         op = self._build_all_bills_operation()
         data = self.endpoint(op)
@@ -42,48 +52,6 @@ class GraphQLClient:
         self.validate_response_or_raise(data)
         committees = (op + data).committee
         return committees
-
-    def exec_merge_bill(self, bill):
-        op = self._build_merge_bill_operation(bill)
-        data = self.endpoint(op)
-        self.validate_response_or_raise(data)
-        bill = (op + data).merge_bill
-        return bill
-
-    def exec_merge_url(self, url):
-        op = self._build_merge_url_operation(url)
-        data = self.endpoint(op)
-        self.validate_response_or_raise(data)
-        url = (op + data).merge_url
-        return url
-
-    def exec_merge_news(self, news):
-        op = self._build_merge_news_operation(news)
-        data = self.endpoint(op)
-        self.validate_response_or_raise(data)
-        news = (op + data).merge_news
-        return news
-
-    def exec_merge_minutes(self, minutes):
-        op = self._build_merge_minutes_operation(minutes)
-        data = self.endpoint(op)
-        self.validate_response_or_raise(data)
-        minutes = (op + data).merge_minutes
-        return minutes
-
-    def exec_merge_committee(self, committee):
-        op = self._build_merge_committee_operation(committee)
-        data = self.endpoint(op)
-        self.validate_response_or_raise(data)
-        committee = (op + data).merge_committee
-        return committee
-
-    def exec_merge_speech(self, speech):
-        op = self._build_merge_speech_operation(speech)
-        data = self.endpoint(op)
-        self.validate_response_or_raise(data)
-        speech = (op + data).merge_speech
-        return speech
 
     def exec_merge_url_referred_bills(self, url_id, bill_id):
         op = self._build_merge_url_referred_bills(url_id, bill_id)
@@ -158,57 +126,30 @@ class GraphQLClient:
         return op
 
     @staticmethod
-    def _build_merge_bill_operation(bill):
+    def build_merge_operation(obj):
         op = Operation(Mutation)
-        param = GraphQLClient._build_merge_obj_param(bill, Bill.__field_names__)
-        merged_bill = op.merge_bill(**param)
-        merged_bill.id()
+        param = GraphQLClient._build_merge_param(obj)
+        if isinstance(obj, Bill):
+            res = op.merge_bill(**param)
+        elif isinstance(obj, Url):
+            res = op.merge_url(**param)
+        elif isinstance(obj, News):
+            res = op.merge_news(**param)
+        elif isinstance(obj, Minutes):
+            res = op.merge_minutes(**param)
+        elif isinstance(obj, Committee):
+            res = op.merge_committee(**param)
+        elif isinstance(obj, Speech):
+            res = op.merge_speech(**param)
+        else:
+            raise GraphQLException(f'unknown object type to merge: {type(obj)}')
+        res.id()
         return op
 
     @staticmethod
-    def _build_merge_url_operation(url):
-        op = Operation(Mutation)
-        param = GraphQLClient._build_merge_obj_param(url, Url.__field_names__)
-        merged_url = op.merge_url(**param)
-        merged_url.id()
-        return op
-
-    @staticmethod
-    def _build_merge_news_operation(news):
-        op = Operation(Mutation)
-        param = GraphQLClient._build_merge_obj_param(news, News.__field_names__)
-        merged_news = op.merge_news(**param)
-        merged_news.id()
-        return op
-
-    @staticmethod
-    def _build_merge_minutes_operation(minutes):
-        op = Operation(Mutation)
-        param = GraphQLClient._build_merge_obj_param(minutes, Minutes.__field_names__)
-        merged_minutes = op.merge_minutes(**param)
-        merged_minutes.id()
-        return op
-
-    @staticmethod
-    def _build_merge_committee_operation(committee):
-        op = Operation(Mutation)
-        param = GraphQLClient._build_merge_obj_param(committee, Committee.__field_names__)
-        merged_committee = op.merge_committee(**param)
-        merged_committee.id()
-        return op
-
-    @staticmethod
-    def _build_merge_speech_operation(speech):
-        op = Operation(Mutation)
-        param = GraphQLClient._build_merge_obj_param(speech, Speech.__field_names__)
-        merged_speech = op.merge_speech(**param)
-        merged_speech.id()
-        return op
-
-    @staticmethod
-    def _build_merge_obj_param(obj, field_names):
+    def _build_merge_param(obj):
         param = dict()
-        for field_name in field_names:
+        for field_name in obj.__field_names__:
             if hasattr(obj, field_name):
                 param[field_name] = getattr(obj, field_name)
         return param
