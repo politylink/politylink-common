@@ -76,6 +76,11 @@ class GraphQLClient:
         return self.exec(op)
 
     def exec_all_bills(self):
+        """
+        Special method to get all Bills
+        :return: list of Bills
+        """
+
         op = self.build_all_bills_operation()
         data = self.endpoint(op)
         self.validate_response_or_raise(data)
@@ -83,6 +88,11 @@ class GraphQLClient:
         return bills
 
     def exec_all_committees(self):
+        """
+        Special method to get all Committees
+        :return: list of Committees
+        """
+
         op = self.build_all_committees_operation()
         data = self.endpoint(op)
         self.validate_response_or_raise(data)
