@@ -23,75 +23,83 @@ class TestGraphQLClient:
         }
         """
         data = client.exec(query)
-        assert 'Bill' in data['data']
+        assert 'Bill' in data
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_merge_bill(self):
+    def test_merge(self):
         client = GraphQLClient()
+
         bill = self._build_sample_bill()
-        res = client.merge(bill)
-        assert res['data']['MergeBill']['id'] == bill.id
+        data = client.merge(bill)
+        assert data['MergeBill']['id'] == bill.id
+
+        url = self._build_sample_url()
+        data = client.merge(url)
+        assert data['MergeUrl']['id'] == url.id
+
+        news = self._build_sample_news()
+        data = client.merge(news)
+        assert data['MergeNews']['id'] == news.id
+
+        minutes = self._build_sample_minutes()
+        data = client.merge(minutes)
+        assert data['MergeMinutes']['id'] == minutes.id
+
+        committee = self._build_sample_committee()
+        data = client.merge(committee)
+        assert data['MergeCommittee']['id'] == committee.id
+
+        speech = self._build_sample_speech()
+        data = client.merge(speech)
+        assert data['MergeSpeech']['id'] == speech.id
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_url_referred_bills(self):
+    def test_link(self):
         client = GraphQLClient()
+
         url = self._build_sample_url()
         bill = self._build_sample_bill()
-        res = client.exec_merge_url_referred_bills(url.id, bill.id)
-        assert res.from_.id == url.id
-        assert res.to.id == bill.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_news_referred_bills(self):
-        client = GraphQLClient()
         news = self._build_sample_news()
-        bill = self._build_sample_bill()
-        res = client.exec_merge_news_referred_bills(news.id, bill.id)
-        assert res.from_.id == news.id
-        assert res.to.id == bill.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_speech_belonged_to_minutes(self):
-        client = GraphQLClient()
         speech = self._build_sample_speech()
         minutes = self._build_sample_minutes()
-        res = client.exec_merge_speech_belonged_to_minutes(speech.id, minutes.id)
-        assert res.from_.id == speech.id
-        assert res.to.id == minutes.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_minutes_discussed_bills(self):
-        client = GraphQLClient()
-        minutes = self._build_sample_minutes()
-        bill = self._build_sample_bill()
-        res = client.exec_merge_minutes_discussed_bills(minutes.id, bill.id)
-        assert res.from_.id == minutes.id
-        assert res.to.id == bill.id
-
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
-    def test_exec_merge_minutes_belonged_to_committee(self):
-        client = GraphQLClient()
-        minutes = self._build_sample_minutes()
         committee = self._build_sample_committee()
-        res = client.exec_merge_minutes_belonged_to_committee(minutes.id, committee.id)
-        assert res.from_.id == minutes.id
-        assert res.to.id == committee.id
 
-    def test_show_all_ops(self):
+        data = client.link(url.id, bill.id)
+        assert data['MergeUrlReferredBills']['from']['id'] == url.id
+        assert data['MergeUrlReferredBills']['to']['id'] == bill.id
+
+        data = client.link(url.id, minutes.id)
+        assert data['MergeUrlReferredMinutes']['from']['id'] == url.id
+        assert data['MergeUrlReferredMinutes']['to']['id'] == minutes.id
+
+        data = client.link(news.id, bill.id)
+        assert data['MergeNewsReferredBills']['from']['id'] == news.id
+        assert data['MergeNewsReferredBills']['to']['id'] == bill.id
+
+        data = client.link(news.id, minutes.id)
+        assert data['MergeNewsReferredMinutes']['from']['id'] == news.id
+        assert data['MergeNewsReferredMinutes']['to']['id'] == minutes.id
+
+        data = client.link(speech.id, minutes.id)
+        assert data['MergeSpeechBelongedToMinutes']['from']['id'] == speech.id
+        assert data['MergeSpeechBelongedToMinutes']['to']['id'] == minutes.id
+
+        data = client.link(minutes.id, bill.id)
+        assert data['MergeMinutesDiscussedBills']['from']['id'] == minutes.id
+        assert data['MergeMinutesDiscussedBills']['to']['id'] == bill.id
+
+        data = client.link(minutes.id, committee.id)
+        assert data['MergeMinutesBelongedToCommittee']['from']['id'] == minutes.id
+        assert data['MergeMinutesBelongedToCommittee']['to']['id'] == committee.id
+
+    def test_show_ops(self):
         bill = self._build_sample_bill()
         url = self._build_sample_url()
-        news = self._build_sample_news()
-        minutes = self._build_sample_minutes()
-        committee = self._build_sample_committee()
-        speech = self._build_sample_speech()
-        LOGGER.warning(GraphQLClient._build_all_bills_operation())
-        LOGGER.warning(GraphQLClient._build_all_committees_operation())
+
         LOGGER.warning(GraphQLClient.build_merge_operation(bill))
-        LOGGER.warning(GraphQLClient._build_merge_url_referred_bills(url.id, bill.id))
-        LOGGER.warning(GraphQLClient._build_merge_news_referred_bills(news.id, bill.id))
-        LOGGER.warning(GraphQLClient._build_merge_speech_belonged_to_minutes(speech.id, minutes.id))
-        LOGGER.warning(GraphQLClient._build_merge_minutes_discussed_bills(minutes.id, bill.id))
-        LOGGER.warning(GraphQLClient._build_merge_minutes_belonged_to_committee(minutes.id, committee.id))
+        LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
+        LOGGER.warning(GraphQLClient.build_all_bills_operation())
+        LOGGER.warning(GraphQLClient.build_all_committees_operation())
 
     @staticmethod
     def _build_sample_bill():
