@@ -13,7 +13,7 @@ class BillFinder:
             self.bills = bills
         else:
             client = GraphQLClient()
-            self.bills = client.exec_all_bills()
+            self.bills = client.get_all_bills()
         self.name2bills = defaultdict(list)
         self.number2bill = defaultdict(list)
         for bill in self.bills:
