@@ -75,7 +75,7 @@ class GraphQLClient:
             op = self.build_link_operation(from_id, to_id, op)
         return self.exec(op)
 
-    def exec_all_bills(self):
+    def get_all_bills(self):
         """
         Special method to get all Bills
         :return: list of Bills
@@ -87,7 +87,7 @@ class GraphQLClient:
         bills = (op + data).bill
         return bills
 
-    def exec_all_committees(self):
+    def get_all_committees(self):
         """
         Special method to get all Committees
         :return: list of Committees

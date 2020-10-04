@@ -11,7 +11,7 @@ class CommitteeFinder:
             self.committees = committees
         else:
             client = GraphQLClient()
-            self.committees = client.exec_all_committees()
+            self.committees = client.get_all_committees()
 
     def find(self, text):
         return list(filter(lambda x: CommitteeFinder.match(x, text), self.committees))
