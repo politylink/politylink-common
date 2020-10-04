@@ -1,6 +1,7 @@
 from logging import getLogger
 
 import pytest
+from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH
 from politylink.graphql.client import GraphQLClient
@@ -54,6 +55,17 @@ class TestGraphQLClient:
         assert data['MergeSpeech']['id'] == speech.id
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
+    def test_bulk_merge(self):
+        client = GraphQLClient()
+
+        bill = self._build_sample_bill()
+        url = self._build_sample_url()
+
+        data = client.bulk_merge([bill, url])
+        assert data['op0']['id'] == bill.id
+        assert data['op1']['id'] == url.id
+
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_link(self):
         client = GraphQLClient()
 
@@ -92,6 +104,22 @@ class TestGraphQLClient:
         assert data['MergeMinutesBelongedToCommittee']['from']['id'] == minutes.id
         assert data['MergeMinutesBelongedToCommittee']['to']['id'] == committee.id
 
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
+    def test_bulk_link(self):
+        client = GraphQLClient()
+
+        url = self._build_sample_url()
+        bill = self._build_sample_bill()
+        minutes = self._build_sample_minutes()
+
+        from_ids = [url.id, url.id]
+        to_ids = [bill.id, minutes.id]
+        data = client.bulk_link(from_ids, to_ids)
+        assert data['op0']['from']['id'] == url.id
+        assert data['op0']['to']['id'] == bill.id
+        assert data['op1']['from']['id'] == url.id
+        assert data['op1']['to']['id'] == minutes.id
+
     def test_show_ops(self):
         bill = self._build_sample_bill()
         url = self._build_sample_url()
@@ -100,6 +128,11 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
         LOGGER.warning(GraphQLClient.build_all_bills_operation())
         LOGGER.warning(GraphQLClient.build_all_committees_operation())
+
+        bulk_op = Operation(Mutation)
+        bulk_op = GraphQLClient.build_merge_operation(bill, bulk_op)
+        bulk_op = GraphQLClient.build_link_operation(url.id, bill.id, bulk_op)
+        LOGGER.warning(bulk_op)
 
     @staticmethod
     def _build_sample_bill():

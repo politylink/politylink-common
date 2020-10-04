@@ -20,9 +20,9 @@ class GraphQLClient:
 
     def exec(self, op):
         """
-        General method to execute GraphQL operation
-        :param op: GraphQL query/mutation string
-        :return: json response
+        General method to execute GraphQL operation (query or mutation)
+        :param op: GraphQL operation string
+        :return: json data
         """
 
         res = self.endpoint(op)
@@ -33,19 +33,46 @@ class GraphQLClient:
         """
         General method to merge GraphQL object
         :param obj: GraphQL object
-        :return: json response
+        :return: json data
         """
 
         op = self.build_merge_operation(obj)
         return self.exec(op)
 
+    def bulk_merge(self, objects):
+        """
+        General method to bulk merge GraphQL objects
+        :param objects: list of GraphQL objects
+        :return: json data
+        """
+
+        op = Operation(Mutation)
+        for obj in objects:
+            op = self.build_merge_operation(obj, op)
+        return self.exec(op)
+
     def link(self, from_id, to_id):
         """
         General method to link GraphQL objects by id
-        :return: json response
+        :param from_id: politylink id
+        :param to_id: politylink id
+        :return: json data
         """
 
         op = self.build_link_operation(from_id, to_id)
+        return self.exec(op)
+
+    def bulk_link(self, from_ids, to_ids):
+        """
+        General method to bulk link GraphQL objects by id
+        :param from_ids: list of politylink ids
+        :param to_ids: list of politylink ids
+        :return: json data
+        """
+
+        op = Operation(Mutation)
+        for from_id, to_id in zip(from_ids, to_ids):
+            op = self.build_link_operation(from_id, to_id, op)
         return self.exec(op)
 
     def exec_all_bills(self):
@@ -86,9 +113,12 @@ class GraphQLClient:
         return op
 
     @staticmethod
-    def build_merge_operation(obj):
-        op = Operation(Mutation)
+    def build_merge_operation(obj, op=None):
         param = GraphQLClient.build_merge_param(obj)
+        if op is None:
+            op = Operation(Mutation)
+        else:
+            param['__alias__'] = f'op{len(op)}'
         if isinstance(obj, Bill):
             res = op.merge_bill(**param)
         elif isinstance(obj, Url):
@@ -115,36 +145,54 @@ class GraphQLClient:
         return param
 
     @staticmethod
-    def build_link_operation(from_id, to_id):
-        op = Operation(Mutation)
+    def build_link_operation(from_id, to_id, op=None):
+        if op is None:
+            op = Operation(Mutation)
+            maybe_alias = None
+        else:
+            maybe_alias = f'op{len(op)}'
         if from_id.startswith('Url') and to_id.startswith('Bill'):
             res = op.merge_url_referred_bills(
                 from_=_UrlInput({'id': from_id}),
-                to=_BillInput({'id': to_id}))
+                to=_BillInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
         elif from_id.startswith('Url') and to_id.startswith('Minutes'):
             res = op.merge_url_referred_minutes(
                 from_=_UrlInput({'id': from_id}),
-                to=_MinutesInput({'id': to_id}))
+                to=_MinutesInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
         elif from_id.startswith('News') and to_id.startswith('Bill'):
             res = op.merge_news_referred_bills(
                 from_=_NewsInput({'id': from_id}),
-                to=_BillInput({'id': to_id}))
+                to=_BillInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
         elif from_id.startswith('News') and to_id.startswith('Minutes'):
             res = op.merge_news_referred_minutes(
                 from_=_NewsInput({'id': from_id}),
-                to=_MinutesInput({'id': to_id}))
+                to=_MinutesInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
         elif from_id.startswith('Speech') and to_id.startswith('Minutes'):
             res = op.merge_speech_belonged_to_minutes(
                 from_=_SpeechInput({'id': from_id}),
-                to=_MinutesInput({'id': to_id}))
+                to=_MinutesInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
         elif from_id.startswith('Minutes') and to_id.startswith('Bill'):
             res = op.merge_minutes_discussed_bills(
                 from_=_MinutesInput({'id': from_id}),
-                to=_BillInput({'id': to_id}))
+                to=_BillInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
         elif from_id.startswith('Minutes') and to_id.startswith('Committee'):
             res = op.merge_minutes_belonged_to_committee(
                 from_=_MinutesInput({'id': from_id}),
-                to=_CommitteeInput({'id': to_id}))
+                to=_CommitteeInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
         else:
             raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
         res.from_.id()
