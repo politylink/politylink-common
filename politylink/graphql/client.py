@@ -49,14 +49,16 @@ class GraphQLClient:
         :return: json data of the last request
         """
 
-        data = None
-        for i in range(0, len(objects), MAX_BATCH_SIZE):
-            batch_objects = objects[i:i + MAX_BATCH_SIZE]
-            op = Operation(Mutation)
-            for obj in batch_objects:
-                op = self.build_merge_operation(obj, op)
-            data = self.exec(op)
-        return data
+        ret = None
+        op = Operation(Mutation)
+        for obj in objects:
+            op = self.build_merge_operation(obj, op)
+            if len(op) >= MAX_BATCH_SIZE:
+                ret = self.exec(op)
+                op = Operation(Mutation)
+        if len(op):
+            ret = self.exec(op)
+        return ret
 
     def link(self, from_id, to_id):
         """
@@ -78,15 +80,16 @@ class GraphQLClient:
         :return: json data of the last request
         """
 
-        data = None
-        for i in range(0, len(from_ids), MAX_BATCH_SIZE):
-            batch_from_ids = from_ids[i:i + MAX_BATCH_SIZE]
-            batch_to_ids = to_ids[i:i + MAX_BATCH_SIZE]
-            op = Operation(Mutation)
-            for from_id, to_id in zip(batch_from_ids, batch_to_ids):
-                op = self.build_link_operation(from_id, to_id, op)
-            data = self.exec(op)
-        return data
+        ret = None
+        op = Operation(Mutation)
+        for from_id, to_id in zip(from_ids, to_ids):
+            op = self.build_link_operation(from_id, to_id, op)
+            if len(op) >= MAX_BATCH_SIZE:
+                ret = self.exec(op)
+                op = Operation(Mutation)
+        if len(op):
+            ret = self.exec(op)
+        return ret
 
     def get_all_bills(self):
         """
