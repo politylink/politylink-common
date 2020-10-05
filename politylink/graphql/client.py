@@ -5,6 +5,8 @@ from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
 from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput, _CommitteeInput, _NewsInput
 
+MAX_BATCH_SIZE = 100
+
 
 class GraphQLException(Exception):
     pass
@@ -16,7 +18,7 @@ class GraphQLClient:
     """
 
     def __init__(self, url=POLITYLINK_URL, auth=POLITYLINK_AUTH):
-        self.endpoint = HTTPEndpoint(url, {'Authorization': auth}, timeout=3)
+        self.endpoint = HTTPEndpoint(url, {'Authorization': auth}, timeout=30)
 
     def exec(self, op):
         """
@@ -42,14 +44,19 @@ class GraphQLClient:
     def bulk_merge(self, objects):
         """
         General method to bulk merge GraphQL objects
+        requests will be send in batch to avoid Payload Too Large exception
         :param objects: list of GraphQL objects
-        :return: json data
+        :return: json data of the last request
         """
 
-        op = Operation(Mutation)
-        for obj in objects:
-            op = self.build_merge_operation(obj, op)
-        return self.exec(op)
+        data = None
+        for i in range(0, len(objects), MAX_BATCH_SIZE):
+            batch_objects = objects[i:i + MAX_BATCH_SIZE]
+            op = Operation(Mutation)
+            for obj in batch_objects:
+                op = self.build_merge_operation(obj, op)
+            data = self.exec(op)
+        return data
 
     def link(self, from_id, to_id):
         """
@@ -65,15 +72,21 @@ class GraphQLClient:
     def bulk_link(self, from_ids, to_ids):
         """
         General method to bulk link GraphQL objects by id
+        requests will be send in batch to avoid Payload Too Large exception
         :param from_ids: list of politylink ids
         :param to_ids: list of politylink ids
-        :return: json data
+        :return: json data of the last request
         """
 
-        op = Operation(Mutation)
-        for from_id, to_id in zip(from_ids, to_ids):
-            op = self.build_link_operation(from_id, to_id, op)
-        return self.exec(op)
+        data = None
+        for i in range(0, len(from_ids), MAX_BATCH_SIZE):
+            batch_from_ids = from_ids[i:i + MAX_BATCH_SIZE]
+            batch_to_ids = to_ids[i:i + MAX_BATCH_SIZE]
+            op = Operation(Mutation)
+            for from_id, to_id in zip(batch_from_ids, batch_to_ids):
+                op = self.build_link_operation(from_id, to_id, op)
+            data = self.exec(op)
+        return data
 
     def get_all_bills(self):
         """
