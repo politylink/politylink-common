@@ -95,7 +95,7 @@ class _SpeechOrdering(sgqlc.types.Enum):
 
 class _TimelineOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'date_asc', 'date_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'date_asc', 'date_desc', 'totalBills_asc', 'totalBills_desc', 'totalMinutes_asc', 'totalMinutes_desc', 'totalNews_asc', 'totalNews_desc', '_id_asc', '_id_desc')
 
 
 class _UrlOrdering(sgqlc.types.Enum):
@@ -3014,6 +3014,9 @@ class Query(sgqlc.types.Type):
     timeline = sgqlc.types.Field(sgqlc.types.list_of('Timeline'), graphql_name='Timeline', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
         ('date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='date', default=None)),
+        ('total_bills', sgqlc.types.Arg(Int, graphql_name='totalBills', default=None)),
+        ('total_minutes', sgqlc.types.Arg(Int, graphql_name='totalMinutes', default=None)),
+        ('total_news', sgqlc.types.Arg(Int, graphql_name='totalNews', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -3044,7 +3047,7 @@ class Speech(sgqlc.types.Type):
 
 class Timeline(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'date', 'bills', 'minutes', 'news', '_id')
+    __field_names__ = ('id', 'date', 'bills', 'minutes', 'news', 'total_bills', 'total_minutes', 'total_news', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     date = sgqlc.types.Field('_Neo4jDateTime', graphql_name='date')
     bills = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(Bill))), graphql_name='bills', args=sgqlc.types.ArgDict((
@@ -3068,6 +3071,9 @@ class Timeline(sgqlc.types.Type):
         ('filter', sgqlc.types.Arg(_NewsFilter, graphql_name='filter', default=None)),
 ))
     )
+    total_bills = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalBills')
+    total_minutes = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalMinutes')
+    total_news = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalNews')
     _id = sgqlc.types.Field(String, graphql_name='_id')
 
 
