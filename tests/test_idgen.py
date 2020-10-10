@@ -1,7 +1,9 @@
+from datetime import datetime
+
 import pytest
 
-from politylink.graphql.schema import Member, Url
-from politylink.idgen import idgen, _basegen_str, _basegen_url
+from politylink.graphql.schema import Member, Url, Timeline, _Neo4jDateTimeInput
+from politylink.idgen import idgen, _basegen_str, _basegen_url, _basegen_timeline
 
 
 def test_idgen():
@@ -11,6 +13,10 @@ def test_idgen():
 
     member = Member({'name': 'test'})
     assert idgen(member) == 'Member:CY9rzUYh03PK3k6DJie09g'
+
+    timeline = Timeline(None)
+    timeline.date = _Neo4jDateTimeInput(year=2020, month=2, day=20)
+    assert idgen(timeline) == 'Timeline:20200220'
 
 
 def test_idgen_fail():

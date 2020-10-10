@@ -54,6 +54,10 @@ class TestGraphQLClient:
         data = client.merge(speech)
         assert data['MergeSpeech']['id'] == speech.id
 
+        timeline = self._build_sample_timeline()
+        data = client.merge(timeline)
+        assert data['MergeTimeline']['id'] == timeline.id
+
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_bulk_merge(self):
         client = GraphQLClient()
@@ -75,6 +79,7 @@ class TestGraphQLClient:
         speech = self._build_sample_speech()
         minutes = self._build_sample_minutes()
         committee = self._build_sample_committee()
+        timeline = self._build_sample_timeline()
 
         data = client.link(url.id, bill.id)
         assert data['MergeUrlReferredBills']['from']['id'] == url.id
@@ -103,6 +108,18 @@ class TestGraphQLClient:
         data = client.link(minutes.id, committee.id)
         assert data['MergeMinutesBelongedToCommittee']['from']['id'] == minutes.id
         assert data['MergeMinutesBelongedToCommittee']['to']['id'] == committee.id
+
+        data = client.link(bill.id, timeline.id)
+        assert data['MergeTimelineBills']['from']['id'] == bill.id
+        assert data['MergeTimelineBills']['to']['id'] == timeline.id
+
+        data = client.link(minutes.id, timeline.id)
+        assert data['MergeTimelineMinutes']['from']['id'] == minutes.id
+        assert data['MergeTimelineMinutes']['to']['id'] == timeline.id
+
+        data = client.link(news.id, timeline.id)
+        assert data['MergeTimelineNews']['from']['id'] == news.id
+        assert data['MergeTimelineNews']['to']['id'] == timeline.id
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_bulk_link(self):
@@ -180,3 +197,10 @@ class TestGraphQLClient:
         committee.topics = ['環境省の所管に属する事項']
         committee.id = idgen(committee)
         return committee
+
+    @staticmethod
+    def _build_sample_timeline():
+        timeline = Timeline(None)
+        timeline.date = _Neo4jDateTimeInput(year=2020, month=1, day=1)
+        timeline.id = idgen(timeline)
+        return timeline
