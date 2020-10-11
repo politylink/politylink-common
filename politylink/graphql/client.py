@@ -4,7 +4,8 @@ from sgqlc.operation import Operation
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
 from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput, _CommitteeInput, _NewsInput, \
-    _TimelineInput
+    _TimelineInput, _NewsFilter, _Neo4jDateTimeInput, _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
+    _TimelineFilter, _UrlFilter
 
 MAX_BATCH_SIZE = 100
 
@@ -92,6 +93,23 @@ class GraphQLClient:
             ret = self.exec(op)
         return ret
 
+    def get(self, id_: str):
+        """
+        General method to get single GraphQL object by id
+        """
+
+        op = self.build_get_operation(id_)
+        res = self.endpoint(op)
+        self.validate_response_or_raise(res)
+        cls = id_.split(':')[0].lower()
+        data = getattr(op + res, cls)
+        if len(data) == 0:
+            raise GraphQLException(f'{id_} does not exist')
+        elif len(data) == 1:
+            return data[0]
+        else:
+            raise GraphQLException(f'multiple {id_} exist')
+
     def get_all_bills(self):
         """
         Special method to get all Bills
@@ -99,10 +117,9 @@ class GraphQLClient:
         """
 
         op = self.build_all_bills_operation()
-        data = self.endpoint(op)
-        self.validate_response_or_raise(data)
-        bills = (op + data).bill
-        return bills
+        res = self.endpoint(op)
+        self.validate_response_or_raise(res)
+        return (op + res).bill
 
     def get_all_committees(self):
         """
@@ -111,10 +128,20 @@ class GraphQLClient:
         """
 
         op = self.build_all_committees_operation()
-        data = self.endpoint(op)
-        self.validate_response_or_raise(data)
-        committees = (op + data).committee
-        return committees
+        res = self.endpoint(op)
+        self.validate_response_or_raise(res)
+        return (op + res).committee
+
+    def get_all_news(self, dt=None):
+        """
+        Special method to get all News
+        :return: list of News
+        """
+
+        op = self.build_all_news_operation(dt)
+        res = self.endpoint(op)
+        self.validate_response_or_raise(res)
+        return (op + res).news
 
     @staticmethod
     def validate_response_or_raise(res):
@@ -137,6 +164,18 @@ class GraphQLClient:
         committees.id()
         committees.name()
         committees.aliases()
+        return op
+
+    @staticmethod
+    def build_all_news_operation(dt=None):
+        op = Operation(Query)
+        news_filter = _NewsFilter(None)
+        if dt:
+            news_filter.published_at = _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
+        news = op.news(filter=news_filter)
+        news.id()
+        news.title()
+        news.published_at()
         return op
 
     @staticmethod
@@ -244,4 +283,26 @@ class GraphQLClient:
             raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
         res.from_.id()
         res.to.id()
+        return op
+
+    @staticmethod
+    def build_get_operation(id_):
+        op = Operation(Query)
+        cls = id_.split(':')[0].lower()
+        if cls == 'bill':
+            op.bill(filter=_BillFilter({'id': id_}))
+        elif cls == 'committee':
+            op.committee(filter=_CommitteeFilter({'id': id_}))
+        elif cls == 'minutes':
+            op.minutes(filter=_MinutesFilter({'id': id_}))
+        elif cls == 'speech':
+            op.speech(filter=_SpeechFilter({'id': id_}))
+        elif cls == 'url':
+            op.url(filter=_UrlFilter({'id': id_}))
+        elif cls == 'news':
+            op.news(filter=_NewsFilter({'id': id_}))
+        elif cls == 'timeline':
+            op.timeline(filter=_TimelineFilter({'id': id_}))
+        else:
+            raise GraphQLException(f'unknown id type : {id_}')
         return op

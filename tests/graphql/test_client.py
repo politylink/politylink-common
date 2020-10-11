@@ -1,10 +1,11 @@
+from datetime import datetime
 from logging import getLogger
 
 import pytest
 from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH
-from politylink.graphql.client import GraphQLClient
+from politylink.graphql.client import GraphQLClient, GraphQLException
 from politylink.graphql.schema import *
 from politylink.graphql.schema import _Neo4jDateTimeInput
 from politylink.idgen import idgen
@@ -137,6 +138,28 @@ class TestGraphQLClient:
         assert data['op1']['from']['id'] == url.id
         assert data['op1']['to']['id'] == minutes.id
 
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='requires resources are already merged to GraphQL')
+    def test_get(self):
+        client = GraphQLClient()
+
+        url = self._build_sample_url()
+        bill = self._build_sample_bill()
+        news = self._build_sample_news()
+        speech = self._build_sample_speech()
+        minutes = self._build_sample_minutes()
+        committee = self._build_sample_committee()
+        timeline = self._build_sample_timeline()
+
+        for obj in [url, bill, news, speech, minutes, committee, timeline]:
+            ret = client.get(obj.id)
+            assert ret.id == obj.id
+
+        with pytest.raises(GraphQLException):
+            client.get('invalid:class')
+
+        with pytest.raises(GraphQLException):
+            client.get('bill:invalid')
+
     def test_show_ops(self):
         bill = self._build_sample_bill()
         url = self._build_sample_url()
@@ -145,6 +168,9 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
         LOGGER.warning(GraphQLClient.build_all_bills_operation())
         LOGGER.warning(GraphQLClient.build_all_committees_operation())
+        LOGGER.warning(GraphQLClient.build_all_news_operation())
+        LOGGER.warning(GraphQLClient.build_all_news_operation())
+        LOGGER.warning(GraphQLClient.build_all_news_operation(datetime(year=2020, month=1, day=1)))
 
         bulk_op = Operation(Mutation)
         bulk_op = GraphQLClient.build_merge_operation(bill, bulk_op)
