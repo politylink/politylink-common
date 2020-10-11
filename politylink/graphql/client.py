@@ -132,13 +132,13 @@ class GraphQLClient:
         self.validate_response_or_raise(res)
         return (op + res).committee
 
-    def get_all_news(self, dt=None):
+    def get_all_news(self, start_date=None, end_date=None):
         """
         Special method to get all News
         :return: list of News
         """
 
-        op = self.build_all_news_operation(dt)
+        op = self.build_all_news_operation(start_date, end_date)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).news
@@ -167,15 +167,22 @@ class GraphQLClient:
         return op
 
     @staticmethod
-    def build_all_news_operation(dt=None):
+    def build_all_news_operation(start_date=None, end_date=None):
+        def to_neo4j_datetime(dt):
+            return _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
+
         op = Operation(Query)
         news_filter = _NewsFilter(None)
-        if dt:
-            news_filter.published_at = _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
+        if start_date:
+            news_filter.published_at_gte = to_neo4j_datetime(start_date)
+        if end_date:
+            news_filter.published_at_lt = to_neo4j_datetime(end_date)
         news = op.news(filter=news_filter)
         news.id()
         news.title()
         news.published_at()
+        news.is_paid()
+        news.is_timeline()
         return op
 
     @staticmethod

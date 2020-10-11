@@ -80,7 +80,7 @@ class _MinutesOrdering(sgqlc.types.Enum):
 
 class _NewsOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'url_asc', 'url_desc', 'publisher_asc', 'publisher_desc', 'thumbnail_asc', 'thumbnail_desc', 'title_asc', 'title_desc', 'publishedAt_asc', 'publishedAt_desc', 'lastModifiedAt_asc', 'lastModifiedAt_desc', 'isPaid_asc', 'isPaid_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'url_asc', 'url_desc', 'publisher_asc', 'publisher_desc', 'thumbnail_asc', 'thumbnail_desc', 'title_asc', 'title_desc', 'publishedAt_asc', 'publishedAt_desc', 'lastModifiedAt_asc', 'lastModifiedAt_desc', 'isPaid_asc', 'isPaid_desc', 'isTimeline_asc', 'isTimeline_desc', '_id_asc', '_id_desc')
 
 
 class _RelationDirections(sgqlc.types.Enum):
@@ -996,7 +996,7 @@ class _Neo4jTimeInput(sgqlc.types.Input):
 
 class _NewsFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'url', 'url_not', 'url_in', 'url_not_in', 'url_contains', 'url_not_contains', 'url_starts_with', 'url_not_starts_with', 'url_ends_with', 'url_not_ends_with', 'publisher', 'publisher_not', 'publisher_in', 'publisher_not_in', 'publisher_contains', 'publisher_not_contains', 'publisher_starts_with', 'publisher_not_starts_with', 'publisher_ends_with', 'publisher_not_ends_with', 'thumbnail', 'thumbnail_not', 'thumbnail_in', 'thumbnail_not_in', 'thumbnail_contains', 'thumbnail_not_contains', 'thumbnail_starts_with', 'thumbnail_not_starts_with', 'thumbnail_ends_with', 'thumbnail_not_ends_with', 'title', 'title_not', 'title_in', 'title_not_in', 'title_contains', 'title_not_contains', 'title_starts_with', 'title_not_starts_with', 'title_ends_with', 'title_not_ends_with', 'published_at', 'published_at_not', 'published_at_in', 'published_at_not_in', 'published_at_lt', 'published_at_lte', 'published_at_gt', 'published_at_gte', 'last_modified_at', 'last_modified_at_not', 'last_modified_at_in', 'last_modified_at_not_in', 'last_modified_at_lt', 'last_modified_at_lte', 'last_modified_at_gt', 'last_modified_at_gte', 'is_paid', 'is_paid_not', 'referred_bills', 'referred_bills_not', 'referred_bills_in', 'referred_bills_not_in', 'referred_bills_some', 'referred_bills_none', 'referred_bills_single', 'referred_bills_every', 'referred_laws', 'referred_laws_not', 'referred_laws_in', 'referred_laws_not_in', 'referred_laws_some', 'referred_laws_none', 'referred_laws_single', 'referred_laws_every', 'referred_members', 'referred_members_not', 'referred_members_in', 'referred_members_not_in', 'referred_members_some', 'referred_members_none', 'referred_members_single', 'referred_members_every', 'referred_minutes', 'referred_minutes_not', 'referred_minutes_in', 'referred_minutes_not_in', 'referred_minutes_some', 'referred_minutes_none', 'referred_minutes_single', 'referred_minutes_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'url', 'url_not', 'url_in', 'url_not_in', 'url_contains', 'url_not_contains', 'url_starts_with', 'url_not_starts_with', 'url_ends_with', 'url_not_ends_with', 'publisher', 'publisher_not', 'publisher_in', 'publisher_not_in', 'publisher_contains', 'publisher_not_contains', 'publisher_starts_with', 'publisher_not_starts_with', 'publisher_ends_with', 'publisher_not_ends_with', 'thumbnail', 'thumbnail_not', 'thumbnail_in', 'thumbnail_not_in', 'thumbnail_contains', 'thumbnail_not_contains', 'thumbnail_starts_with', 'thumbnail_not_starts_with', 'thumbnail_ends_with', 'thumbnail_not_ends_with', 'title', 'title_not', 'title_in', 'title_not_in', 'title_contains', 'title_not_contains', 'title_starts_with', 'title_not_starts_with', 'title_ends_with', 'title_not_ends_with', 'published_at', 'published_at_not', 'published_at_in', 'published_at_not_in', 'published_at_lt', 'published_at_lte', 'published_at_gt', 'published_at_gte', 'last_modified_at', 'last_modified_at_not', 'last_modified_at_in', 'last_modified_at_not_in', 'last_modified_at_lt', 'last_modified_at_lte', 'last_modified_at_gt', 'last_modified_at_gte', 'is_paid', 'is_paid_not', 'is_timeline', 'is_timeline_not', 'referred_bills', 'referred_bills_not', 'referred_bills_in', 'referred_bills_not_in', 'referred_bills_some', 'referred_bills_none', 'referred_bills_single', 'referred_bills_every', 'referred_laws', 'referred_laws_not', 'referred_laws_in', 'referred_laws_not_in', 'referred_laws_some', 'referred_laws_none', 'referred_laws_single', 'referred_laws_every', 'referred_members', 'referred_members_not', 'referred_members_in', 'referred_members_not_in', 'referred_members_some', 'referred_members_none', 'referred_members_single', 'referred_members_every', 'referred_minutes', 'referred_minutes_not', 'referred_minutes_in', 'referred_minutes_not_in', 'referred_minutes_some', 'referred_minutes_none', 'referred_minutes_single', 'referred_minutes_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_NewsFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_NewsFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -1067,6 +1067,8 @@ class _NewsFilter(sgqlc.types.Input):
     last_modified_at_gte = sgqlc.types.Field(_Neo4jDateTimeInput, graphql_name='lastModifiedAt_gte')
     is_paid = sgqlc.types.Field(Boolean, graphql_name='isPaid')
     is_paid_not = sgqlc.types.Field(Boolean, graphql_name='isPaid_not')
+    is_timeline = sgqlc.types.Field(Boolean, graphql_name='isTimeline')
+    is_timeline_not = sgqlc.types.Field(Boolean, graphql_name='isTimeline_not')
     referred_bills = sgqlc.types.Field(_BillFilter, graphql_name='referredBills')
     referred_bills_not = sgqlc.types.Field(_BillFilter, graphql_name='referredBills_not')
     referred_bills_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(_BillFilter)), graphql_name='referredBills_in')
@@ -2688,6 +2690,7 @@ class Mutation(sgqlc.types.Type):
         ('published_at', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='publishedAt', default=None)),
         ('last_modified_at', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='lastModifiedAt', default=None)),
         ('is_paid', sgqlc.types.Arg(Boolean, graphql_name='isPaid', default=None)),
+        ('is_timeline', sgqlc.types.Arg(Boolean, graphql_name='isTimeline', default=None)),
 ))
     )
     update_news = sgqlc.types.Field('News', graphql_name='UpdateNews', args=sgqlc.types.ArgDict((
@@ -2699,6 +2702,7 @@ class Mutation(sgqlc.types.Type):
         ('published_at', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='publishedAt', default=None)),
         ('last_modified_at', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='lastModifiedAt', default=None)),
         ('is_paid', sgqlc.types.Arg(Boolean, graphql_name='isPaid', default=None)),
+        ('is_timeline', sgqlc.types.Arg(Boolean, graphql_name='isTimeline', default=None)),
 ))
     )
     delete_news = sgqlc.types.Field('News', graphql_name='DeleteNews', args=sgqlc.types.ArgDict((
@@ -2714,6 +2718,7 @@ class Mutation(sgqlc.types.Type):
         ('published_at', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='publishedAt', default=None)),
         ('last_modified_at', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='lastModifiedAt', default=None)),
         ('is_paid', sgqlc.types.Arg(Boolean, graphql_name='isPaid', default=None)),
+        ('is_timeline', sgqlc.types.Arg(Boolean, graphql_name='isTimeline', default=None)),
 ))
     )
     add_timeline_bills = sgqlc.types.Field('_AddTimelineBillsPayload', graphql_name='AddTimelineBills', args=sgqlc.types.ArgDict((
@@ -2784,7 +2789,7 @@ class Mutation(sgqlc.types.Type):
 
 class News(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'url', 'publisher', 'thumbnail', 'title', 'published_at', 'last_modified_at', 'is_paid', 'referred_bills', 'referred_laws', 'referred_members', 'referred_minutes', '_id')
+    __field_names__ = ('id', 'url', 'publisher', 'thumbnail', 'title', 'published_at', 'last_modified_at', 'is_paid', 'is_timeline', 'referred_bills', 'referred_laws', 'referred_members', 'referred_minutes', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     url = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='url')
     publisher = sgqlc.types.Field(String, graphql_name='publisher')
@@ -2793,6 +2798,7 @@ class News(sgqlc.types.Type):
     published_at = sgqlc.types.Field('_Neo4jDateTime', graphql_name='publishedAt')
     last_modified_at = sgqlc.types.Field('_Neo4jDateTime', graphql_name='lastModifiedAt')
     is_paid = sgqlc.types.Field(Boolean, graphql_name='isPaid')
+    is_timeline = sgqlc.types.Field(Boolean, graphql_name='isTimeline')
     referred_bills = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(Bill))), graphql_name='referredBills', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -3004,6 +3010,7 @@ class Query(sgqlc.types.Type):
         ('published_at', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='publishedAt', default=None)),
         ('last_modified_at', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='lastModifiedAt', default=None)),
         ('is_paid', sgqlc.types.Arg(Boolean, graphql_name='isPaid', default=None)),
+        ('is_timeline', sgqlc.types.Arg(Boolean, graphql_name='isTimeline', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),

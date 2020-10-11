@@ -170,7 +170,8 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient.build_all_committees_operation())
         LOGGER.warning(GraphQLClient.build_all_news_operation())
         LOGGER.warning(GraphQLClient.build_all_news_operation())
-        LOGGER.warning(GraphQLClient.build_all_news_operation(datetime(year=2020, month=1, day=1)))
+        LOGGER.warning(GraphQLClient.build_all_news_operation(datetime(year=2020, month=1, day=1),
+                                                              datetime(year=2020, month=2, day=1)))
 
         bulk_op = Operation(Mutation)
         bulk_op = GraphQLClient.build_merge_operation(bill, bulk_op)
