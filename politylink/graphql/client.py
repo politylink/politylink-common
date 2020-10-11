@@ -3,7 +3,8 @@ from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
-from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput, _CommitteeInput, _NewsInput
+from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput, _CommitteeInput, _NewsInput, \
+    _TimelineInput
 
 MAX_BATCH_SIZE = 100
 
@@ -157,6 +158,8 @@ class GraphQLClient:
             res = op.merge_committee(**param)
         elif isinstance(obj, Speech):
             res = op.merge_speech(**param)
+        elif isinstance(obj, Timeline):
+            res = op.merge_timeline(**param)
         else:
             raise GraphQLException(f'unknown object type to merge: {type(obj)}')
         res.id()
@@ -217,6 +220,24 @@ class GraphQLClient:
             res = op.merge_minutes_belonged_to_committee(
                 from_=_MinutesInput({'id': from_id}),
                 to=_CommitteeInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
+        elif from_id.startswith('Bill') and to_id.startswith('Timeline'):
+            res = op.merge_timeline_bills(
+                from_=_BillInput({'id': from_id}),
+                to=_TimelineInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
+        elif from_id.startswith('Minutes') and to_id.startswith('Timeline'):
+            res = op.merge_timeline_minutes(
+                from_=_MinutesInput({'id': from_id}),
+                to=_TimelineInput({'id': to_id}),
+                __alias__=maybe_alias
+            )
+        elif from_id.startswith('News') and to_id.startswith('Timeline'):
+            res = op.merge_timeline_news(
+                from_=_NewsInput({'id': from_id}),
+                to=_TimelineInput({'id': to_id}),
                 __alias__=maybe_alias
             )
         else:

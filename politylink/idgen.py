@@ -22,6 +22,8 @@ def idgen(obj):
         base = _basegen_law(obj)
     elif isinstance(obj, Url) or isinstance(obj, News):
         base = _basegen_url(obj.url)
+    elif isinstance(obj, Timeline):
+        base = _basegen_timeline(obj)
     elif hasattr(obj, 'name'):
         base = _basegen_str(getattr(obj, 'name'))
     else:
@@ -49,3 +51,8 @@ def _basegen_law(law):
 def _basegen_url(url):
     protocol, body = url.split('://')
     return _basegen_str(body)
+
+
+def _basegen_timeline(timeline):
+    dt = timeline.date
+    return f'{dt.year:04}{dt.month:02}{dt.day:02}'
