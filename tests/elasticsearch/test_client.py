@@ -1,6 +1,6 @@
 import pytest
 
-from politylink.elasticsearch.client import ElasticsearchClient, ElasticsearchClientException
+from politylink.elasticsearch.client import ElasticsearchClient, ElasticsearchException
 from politylink.elasticsearch.schema import BillText, NewsText
 
 
@@ -31,7 +31,7 @@ class TestGraphQLClient:
 
     def test_get_fail(self):
         client = ElasticsearchClient()
-        with pytest.raises(ElasticsearchClientException):
+        with pytest.raises(ElasticsearchException):
             client.get('Bill:1000')
 
     def test_search(self):

@@ -5,7 +5,7 @@ from elasticsearch import Elasticsearch
 from politylink.elasticsearch.schema import NewsText, BillText, AbstractText
 
 
-class ElasticsearchClientException(Exception):
+class ElasticsearchException(Exception):
     pass
 
 
@@ -30,7 +30,7 @@ class ElasticsearchClient:
         try:
             return self.client.index(index=obj.index, id=obj.id, body=obj.__dict__)
         except Exception as e:
-            raise ElasticsearchClientException(f'failed to index {obj}') from e
+            raise ElasticsearchException(f'failed to index {obj}') from e
 
     def get(self, id_):
         """
@@ -45,7 +45,7 @@ class ElasticsearchClient:
             res = self.client.get(index=cls.index, id=id_)
             return cls(res['_source'])
         except Exception as e:
-            raise ElasticsearchClientException(f'failed to get {id_}') from e
+            raise ElasticsearchException(f'failed to get {id_}') from e
 
     def search(self, cls, query=None):
         """
@@ -61,4 +61,4 @@ class ElasticsearchClient:
             res = self.client.search(index=cls.index, body=query_doc)
             return list(map(lambda hit: cls(hit['_source']), res['hits']['hits']))
         except Exception as e:
-            raise ElasticsearchClientException(f'failed to search NewsText for {query_doc}') from e
+            raise ElasticsearchException(f'failed to search NewsText for {query_doc}') from e

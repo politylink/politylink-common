@@ -166,11 +166,15 @@ class TestGraphQLClient:
 
         LOGGER.warning(GraphQLClient.build_merge_operation(bill))
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
-        LOGGER.warning(GraphQLClient.build_all_bills_operation())
-        LOGGER.warning(GraphQLClient.build_all_committees_operation())
-        LOGGER.warning(GraphQLClient.build_all_news_operation())
-        LOGGER.warning(GraphQLClient.build_all_news_operation())
-        LOGGER.warning(GraphQLClient.build_all_news_operation(datetime(year=2020, month=1, day=1)))
+        LOGGER.warning(GraphQLClient.build_all_bills_operation(['id', 'name', 'bill_number']))
+        LOGGER.warning(GraphQLClient.build_all_committees_operation(['id', 'name']))
+        LOGGER.warning(GraphQLClient.build_all_minutes_operation(['id', 'name']))
+        LOGGER.warning(GraphQLClient.build_all_news_operation(['id']))
+        LOGGER.warning(GraphQLClient.build_all_news_operation(
+            ['id', 'title', 'published_at'],
+            datetime(year=2020, month=1, day=1),
+            datetime(year=2020, month=2, day=1))
+        )
 
         bulk_op = Operation(Mutation)
         bulk_op = GraphQLClient.build_merge_operation(bill, bulk_op)
