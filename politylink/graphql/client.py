@@ -93,7 +93,7 @@ class GraphQLClient:
             ret = self.exec(op)
         return ret
 
-    def get(self, id_: str):
+    def get(self, id_):
         """
         General method to get single GraphQL object by id
         """
@@ -110,35 +110,41 @@ class GraphQLClient:
         else:
             raise GraphQLException(f'multiple {id_} exist')
 
-    def get_all_bills(self):
+    def get_all_bills(self, fields=None):
         """
         Special method to get all Bills
         :return: list of Bills
         """
 
-        op = self.build_all_bills_operation()
+        if fields is None:
+            fields = ['id', 'name', 'billNumber']
+        op = self.build_all_bills_operation(fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).bill
 
-    def get_all_committees(self):
+    def get_all_committees(self, fields=None):
         """
         Special method to get all Committees
         :return: list of Committees
         """
 
-        op = self.build_all_committees_operation()
+        if fields is None:
+            fields = ['id', 'name']
+        op = self.build_all_committees_operation(fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).committee
 
-    def get_all_news(self, start_date=None, end_date=None):
+    def get_all_news(self, fields=None, start_date=None, end_date=None):
         """
         Special method to get all News
         :return: list of News
         """
 
-        op = self.build_all_news_operation(start_date, end_date)
+        if fields is None:
+            fields = ['id', 'title', 'published_at']
+        op = self.build_all_news_operation(fields, start_date, end_date)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).news
@@ -149,25 +155,23 @@ class GraphQLClient:
             raise GraphQLException(res['errors'])
 
     @staticmethod
-    def build_all_bills_operation():
+    def build_all_bills_operation(fields):
         op = Operation(Query)
         bills = op.bill()
-        bills.id()
-        bills.name()
-        bills.bill_number()
+        for field in fields:
+            getattr(bills, field)()
         return op
 
     @staticmethod
-    def build_all_committees_operation():
+    def build_all_committees_operation(fields):
         op = Operation(Query)
         committees = op.committee()
-        committees.id()
-        committees.name()
-        committees.aliases()
+        for field in fields:
+            getattr(committees, field)()
         return op
 
     @staticmethod
-    def build_all_news_operation(start_date=None, end_date=None):
+    def build_all_news_operation(fields, start_date=None, end_date=None):
         def to_neo4j_datetime(dt):
             return _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
 
@@ -178,11 +182,8 @@ class GraphQLClient:
         if end_date:
             news_filter.published_at_lt = to_neo4j_datetime(end_date)
         news = op.news(filter=news_filter)
-        news.id()
-        news.title()
-        news.published_at()
-        news.is_paid()
-        news.is_timeline()
+        for field in fields:
+            getattr(news, field)()
         return op
 
     @staticmethod
