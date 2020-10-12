@@ -168,9 +168,10 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
         LOGGER.warning(GraphQLClient.build_all_bills_operation(['id', 'name', 'bill_number']))
         LOGGER.warning(GraphQLClient.build_all_committees_operation(['id', 'name']))
+        LOGGER.warning(GraphQLClient.build_all_minutes_operation(['id', 'name']))
         LOGGER.warning(GraphQLClient.build_all_news_operation(['id']))
         LOGGER.warning(GraphQLClient.build_all_news_operation(
-            ['id', 'title'],
+            ['id', 'title', 'published_at'],
             datetime(year=2020, month=1, day=1),
             datetime(year=2020, month=2, day=1))
         )

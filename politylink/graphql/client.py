@@ -136,6 +136,19 @@ class GraphQLClient:
         self.validate_response_or_raise(res)
         return (op + res).committee
 
+    def get_all_minutes(self, fields=None):
+        """
+        Special method to get all Minutes
+        :return: list of Minutes
+        """
+
+        if fields is None:
+            fields = ['id', 'name']
+        op = self.build_all_minutes_operation(fields)
+        res = self.endpoint(op)
+        self.validate_response_or_raise(res)
+        return (op + res).minutes
+
     def get_all_news(self, fields=None, start_date=None, end_date=None):
         """
         Special method to get all News
@@ -168,6 +181,14 @@ class GraphQLClient:
         committees = op.committee()
         for field in fields:
             getattr(committees, field)()
+        return op
+
+    @staticmethod
+    def build_all_minutes_operation(fields):
+        op = Operation(Query)
+        minutes = op.minutes()
+        for field in fields:
+            getattr(minutes, field)()
         return op
 
     @staticmethod
