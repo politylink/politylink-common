@@ -24,6 +24,10 @@ def idgen(obj):
         base = _basegen_url(obj.url)
     elif isinstance(obj, Timeline):
         base = _basegen_timeline(obj)
+    elif isinstance(obj, Minutes):
+        base = _basegen_minutes(obj)
+    elif isinstance(obj, Speech):
+        base = _basegen_speech(obj)
     elif hasattr(obj, 'name'):
         base = _basegen_str(getattr(obj, 'name'))
     else:
@@ -31,7 +35,7 @@ def idgen(obj):
     return f'{class_}:{base}'
 
 
-def _basegen_str(s):
+def _basegen_str(s: str):
     if not s:
         raise ValueError(f'non-empty string is required to calculate ID')
     h = hashlib.md5()
@@ -40,19 +44,29 @@ def _basegen_str(s):
     return b.decode('UTF-8')[:-2]  # last 2 bit is always padding (=)
 
 
-def _basegen_bill(bill):
+def _basegen_bill(bill: Bill):
     return _basegen_str(bill.bill_number)
 
 
-def _basegen_law(law):
+def _basegen_law(law: Law):
     return _basegen_str(law.law_number)
 
 
-def _basegen_url(url):
+def _basegen_url(url: str):
     protocol, body = url.split('://')
     return _basegen_str(body)
 
 
-def _basegen_timeline(timeline):
+def _basegen_timeline(timeline: Timeline):
     dt = timeline.date
     return f'{dt.year:04}{dt.month:02}{dt.day:02}'
+
+
+def _basegen_minutes(minutes: Minutes):
+    dt = minutes.start_date_time
+    dt_str = f'{dt.year:04}{dt.month:02}{dt.day:02}'
+    return _basegen_str(minutes.name + dt_str)
+
+
+def _basegen_speech(speech: Speech):
+    return _basegen_str(f'{speech.minutes_id}{speech.order_in_minutes}')

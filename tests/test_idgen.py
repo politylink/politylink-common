@@ -1,9 +1,7 @@
-from datetime import datetime
-
 import pytest
 
-from politylink.graphql.schema import Member, Url, Timeline, _Neo4jDateTimeInput
-from politylink.idgen import idgen, _basegen_str, _basegen_url, _basegen_timeline
+from politylink.graphql.schema import Member, Timeline, _Neo4jDateTimeInput, Minutes
+from politylink.idgen import idgen, _basegen_str, _basegen_url, _basegen_minutes
 
 
 def test_idgen():
@@ -30,3 +28,9 @@ def test_idgen_fail():
 def test_basegen_url():
     url = 'https://kokkai.ndl.go.jp/#/detail?minId=120105254X03220200610'
     assert _basegen_url(url) == _basegen_str('kokkai.ndl.go.jp/#/detail?minId=120105254X03220200610')
+
+
+def test_basegen_minutes():
+    minutes = Minutes({'name': '参議院災害対策特別委員会'})
+    minutes.start_date_time = _Neo4jDateTimeInput(year=2020, month=1, day=20)
+    assert _basegen_minutes(minutes) == _basegen_str('参議院災害対策特別委員会20200120')
