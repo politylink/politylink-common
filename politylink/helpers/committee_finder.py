@@ -16,6 +16,13 @@ class CommitteeFinder:
     def find(self, text):
         return list(filter(lambda x: CommitteeFinder.match(x, text), self.committees))
 
+    def find_one(self, text):
+        committees = self.find(text)
+        if len(committees) == 1:
+            return committees[0]
+        else:
+            raise ValueError(f'found {len(committees)} committees that match with {text}:{committees}')
+
     @staticmethod
     def match(committee, text):
         if hasattr(committee, 'name') and committee.name:
