@@ -210,13 +210,16 @@ class TestGraphQLClient:
         minutes = Minutes(None)
         minutes.name = '第201回国会衆議院環境委員会第4号'
         minutes.topics = ["天気について", "カレーライスの件"]
+        minutes.start_date_time = _Neo4jDateTimeInput(year=2020, month=1, day=20)
         minutes.id = idgen(minutes)
         return minutes
 
     @staticmethod
     def _build_sample_speech():
+        minutes = TestGraphQLClient._build_sample_minutes()
         speech = Speech(None)
-        speech.name = '第201回国会衆議院環境委員会第4号3'
+        speech.minutes_id = minutes.id
+        speech.order_in_minutes = 1
         speech.id = idgen(speech)
         return speech
 
