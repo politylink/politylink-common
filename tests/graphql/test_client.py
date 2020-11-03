@@ -183,6 +183,7 @@ class TestGraphQLClient:
 
         LOGGER.warning(GraphQLClient.build_merge_operation(bill))
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
+        LOGGER.warning(GraphQLClient.build_get_operation(bill.id, ['id', 'name']))
         LOGGER.warning(GraphQLClient.build_delete_operation(bill.id))
         LOGGER.warning(GraphQLClient.build_all_bills_operation(['id', 'name', 'bill_number']))
         LOGGER.warning(GraphQLClient.build_all_committees_operation(['id', 'name']))
