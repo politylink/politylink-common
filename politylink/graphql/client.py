@@ -110,6 +110,15 @@ class GraphQLClient:
         else:
             raise GraphQLException(f'multiple {id_} exist')
 
+    def delete(self, id_):
+        """
+        General method to delete single GraphQL object by id
+        """
+
+        op = self.build_delete_operation(id_)
+        res = self.endpoint(op)
+        self.validate_response_or_raise(res)
+
     def get_all_bills(self, fields=None):
         """
         Special method to get all Bills
@@ -334,4 +343,15 @@ class GraphQLClient:
             op.timeline(filter=_TimelineFilter({'id': id_}))
         else:
             raise GraphQLException(f'unknown id type : {id_}')
+        return op
+
+    @staticmethod
+    def build_delete_operation(id_):
+        op = Operation(Mutation)
+        cls = id_.split(':')[0].lower()
+        try:
+            res = getattr(op, f'delete_{cls}')(id=id_)
+        except AttributeError:
+            raise GraphQLException(f'unknown id type : {id_}')
+        res.id()
         return op

@@ -160,12 +160,30 @@ class TestGraphQLClient:
         with pytest.raises(GraphQLException):
             client.get('bill:invalid')
 
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
+    def test_delete(self):
+        client = GraphQLClient()
+
+        speech = self._build_sample_speech()
+        client.delete(speech.id)
+
+        # should be deleted
+        with pytest.raises(GraphQLException):
+            client.get(speech.id)
+
+        with pytest.raises(GraphQLException):
+            client.delete('invalid:class')
+
+        # don't raise exception when given non-existing id
+        client.delete('bill:invalid')
+
     def test_show_ops(self):
         bill = self._build_sample_bill()
         url = self._build_sample_url()
 
         LOGGER.warning(GraphQLClient.build_merge_operation(bill))
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
+        LOGGER.warning(GraphQLClient.build_delete_operation(bill.id))
         LOGGER.warning(GraphQLClient.build_all_bills_operation(['id', 'name', 'bill_number']))
         LOGGER.warning(GraphQLClient.build_all_committees_operation(['id', 'name']))
         LOGGER.warning(GraphQLClient.build_all_minutes_operation(['id', 'name']))
