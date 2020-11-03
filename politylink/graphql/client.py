@@ -93,12 +93,12 @@ class GraphQLClient:
             ret = self.exec(op)
         return ret
 
-    def get(self, id_):
+    def get(self, id_, fields=None):
         """
         General method to get single GraphQL object by id
         """
 
-        op = self.build_get_operation(id_)
+        op = self.build_get_operation(id_, fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         cls = id_.split(':')[0].lower()
@@ -324,25 +324,28 @@ class GraphQLClient:
         return op
 
     @staticmethod
-    def build_get_operation(id_):
+    def build_get_operation(id_, fields=None):
         op = Operation(Query)
         cls = id_.split(':')[0].lower()
         if cls == 'bill':
-            op.bill(filter=_BillFilter({'id': id_}))
+            obj = op.bill(filter=_BillFilter({'id': id_}))
         elif cls == 'committee':
-            op.committee(filter=_CommitteeFilter({'id': id_}))
+            obj = op.committee(filter=_CommitteeFilter({'id': id_}))
         elif cls == 'minutes':
-            op.minutes(filter=_MinutesFilter({'id': id_}))
+            obj = op.minutes(filter=_MinutesFilter({'id': id_}))
         elif cls == 'speech':
-            op.speech(filter=_SpeechFilter({'id': id_}))
+            obj = op.speech(filter=_SpeechFilter({'id': id_}))
         elif cls == 'url':
-            op.url(filter=_UrlFilter({'id': id_}))
+            obj = op.url(filter=_UrlFilter({'id': id_}))
         elif cls == 'news':
-            op.news(filter=_NewsFilter({'id': id_}))
+            obj = op.news(filter=_NewsFilter({'id': id_}))
         elif cls == 'timeline':
-            op.timeline(filter=_TimelineFilter({'id': id_}))
+            obj = op.timeline(filter=_TimelineFilter({'id': id_}))
         else:
             raise GraphQLException(f'unknown id type : {id_}')
+        if fields:
+            for field in fields:
+                getattr(obj, field)()
         return op
 
     @staticmethod
