@@ -1,11 +1,11 @@
+from functools import partial
+
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
-from politylink.graphql.schema import _UrlInput, _BillInput, _SpeechInput, _MinutesInput, _CommitteeInput, _NewsInput, \
-    _TimelineInput, _NewsFilter, _Neo4jDateTimeInput, _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
-    _TimelineFilter, _UrlFilter
+from politylink.graphql.schema import _NewsFilter, _Neo4jDateTimeInput
 
 MAX_BATCH_SIZE = 100
 
@@ -33,6 +33,23 @@ class GraphQLClient:
         self.validate_response_or_raise(res)
         return res['data']
 
+    def get(self, id_, fields=None):
+        """
+        General method to get single GraphQL object by id
+        """
+
+        op = self.build_get_operation(id_, fields)
+        res = self.endpoint(op)
+        self.validate_response_or_raise(res)
+        method_name = id_.split(':')[0].lower()
+        data = getattr(op + res, method_name)
+        if len(data) == 0:
+            raise GraphQLException(f'{id_} does not exist')
+        elif len(data) == 1:
+            return data[0]
+        else:
+            raise GraphQLException(f'multiple {id_} exist')
+
     def merge(self, obj):
         """
         General method to merge GraphQL object
@@ -43,24 +60,13 @@ class GraphQLClient:
         op = self.build_merge_operation(obj)
         return self.exec(op)
 
-    def bulk_merge(self, objects):
+    def delete(self, id_):
         """
-        General method to bulk merge GraphQL objects
-        requests will be send in batch to avoid Payload Too Large exception
-        :param objects: list of GraphQL objects
-        :return: json data of the last request
+        General method to delete single GraphQL object by id
         """
 
-        ret = None
-        op = Operation(Mutation)
-        for obj in objects:
-            op = self.build_merge_operation(obj, op)
-            if len(op) >= MAX_BATCH_SIZE:
-                ret = self.exec(op)
-                op = Operation(Mutation)
-        if len(op):
-            ret = self.exec(op)
-        return ret
+        op = self.build_delete_operation(id_)
+        return self.exec(op)
 
     def link(self, from_id, to_id):
         """
@@ -73,6 +79,39 @@ class GraphQLClient:
         op = self.build_link_operation(from_id, to_id)
         return self.exec(op)
 
+    def unlink(self, from_id, to_id):
+        """
+        General method to unlink GraphQL objects by id
+        :param from_id: politylink id
+        :param to_id: politylink id
+        :return: json data
+        """
+
+        op = self.build_link_operation(from_id, to_id, remove=True)
+        return self.exec(op)
+
+    def bulk_merge(self, objects):
+        """
+        General method to bulk merge GraphQL objects
+        requests will be send in batch to avoid Payload Too Large exception
+        :param objects: list of GraphQL objects
+        :return: json data of the last request
+        """
+
+        op_builder_list = map(lambda x: partial(self.build_merge_operation, obj=x), objects)
+        return self.bulk_mutation(op_builder_list)
+
+    def bulk_delete(self, ids):
+        """
+        General method to bulk delete GraphQL objects by id
+        requests will be send in batch to avoid Payload Too Large exception
+        :param ids: list of politylink ids
+        :return: json data of the last request
+        """
+
+        op_builder_list = map(lambda x: partial(self.build_delete_operation, id_=x), ids)
+        return self.bulk_mutation(op_builder_list)
+
     def bulk_link(self, from_ids, to_ids):
         """
         General method to bulk link GraphQL objects by id
@@ -82,42 +121,33 @@ class GraphQLClient:
         :return: json data of the last request
         """
 
+        op_builder_list = map(lambda x, y: partial(self.build_link_operation, from_id=x, to_id=y), from_ids, to_ids)
+        return self.bulk_mutation(op_builder_list)
+
+    def bulk_unlink(self, from_ids, to_ids):
+        """
+        General method to bulk unlink GraphQL objects by id
+        requests will be send in batch to avoid Payload Too Large exception
+        :param from_ids: list of politylink ids
+        :param to_ids: list of politylink ids
+        :return: json data of the last request
+        """
+
+        op_builder_list = map(lambda x, y: partial(self.build_link_operation, from_id=x, to_id=y, remove=True),
+                              from_ids, to_ids)
+        return self.bulk_mutation(op_builder_list)
+
+    def bulk_mutation(self, op_builder_list):
         ret = None
         op = Operation(Mutation)
-        for from_id, to_id in zip(from_ids, to_ids):
-            op = self.build_link_operation(from_id, to_id, op)
+        for op_builder in op_builder_list:
+            op = op_builder(op=op)
             if len(op) >= MAX_BATCH_SIZE:
                 ret = self.exec(op)
                 op = Operation(Mutation)
         if len(op):
             ret = self.exec(op)
         return ret
-
-    def get(self, id_, fields=None):
-        """
-        General method to get single GraphQL object by id
-        """
-
-        op = self.build_get_operation(id_, fields)
-        res = self.endpoint(op)
-        self.validate_response_or_raise(res)
-        cls = id_.split(':')[0].lower()
-        data = getattr(op + res, cls)
-        if len(data) == 0:
-            raise GraphQLException(f'{id_} does not exist')
-        elif len(data) == 1:
-            return data[0]
-        else:
-            raise GraphQLException(f'multiple {id_} exist')
-
-    def delete(self, id_):
-        """
-        General method to delete single GraphQL object by id
-        """
-
-        op = self.build_delete_operation(id_)
-        res = self.endpoint(op)
-        self.validate_response_or_raise(res)
 
     def get_all_bills(self, fields=None):
         """
@@ -126,8 +156,8 @@ class GraphQLClient:
         """
 
         if fields is None:
-            fields = ['id', 'name', 'billNumber']
-        op = self.build_all_bills_operation(fields)
+            fields = ['id', 'name', 'bill_number']
+        op = self.build_get_all_operation('bill', fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).bill
@@ -140,7 +170,7 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name']
-        op = self.build_all_committees_operation(fields)
+        op = self.build_get_all_operation('committee', fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).committee
@@ -152,8 +182,8 @@ class GraphQLClient:
         """
 
         if fields is None:
-            fields = ['id', 'name']
-        op = self.build_all_minutes_operation(fields)
+            fields = ['id', 'name', 'start_date_time']
+        op = self.build_get_all_operation('minutes', fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).minutes
@@ -165,8 +195,8 @@ class GraphQLClient:
         """
 
         if fields is None:
-            fields = ['id', 'title', 'published_at']
-        op = self.build_all_news_operation(fields, start_date, end_date)
+            fields = ['id', 'title', 'published_at', 'url']
+        op = self.build_get_all_news_operation(fields, start_date, end_date)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).news
@@ -177,68 +207,18 @@ class GraphQLClient:
             raise GraphQLException(res['errors'])
 
     @staticmethod
-    def build_all_bills_operation(fields):
-        op = Operation(Query)
-        bills = op.bill()
-        for field in fields:
-            getattr(bills, field)()
-        return op
-
-    @staticmethod
-    def build_all_committees_operation(fields):
-        op = Operation(Query)
-        committees = op.committee()
-        for field in fields:
-            getattr(committees, field)()
-        return op
-
-    @staticmethod
-    def build_all_minutes_operation(fields):
-        op = Operation(Query)
-        minutes = op.minutes()
-        for field in fields:
-            getattr(minutes, field)()
-        return op
-
-    @staticmethod
-    def build_all_news_operation(fields, start_date=None, end_date=None):
-        def to_neo4j_datetime(dt):
-            return _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
-
-        op = Operation(Query)
-        news_filter = _NewsFilter(None)
-        if start_date:
-            news_filter.published_at_gte = to_neo4j_datetime(start_date)
-        if end_date:
-            news_filter.published_at_lt = to_neo4j_datetime(end_date)
-        news = op.news(filter=news_filter)
-        for field in fields:
-            getattr(news, field)()
-        return op
-
-    @staticmethod
     def build_merge_operation(obj, op=None):
         param = GraphQLClient.build_merge_param(obj)
         if op is None:
             op = Operation(Mutation)
         else:
             param['__alias__'] = f'op{len(op)}'
-        if isinstance(obj, Bill):
-            res = op.merge_bill(**param)
-        elif isinstance(obj, Url):
-            res = op.merge_url(**param)
-        elif isinstance(obj, News):
-            res = op.merge_news(**param)
-        elif isinstance(obj, Minutes):
-            res = op.merge_minutes(**param)
-        elif isinstance(obj, Committee):
-            res = op.merge_committee(**param)
-        elif isinstance(obj, Speech):
-            res = op.merge_speech(**param)
-        elif isinstance(obj, Timeline):
-            res = op.merge_timeline(**param)
-        else:
-            raise GraphQLException(f'unknown object type to merge: {type(obj)}')
+
+        method_name = 'merge_{}'.format(obj.id.split(':')[0].lower())
+        try:
+            res = getattr(op, method_name)(**param)
+        except AttributeError:
+            raise GraphQLException(f'unknown id type : {id_}')
         res.id()
         return op
 
@@ -251,97 +231,12 @@ class GraphQLClient:
         return param
 
     @staticmethod
-    def build_link_operation(from_id, to_id, op=None):
-        if op is None:
-            op = Operation(Mutation)
-            maybe_alias = None
-        else:
-            maybe_alias = f'op{len(op)}'
-        if from_id.startswith('Url') and to_id.startswith('Bill'):
-            res = op.merge_url_referred_bills(
-                from_=_UrlInput({'id': from_id}),
-                to=_BillInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('Url') and to_id.startswith('Minutes'):
-            res = op.merge_url_referred_minutes(
-                from_=_UrlInput({'id': from_id}),
-                to=_MinutesInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('News') and to_id.startswith('Bill'):
-            res = op.merge_news_referred_bills(
-                from_=_NewsInput({'id': from_id}),
-                to=_BillInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('News') and to_id.startswith('Minutes'):
-            res = op.merge_news_referred_minutes(
-                from_=_NewsInput({'id': from_id}),
-                to=_MinutesInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('Speech') and to_id.startswith('Minutes'):
-            res = op.merge_speech_belonged_to_minutes(
-                from_=_SpeechInput({'id': from_id}),
-                to=_MinutesInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('Minutes') and to_id.startswith('Bill'):
-            res = op.merge_minutes_discussed_bills(
-                from_=_MinutesInput({'id': from_id}),
-                to=_BillInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('Minutes') and to_id.startswith('Committee'):
-            res = op.merge_minutes_belonged_to_committee(
-                from_=_MinutesInput({'id': from_id}),
-                to=_CommitteeInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('Bill') and to_id.startswith('Timeline'):
-            res = op.merge_timeline_bills(
-                from_=_BillInput({'id': from_id}),
-                to=_TimelineInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('Minutes') and to_id.startswith('Timeline'):
-            res = op.merge_timeline_minutes(
-                from_=_MinutesInput({'id': from_id}),
-                to=_TimelineInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        elif from_id.startswith('News') and to_id.startswith('Timeline'):
-            res = op.merge_timeline_news(
-                from_=_NewsInput({'id': from_id}),
-                to=_TimelineInput({'id': to_id}),
-                __alias__=maybe_alias
-            )
-        else:
-            raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
-        res.from_.id()
-        res.to.id()
-        return op
-
-    @staticmethod
     def build_get_operation(id_, fields=None):
         op = Operation(Query)
-        cls = id_.split(':')[0].lower()
-        if cls == 'bill':
-            obj = op.bill(filter=_BillFilter({'id': id_}))
-        elif cls == 'committee':
-            obj = op.committee(filter=_CommitteeFilter({'id': id_}))
-        elif cls == 'minutes':
-            obj = op.minutes(filter=_MinutesFilter({'id': id_}))
-        elif cls == 'speech':
-            obj = op.speech(filter=_SpeechFilter({'id': id_}))
-        elif cls == 'url':
-            obj = op.url(filter=_UrlFilter({'id': id_}))
-        elif cls == 'news':
-            obj = op.news(filter=_NewsFilter({'id': id_}))
-        elif cls == 'timeline':
-            obj = op.timeline(filter=_TimelineFilter({'id': id_}))
-        else:
+        method_name = id_.split(':')[0].lower()
+        try:
+            obj = getattr(op, method_name)(filter=GraphQLClient.build_filter(id_))
+        except AttributeError:
             raise GraphQLException(f'unknown id type : {id_}')
         if fields:
             for field in fields:
@@ -349,12 +244,106 @@ class GraphQLClient:
         return op
 
     @staticmethod
-    def build_delete_operation(id_):
-        op = Operation(Mutation)
-        cls = id_.split(':')[0].lower()
+    def build_delete_operation(id_, op=None):
+        if op is None:
+            op = Operation(Mutation)
+            maybe_alias = None
+        else:
+            maybe_alias = f'op{len(op)}'
+
+        method_name = 'delete_{}'.format(id_.split(':')[0].lower())
         try:
-            res = getattr(op, f'delete_{cls}')(id=id_)
+            res = getattr(op, method_name)(id=id_, __alias__=maybe_alias)
         except AttributeError:
             raise GraphQLException(f'unknown id type : {id_}')
         res.id()
+        return op
+
+    @staticmethod
+    def build_link_operation(from_id, to_id, remove=False, op=None):
+        if op is None:
+            op = Operation(Mutation)
+            maybe_alias = None
+        else:
+            maybe_alias = f'op{len(op)}'
+
+        method_name = 'remove_' if remove else 'merge_'
+        if from_id.startswith('Url') and to_id.startswith('Bill'):
+            method_name += 'url_referred_bills'
+        elif from_id.startswith('Url') and to_id.startswith('Minutes'):
+            method_name += 'url_referred_minutes'
+        elif from_id.startswith('News') and to_id.startswith('Bill'):
+            method_name += 'news_referred_bills'
+        elif from_id.startswith('News') and to_id.startswith('Minutes'):
+            method_name += 'news_referred_minutes'
+        elif from_id.startswith('Speech') and to_id.startswith('Minutes'):
+            method_name += 'speech_belonged_to_minutes'
+        elif from_id.startswith('Minutes') and to_id.startswith('Bill'):
+            method_name += 'minutes_discussed_bills'
+        elif from_id.startswith('Minutes') and to_id.startswith('Committee'):
+            method_name += 'minutes_belonged_to_committee'
+        elif from_id.startswith('Bill') and to_id.startswith('Timeline'):
+            method_name += 'timeline_bills'
+        elif from_id.startswith('Minutes') and to_id.startswith('Timeline'):
+            method_name += 'timeline_minutes'
+        elif from_id.startswith('News') and to_id.startswith('Timeline'):
+            method_name += 'timeline_news'
+        else:
+            raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
+
+        res = getattr(op, method_name)(
+            from_=GraphQLClient.build_input(from_id),
+            to=GraphQLClient.build_input(to_id),
+            __alias__=maybe_alias
+        )
+        res.from_.id()
+        res.to.id()
+        return op
+
+    @staticmethod
+    def build_input(id_: str):
+        # noinspection PyUnresolvedReferences
+        from politylink.graphql.schema import _BillInput, _CommitteeInput, _MinutesInput, _SpeechInput, \
+            _UrlInput, _NewsInput, _TimelineInput
+
+        class_name = '_{}Input'.format(id_.split(':')[0])
+        try:
+            return locals()[class_name]({'id': id_})
+        except KeyError:
+            raise GraphQLException(f'unknown id type to build GraphQL input: {id_}')
+
+    @staticmethod
+    def build_filter(id_: str):
+        # noinspection PyUnresolvedReferences
+        from politylink.graphql.schema import _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
+            _UrlFilter, _NewsFilter, _TimelineFilter
+
+        class_name = '_{}Filter'.format(id_.split(':')[0])
+        try:
+            return locals()[class_name]({'id': id_})
+        except KeyError:
+            raise GraphQLException(f'unknown id type to build GraphQL filter: {id_}')
+
+    @staticmethod
+    def build_get_all_operation(class_name, fields):
+        op = Operation(Query)
+        ret = getattr(op, class_name)
+        for field in fields:
+            getattr(ret, field)()
+        return op
+
+    @staticmethod
+    def build_get_all_news_operation(fields, start_date=None, end_date=None):
+        def to_neo4j_datetime(dt):
+            return _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
+
+        op = Operation(Query)
+        news_filter = _NewsFilter(None)
+        if start_date:
+            news_filter.published_at_gte = to_neo4j_datetime(start_date)
+        if end_date:
+            news_filter.published_at_lt = to_neo4j_datetime(end_date)
+        news = op.news(filter=news_filter)
+        for field in fields:
+            getattr(news, field)()
         return op
