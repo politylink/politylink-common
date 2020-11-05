@@ -41,8 +41,8 @@ class GraphQLClient:
         op = self.build_get_operation(id_, fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
-        cls = id_.split(':')[0].lower()
-        data = getattr(op + res, cls)
+        method_name = id_.split(':')[0].lower()
+        data = getattr(op + res, method_name)
         if len(data) == 0:
             raise GraphQLException(f'{id_} does not exist')
         elif len(data) == 1:
@@ -156,8 +156,8 @@ class GraphQLClient:
         """
 
         if fields is None:
-            fields = ['id', 'name', 'billNumber']
-        op = self.build_get_all_bills_operation(fields)
+            fields = ['id', 'name', 'bill_number']
+        op = self.build_get_all_operation('bill', fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).bill
@@ -170,7 +170,7 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name']
-        op = self.build_get_all_committees_operation(fields)
+        op = self.build_get_all_operation('committee', fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).committee
@@ -182,8 +182,8 @@ class GraphQLClient:
         """
 
         if fields is None:
-            fields = ['id', 'name']
-        op = self.build_get_all_minutes_operation(fields)
+            fields = ['id', 'name', 'start_date_time']
+        op = self.build_get_all_operation('minutes', fields)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
         return (op + res).minutes
@@ -195,7 +195,7 @@ class GraphQLClient:
         """
 
         if fields is None:
-            fields = ['id', 'title', 'published_at']
+            fields = ['id', 'title', 'published_at', 'url']
         op = self.build_get_all_news_operation(fields, start_date, end_date)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
@@ -325,27 +325,11 @@ class GraphQLClient:
             raise GraphQLException(f'unknown id type to build GraphQL filter: {id_}')
 
     @staticmethod
-    def build_get_all_bills_operation(fields):
+    def build_get_all_operation(class_name, fields):
         op = Operation(Query)
-        bills = op.bill()
+        ret = getattr(op, class_name)
         for field in fields:
-            getattr(bills, field)()
-        return op
-
-    @staticmethod
-    def build_get_all_committees_operation(fields):
-        op = Operation(Query)
-        committees = op.committee()
-        for field in fields:
-            getattr(committees, field)()
-        return op
-
-    @staticmethod
-    def build_get_all_minutes_operation(fields):
-        op = Operation(Query)
-        minutes = op.minutes()
-        for field in fields:
-            getattr(minutes, field)()
+            getattr(ret, field)()
         return op
 
     @staticmethod

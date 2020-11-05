@@ -178,9 +178,9 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id, remove=True))
         LOGGER.warning(GraphQLClient.build_get_operation(bill.id, ['id', 'name']))
         LOGGER.warning(GraphQLClient.build_delete_operation(bill.id))
-        LOGGER.warning(GraphQLClient.build_get_all_bills_operation(['id', 'name', 'bill_number']))
-        LOGGER.warning(GraphQLClient.build_get_all_committees_operation(['id', 'name']))
-        LOGGER.warning(GraphQLClient.build_get_all_minutes_operation(['id', 'name']))
+        LOGGER.warning(GraphQLClient.build_get_all_operation('bill', ['id', 'name', 'bill_number']))
+        LOGGER.warning(GraphQLClient.build_get_all_operation('committee', ['id', 'name']))
+        LOGGER.warning(GraphQLClient.build_get_all_operation('minutes', ['id', 'name', 'start_date_time']))
         LOGGER.warning(GraphQLClient.build_get_all_news_operation(['id']))
         LOGGER.warning(GraphQLClient.build_get_all_news_operation(
             ['id', 'title', 'published_at'],
