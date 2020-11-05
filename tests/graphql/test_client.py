@@ -76,51 +76,16 @@ class TestGraphQLClient:
 
         url = self._build_sample_url()
         bill = self._build_sample_bill()
-        news = self._build_sample_news()
-        speech = self._build_sample_speech()
-        minutes = self._build_sample_minutes()
-        committee = self._build_sample_committee()
-        timeline = self._build_sample_timeline()
 
         data = client.link(url.id, bill.id)
         assert data['MergeUrlReferredBills']['from']['id'] == url.id
         assert data['MergeUrlReferredBills']['to']['id'] == bill.id
+        assert url.id in map(lambda x: x.id, client.get(bill.id).urls)
 
-        data = client.link(url.id, minutes.id)
-        assert data['MergeUrlReferredMinutes']['from']['id'] == url.id
-        assert data['MergeUrlReferredMinutes']['to']['id'] == minutes.id
-
-        data = client.link(news.id, bill.id)
-        assert data['MergeNewsReferredBills']['from']['id'] == news.id
-        assert data['MergeNewsReferredBills']['to']['id'] == bill.id
-
-        data = client.link(news.id, minutes.id)
-        assert data['MergeNewsReferredMinutes']['from']['id'] == news.id
-        assert data['MergeNewsReferredMinutes']['to']['id'] == minutes.id
-
-        data = client.link(speech.id, minutes.id)
-        assert data['MergeSpeechBelongedToMinutes']['from']['id'] == speech.id
-        assert data['MergeSpeechBelongedToMinutes']['to']['id'] == minutes.id
-
-        data = client.link(minutes.id, bill.id)
-        assert data['MergeMinutesDiscussedBills']['from']['id'] == minutes.id
-        assert data['MergeMinutesDiscussedBills']['to']['id'] == bill.id
-
-        data = client.link(minutes.id, committee.id)
-        assert data['MergeMinutesBelongedToCommittee']['from']['id'] == minutes.id
-        assert data['MergeMinutesBelongedToCommittee']['to']['id'] == committee.id
-
-        data = client.link(bill.id, timeline.id)
-        assert data['MergeTimelineBills']['from']['id'] == bill.id
-        assert data['MergeTimelineBills']['to']['id'] == timeline.id
-
-        data = client.link(minutes.id, timeline.id)
-        assert data['MergeTimelineMinutes']['from']['id'] == minutes.id
-        assert data['MergeTimelineMinutes']['to']['id'] == timeline.id
-
-        data = client.link(news.id, timeline.id)
-        assert data['MergeTimelineNews']['from']['id'] == news.id
-        assert data['MergeTimelineNews']['to']['id'] == timeline.id
+        data = client.unlink(url.id, bill.id)
+        assert data['RemoveUrlReferredBills']['from']['id'] == url.id
+        assert data['RemoveUrlReferredBills']['to']['id'] == bill.id
+        assert url.id not in map(lambda x: x.id, client.get(bill.id).urls)
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_bulk_link(self):
@@ -132,13 +97,24 @@ class TestGraphQLClient:
 
         from_ids = [url.id, url.id]
         to_ids = [bill.id, minutes.id]
+
         data = client.bulk_link(from_ids, to_ids)
         assert data['op0']['from']['id'] == url.id
         assert data['op0']['to']['id'] == bill.id
         assert data['op1']['from']['id'] == url.id
         assert data['op1']['to']['id'] == minutes.id
+        assert url.id in map(lambda x: x.id, client.get(bill.id).urls)
+        assert url.id in map(lambda x: x.id, client.get(minutes.id).urls)
 
-    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='requires resources are already merged to GraphQL')
+        data = client.bulk_unlink(from_ids, to_ids)
+        assert data['op0']['from']['id'] == url.id
+        assert data['op0']['to']['id'] == bill.id
+        assert data['op1']['from']['id'] == url.id
+        assert data['op1']['to']['id'] == minutes.id
+        assert url.id not in map(lambda x: x.id, client.get(bill.id).urls)
+        assert url.id not in map(lambda x: x.id, client.get(minutes.id).urls)
+
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_get(self):
         client = GraphQLClient()
 
@@ -151,6 +127,7 @@ class TestGraphQLClient:
         timeline = self._build_sample_timeline()
 
         for obj in [url, bill, news, speech, minutes, committee, timeline]:
+            client.merge(obj)
             ret = client.get(obj.id)
             assert ret.id == obj.id
 
@@ -165,11 +142,12 @@ class TestGraphQLClient:
         client = GraphQLClient()
 
         speech = self._build_sample_speech()
-        client.delete(speech.id)
+        client.merge(speech)
+        client.get(speech.id)  # should exist
 
-        # should be deleted
+        client.delete(speech.id)
         with pytest.raises(GraphQLException):
-            client.get(speech.id)
+            client.get(speech.id)  # should be deleted
 
         with pytest.raises(GraphQLException):
             client.delete('invalid:class')
@@ -197,6 +175,7 @@ class TestGraphQLClient:
 
         LOGGER.warning(GraphQLClient.build_merge_operation(bill))
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
+        LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id, remove=True))
         LOGGER.warning(GraphQLClient.build_get_operation(bill.id, ['id', 'name']))
         LOGGER.warning(GraphQLClient.build_delete_operation(bill.id))
         LOGGER.warning(GraphQLClient.build_get_all_bills_operation(['id', 'name', 'bill_number']))

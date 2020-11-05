@@ -5,8 +5,7 @@ from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
-from politylink.graphql.schema import \
-    _NewsFilter, _Neo4jDateTimeInput
+from politylink.graphql.schema import _NewsFilter, _Neo4jDateTimeInput
 
 MAX_BATCH_SIZE = 100
 
@@ -88,7 +87,7 @@ class GraphQLClient:
         :return: json data
         """
 
-        op = self.build_unlink_operation(from_id, to_id)
+        op = self.build_link_operation(from_id, to_id, remove=True)
         return self.exec(op)
 
     def bulk_merge(self, objects):
@@ -134,7 +133,8 @@ class GraphQLClient:
         :return: json data of the last request
         """
 
-        op_builder_list = map(lambda x, y: partial(self.build_unlink_operation, from_id=x, to_id=y), from_ids, to_ids)
+        op_builder_list = map(lambda x, y: partial(self.build_link_operation, from_id=x, to_id=y, remove=True),
+                              from_ids, to_ids)
         return self.bulk_mutation(op_builder_list)
 
     def bulk_mutation(self, op_builder_list):
@@ -260,33 +260,34 @@ class GraphQLClient:
         return op
 
     @staticmethod
-    def build_link_operation(from_id, to_id, op=None):
+    def build_link_operation(from_id, to_id, remove=False, op=None):
         if op is None:
             op = Operation(Mutation)
             maybe_alias = None
         else:
             maybe_alias = f'op{len(op)}'
 
+        method_name = 'remove_' if remove else 'merge_'
         if from_id.startswith('Url') and to_id.startswith('Bill'):
-            method_name = 'merge_url_referred_bills'
+            method_name += 'url_referred_bills'
         elif from_id.startswith('Url') and to_id.startswith('Minutes'):
-            method_name = 'merge_url_referred_minutes'
+            method_name += 'url_referred_minutes'
         elif from_id.startswith('News') and to_id.startswith('Bill'):
-            method_name = 'merge_news_referred_bills'
+            method_name += 'news_referred_bills'
         elif from_id.startswith('News') and to_id.startswith('Minutes'):
-            method_name = 'merge_news_referred_minutes'
+            method_name += 'news_referred_minutes'
         elif from_id.startswith('Speech') and to_id.startswith('Minutes'):
-            method_name = 'merge_speech_belonged_to_minutes'
+            method_name += 'speech_belonged_to_minutes'
         elif from_id.startswith('Minutes') and to_id.startswith('Bill'):
-            method_name = 'merge_minutes_discussed_bills'
+            method_name += 'minutes_discussed_bills'
         elif from_id.startswith('Minutes') and to_id.startswith('Committee'):
-            method_name = 'merge_minutes_belonged_to_committee'
+            method_name += 'minutes_belonged_to_committee'
         elif from_id.startswith('Bill') and to_id.startswith('Timeline'):
-            method_name = 'merge_timeline_bills'
+            method_name += 'timeline_bills'
         elif from_id.startswith('Minutes') and to_id.startswith('Timeline'):
-            method_name = 'merge_timeline_minutes'
+            method_name += 'timeline_minutes'
         elif from_id.startswith('News') and to_id.startswith('Timeline'):
-            method_name = 'merge_timeline_news'
+            method_name += 'timeline_news'
         else:
             raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
 
@@ -298,11 +299,6 @@ class GraphQLClient:
         res.from_.id()
         res.to.id()
         return op
-
-    @staticmethod
-    def build_unlink_operation(from_id, to_id, op=None):
-        # ToDo: implement
-        return Operation(Mutation)
 
     @staticmethod
     def build_input(id_: str):
