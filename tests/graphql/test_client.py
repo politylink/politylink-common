@@ -7,7 +7,7 @@ from sgqlc.operation import Operation
 from politylink.graphql import POLITYLINK_AUTH
 from politylink.graphql.client import GraphQLClient, GraphQLException
 from politylink.graphql.schema import *
-from politylink.graphql.schema import _Neo4jDateTimeInput
+from politylink.graphql.schema import _Neo4jDateTimeInput, _BillInput, _MinutesInput
 from politylink.idgen import idgen
 
 LOGGER = getLogger(__name__)
@@ -177,6 +177,20 @@ class TestGraphQLClient:
         # don't raise exception when given non-existing id
         client.delete('bill:invalid')
 
+    def test_build_input(self):
+        bill_id = 'Bill:id'
+        bill_input = GraphQLClient.build_input(bill_id)
+        assert isinstance(bill_input, _BillInput)
+        assert bill_input.id == bill_id
+
+        minutes_id = 'Minutes:id'
+        minutes_input = GraphQLClient.build_input(minutes_id)
+        assert isinstance(minutes_input, _MinutesInput)
+        assert minutes_input.id == minutes_id
+
+        with pytest.raises(GraphQLException):
+            GraphQLClient.build_input('invalid:id')
+
     def test_show_ops(self):
         bill = self._build_sample_bill()
         url = self._build_sample_url()
@@ -185,11 +199,11 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
         LOGGER.warning(GraphQLClient.build_get_operation(bill.id, ['id', 'name']))
         LOGGER.warning(GraphQLClient.build_delete_operation(bill.id))
-        LOGGER.warning(GraphQLClient.build_all_bills_operation(['id', 'name', 'bill_number']))
-        LOGGER.warning(GraphQLClient.build_all_committees_operation(['id', 'name']))
-        LOGGER.warning(GraphQLClient.build_all_minutes_operation(['id', 'name']))
-        LOGGER.warning(GraphQLClient.build_all_news_operation(['id']))
-        LOGGER.warning(GraphQLClient.build_all_news_operation(
+        LOGGER.warning(GraphQLClient.build_get_all_bills_operation(['id', 'name', 'bill_number']))
+        LOGGER.warning(GraphQLClient.build_get_all_committees_operation(['id', 'name']))
+        LOGGER.warning(GraphQLClient.build_get_all_minutes_operation(['id', 'name']))
+        LOGGER.warning(GraphQLClient.build_get_all_news_operation(['id']))
+        LOGGER.warning(GraphQLClient.build_get_all_news_operation(
             ['id', 'title', 'published_at'],
             datetime(year=2020, month=1, day=1),
             datetime(year=2020, month=2, day=1))
