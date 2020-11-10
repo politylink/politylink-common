@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from politylink.graphql.client import GraphQLClient
 
 
@@ -14,13 +12,23 @@ class BillFinder:
         else:
             client = GraphQLClient()
             self.bills = client.get_all_bills(['id', 'name', 'bill_number'])
-        self.name2bills = defaultdict(list)
-        self.number2bill = defaultdict(list)
-        for bill in self.bills:
-            if hasattr(bill, 'name'):
-                self.name2bills[bill.name].append(bill)
-            if hasattr(bill, 'bill_number'):
-                self.number2bill[bill.bill_number].append(bill)
 
     def find(self, text):
-        return self.name2bills[text] + self.number2bill[text]
+        return list(filter(lambda x: self.match(x, text), self.bills))
+
+    def find_one(self, text):
+        bills = self.find(text)
+        if len(bills) == 1:
+            return bills[0]
+        else:
+            raise ValueError(f'found {len(bills)} bills that match with {text}:{bills}')
+
+    @staticmethod
+    def match(bill, text):
+        fields = ['name', 'bill_number']
+        for field in fields:
+            if hasattr(bill, field) and getattr(bill, field):
+                field_text = getattr(bill, field)
+                if text in field_text or field_text in text:
+                    return True
+        return False
