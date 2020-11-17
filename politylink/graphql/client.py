@@ -289,7 +289,7 @@ class GraphQLClient:
         elif from_id.startswith('News') and to_id.startswith('Timeline'):
             method_name += 'timeline_news'
         elif from_id.startswith('Bill') and to_id.startswith('Committee'):
-            method_name += 'bill_be_referred_to_committee'
+            method_name += 'bill_belonged_to_committees'
         else:
             raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
 
