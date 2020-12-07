@@ -6,11 +6,11 @@ class BillFinder:
     Cache based Bill finder
     """
 
-    def __init__(self, bills=None):
+    def __init__(self, bills=None, **kwargs):
         if bills:
             self.bills = bills
         else:
-            client = GraphQLClient()
+            client = GraphQLClient(**kwargs)
             self.bills = client.get_all_bills(['id', 'name', 'bill_number'])
 
     def find(self, text):

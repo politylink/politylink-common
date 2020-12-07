@@ -9,8 +9,8 @@ class MinutesFinder:
     GraphQL based Minutes finder
     """
 
-    def __init__(self):
-        self.client = GraphQLClient()
+    def __init__(self, **kwargs):
+        self.client = GraphQLClient(**kwargs)
 
     def find(self, text, dt=None):
         op = Operation(Query)

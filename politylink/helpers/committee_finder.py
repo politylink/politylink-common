@@ -6,11 +6,11 @@ class CommitteeFinder:
     Cache based Committee finder
     """
 
-    def __init__(self, committees=None):
+    def __init__(self, committees=None, **kwargs):
         if committees:
             self.committees = committees
         else:
-            client = GraphQLClient()
+            client = GraphQLClient(**kwargs)
             self.committees = client.get_all_committees(['id', 'name', 'aliases'])
 
     def find(self, text):
