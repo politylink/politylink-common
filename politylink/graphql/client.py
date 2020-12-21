@@ -294,7 +294,7 @@ class GraphQLClient:
     def build_input(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillInput, _CommitteeInput, _MinutesInput, _SpeechInput, \
-            _UrlInput, _NewsInput, _TimelineInput
+            _UrlInput, _NewsInput, _TimelineInput, _MemberInput
 
         class_name = '_{}Input'.format(id_.split(':')[0])
         try:
@@ -306,7 +306,7 @@ class GraphQLClient:
     def build_filter(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
-            _UrlFilter, _NewsFilter, _TimelineFilter
+            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter
 
         class_name = '_{}Filter'.format(id_.split(':')[0])
         try:
@@ -340,16 +340,26 @@ class GraphQLClient:
 
 
 # key1: from_id type, key2: to_id type, value: link method name
+# we may automatically generate this map from schema.py
 _link_method_name_map = {
     ('Url', 'Bill'): 'url_referred_bills',
+    ('Url', 'Law'): 'url_referred_laws',
+    ('Url', 'Member'): 'url_referred_members',
     ('Url', 'Minutes'): 'url_referred_minutes',
     ('News', 'Bill'): 'news_referred_bills',
+    ('News', 'Law'): 'news_referred_laws',
+    ('News', 'Member'): 'news_referred_members',
     ('News', 'Minutes'): 'news_referred_minutes',
     ('News', 'Timeline'): 'timeline_news',
     ('Speech', 'Minutes'): 'speech_belonged_to_minutes',
     ('Minutes', 'Bill'): 'minutes_discussed_bills',
+    ('Minutes', 'Law'): 'minutes_discussed_laws',
     ('Minutes', 'Committee'): 'minutes_belonged_to_committee',
     ('Minutes', 'Timeline'): 'timeline_minutes',
     ('Bill', 'Committee'): 'bill_belonged_to_committees',
     ('Bill', 'Timeline'): 'timeline_bills',
+    ('Member', 'Bill'): 'member_submitted_bills',
+    ('Member', 'Diet'): 'member_attended_diets',
+    ('Member', 'Speech'): 'member_delivered_speeches',
+    ('Member', 'Minutes'): 'member_attended_minutes'
 }

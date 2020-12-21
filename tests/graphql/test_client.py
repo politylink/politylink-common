@@ -5,7 +5,7 @@ import pytest
 from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH
-from politylink.graphql.client import GraphQLClient, GraphQLException
+from politylink.graphql.client import GraphQLClient, GraphQLException, _link_method_name_map
 from politylink.graphql.schema import *
 from politylink.graphql.schema import _Neo4jDateTimeInput, _BillInput, _MinutesInput
 from politylink.idgen import idgen
@@ -58,6 +58,10 @@ class TestGraphQLClient:
         timeline = self._build_sample_timeline()
         data = client.merge(timeline)
         assert data['MergeTimeline']['id'] == timeline.id
+
+        member = self._build_sample_member()
+        data = client.merge(member)
+        assert data['MergeMember']['id'] == member.id
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_bulk_merge(self):
@@ -114,6 +118,12 @@ class TestGraphQLClient:
         assert url.id not in map(lambda x: x.id, client.get(bill.id).urls)
         assert url.id not in map(lambda x: x.id, client.get(minutes.id).urls)
 
+    def test_link_method_name(self):
+        for key, val in _link_method_name_map.items():
+            assert key[0] in globals(), 'invalid from id type'
+            assert key[1] in globals(), 'invalid to id type'
+            assert f'merge_{val}' in Mutation.__field_names__, 'invalid link method name'
+
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_get(self):
         client = GraphQLClient()
@@ -125,8 +135,9 @@ class TestGraphQLClient:
         minutes = self._build_sample_minutes()
         committee = self._build_sample_committee()
         timeline = self._build_sample_timeline()
+        member = self._build_sample_member()
 
-        for obj in [url, bill, news, speech, minutes, committee, timeline]:
+        for obj in [url, bill, news, speech, minutes, committee, timeline, member]:
             client.merge(obj)
             ret = client.get(obj.id)
             assert ret.id == obj.id
@@ -249,3 +260,10 @@ class TestGraphQLClient:
         timeline.date = _Neo4jDateTimeInput(year=2020, month=1, day=1)
         timeline.id = idgen(timeline)
         return timeline
+
+    @staticmethod
+    def _build_sample_member():
+        member = Member(None)
+        member.name = 'ネコ・チャン'
+        member.id = idgen(member)
+        return member
