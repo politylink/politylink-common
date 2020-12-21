@@ -267,32 +267,7 @@ class GraphQLClient:
         else:
             maybe_alias = f'op{len(op)}'
 
-        method_name = 'remove_' if remove else 'merge_'
-        if from_id.startswith('Url') and to_id.startswith('Bill'):
-            method_name += 'url_referred_bills'
-        elif from_id.startswith('Url') and to_id.startswith('Minutes'):
-            method_name += 'url_referred_minutes'
-        elif from_id.startswith('News') and to_id.startswith('Bill'):
-            method_name += 'news_referred_bills'
-        elif from_id.startswith('News') and to_id.startswith('Minutes'):
-            method_name += 'news_referred_minutes'
-        elif from_id.startswith('Speech') and to_id.startswith('Minutes'):
-            method_name += 'speech_belonged_to_minutes'
-        elif from_id.startswith('Minutes') and to_id.startswith('Bill'):
-            method_name += 'minutes_discussed_bills'
-        elif from_id.startswith('Minutes') and to_id.startswith('Committee'):
-            method_name += 'minutes_belonged_to_committee'
-        elif from_id.startswith('Bill') and to_id.startswith('Timeline'):
-            method_name += 'timeline_bills'
-        elif from_id.startswith('Minutes') and to_id.startswith('Timeline'):
-            method_name += 'timeline_minutes'
-        elif from_id.startswith('News') and to_id.startswith('Timeline'):
-            method_name += 'timeline_news'
-        elif from_id.startswith('Bill') and to_id.startswith('Committee'):
-            method_name += 'bill_belonged_to_committees'
-        else:
-            raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
-
+        method_name = GraphQLClient.build_link_method_name(from_id, to_id, remove)
         res = getattr(op, method_name)(
             from_=GraphQLClient.build_input(from_id),
             to=GraphQLClient.build_input(to_id),
@@ -301,6 +276,19 @@ class GraphQLClient:
         res.from_.id()
         res.to.id()
         return op
+
+    @staticmethod
+    def build_link_method_name(from_id, to_id, remove=False):
+        from_id_type = from_id.split(':')[0]
+        to_id_type = to_id.split(':')[0]
+        key = (from_id_type, to_id_type)
+
+        if key not in _link_method_name_map:
+            raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
+
+        method_prefix = 'remove' if remove else 'merge'
+        method_body = _link_method_name_map[key]
+        return f'{method_prefix}_{method_body}'
 
     @staticmethod
     def build_input(id_: str):
@@ -349,3 +337,19 @@ class GraphQLClient:
         for field in fields:
             getattr(news, field)()
         return op
+
+
+# key1: from_id type, key2: to_id type, value: link method name
+_link_method_name_map = {
+    ('Url', 'Bill'): 'url_referred_bills',
+    ('Url', 'Minutes'): 'url_referred_minutes',
+    ('News', 'Bill'): 'news_referred_bills',
+    ('News', 'Minutes'): 'news_referred_minutes',
+    ('News', 'Timeline'): 'timeline_news',
+    ('Speech', 'Minutes'): 'speech_belonged_to_minutes',
+    ('Minutes', 'Bill'): 'minutes_discussed_bills',
+    ('Minutes', 'Committee'): 'minutes_belonged_to_committee',
+    ('Minutes', 'Timeline'): 'timeline_minutes',
+    ('Bill', 'Committee'): 'bill_belonged_to_committees',
+    ('Bill', 'Timeline'): 'timeline_bills',
+}
