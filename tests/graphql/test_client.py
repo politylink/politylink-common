@@ -1,4 +1,3 @@
-from datetime import datetime
 from logging import getLogger
 
 import pytest
@@ -7,7 +6,7 @@ from sgqlc.operation import Operation
 from politylink.graphql import POLITYLINK_AUTH
 from politylink.graphql.client import GraphQLClient, GraphQLException, _link_method_name_map
 from politylink.graphql.schema import *
-from politylink.graphql.schema import _Neo4jDateTimeInput, _BillInput, _MinutesInput
+from politylink.graphql.schema import _Neo4jDateTimeInput, _BillInput, _MinutesInput, _BillFilter
 from politylink.idgen import idgen
 
 LOGGER = getLogger(__name__)
@@ -166,6 +165,19 @@ class TestGraphQLClient:
         # don't raise exception when given non-existing id
         client.delete('bill:invalid')
 
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
+    def test_get_all_bills(self):
+        client = GraphQLClient()
+        bill = self._build_sample_bill()
+        client.merge(bill)
+        query = '公文書'
+        bills = client.get_all_bills(fields=['id', 'name'], filter_=_BillFilter({'name_contains': query}))
+
+        assert len(bills) > 0
+        for bill in bills:
+            assert isinstance(bill, Bill)
+            assert query in bill.name
+
     def test_build_input(self):
         bill_id = 'Bill:id'
         bill_input = GraphQLClient.build_input(bill_id)
@@ -189,15 +201,8 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id, remove=True))
         LOGGER.warning(GraphQLClient.build_get_operation(bill.id, ['id', 'name']))
         LOGGER.warning(GraphQLClient.build_delete_operation(bill.id))
-        LOGGER.warning(GraphQLClient.build_get_all_operation('bill', ['id', 'name', 'bill_number']))
-        LOGGER.warning(GraphQLClient.build_get_all_operation('committee', ['id', 'name']))
-        LOGGER.warning(GraphQLClient.build_get_all_operation('minutes', ['id', 'name', 'start_date_time']))
-        LOGGER.warning(GraphQLClient.build_get_all_news_operation(['id']))
-        LOGGER.warning(GraphQLClient.build_get_all_news_operation(
-            ['id', 'title', 'published_at'],
-            datetime(year=2020, month=1, day=1),
-            datetime(year=2020, month=2, day=1))
-        )
+        LOGGER.warning(GraphQLClient.build_get_all_operation('bill', ['id', 'name'],
+                                                             _BillFilter({'name_contains': '公文書'})))
 
         bulk_op = Operation(Mutation)
         bulk_op = GraphQLClient.build_merge_operation(bill, bulk_op)
