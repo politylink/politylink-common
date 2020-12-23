@@ -34,7 +34,7 @@ client.exec(query)
 ```
 
 また、`get_all_*`メソッドを使うことで、返り値をJSONではなくPythonクラスのインスタンスとして取得することができます。
-例えば`get_all_bills`では全ての法律案をフィールドを指定して取得することができます。
+例えば`get_all_bills`では法律案をBillインスタンスとして取得することができます。
 
 ```
 bills = client.get_all_bills(fields=['id', 'name'])
@@ -44,8 +44,8 @@ print(f'{len(bills)}件の法律案を取得しました')
 print(f'最初の法律案は「{first_bill.name}」（{first_bill.id}）です')
 ```
 
-全ての法律案のIDと名前（name）が得られるはずです。
-返り値はBillクラスのインスタンスなので、ドットを使ってアクセスできます。
+全ての法律案のidと名前（name）が得られるはずです。
+返り値はBillインスタンスなので、ドットを使って各フィールドにアクセスできます。
 ```
 207件の法律案を取得しました
 最初の法律案は「地方交付税法及び特別会計に関する法律の一部を改正する法律案」（Bill:s1QZfjoCPyfdXXbrplP3-A）です
@@ -57,7 +57,7 @@ print(f'最初の法律案は「{first_bill.name}」（{first_bill.id}）です'
 #### 応用編
 
 GraphQLClientは[sgglc](https://github.com/profusion/sgqlc)のラッパークラスであり、クエリをコードで組み立てることも可能です。
-例えば最初の`exec`のクエリを組み立てると以下のようになります。
+例えば最初の`exec`の例のクエリを組み立てると以下のようになります。
 
 ```
 from politylink.graphql.schema import Query, _BillFilter, _Neo4jDateTimeInput
