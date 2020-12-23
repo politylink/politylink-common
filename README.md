@@ -56,7 +56,7 @@ print(f'最初の法律案は「{first_bill.name}」（{first_bill.id}）です'
 
 #### 応用編
 
-GraphQLClientは[sgglc](https://github.com/profusion/sgqlc)のラッパークラスであり、クエリをコードで組み立てることも可能です。
+GraphQLClientは[sgqlc](https://github.com/profusion/sgqlc)のラッパークラスであり、クエリをコードで組み立てることも可能です。
 例えば最初の`exec`の例のクエリを組み立てると以下のようになります。
 
 ```
