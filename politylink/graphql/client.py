@@ -7,8 +7,6 @@ from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
 from politylink.graphql.schema import _NewsFilter, _Neo4jDateTimeInput
 
-MAX_BATCH_SIZE = 100
-
 
 class GraphQLException(Exception):
     pass
@@ -19,8 +17,9 @@ class GraphQLClient:
     GraphQLClient for PolityLink endpoint
     """
 
-    def __init__(self, url=POLITYLINK_URL, auth=POLITYLINK_AUTH):
+    def __init__(self, url=POLITYLINK_URL, auth=POLITYLINK_AUTH, batch_size=100):
         self.endpoint = HTTPEndpoint(url, {'Authorization': auth}, timeout=30)
+        self.batch_size = batch_size
 
     def exec(self, op):
         """
@@ -142,14 +141,14 @@ class GraphQLClient:
         op = Operation(Mutation)
         for op_builder in op_builder_list:
             op = op_builder(op=op)
-            if len(op) >= MAX_BATCH_SIZE:
+            if len(op) >= self.batch_size:
                 ret = self.exec(op)
                 op = Operation(Mutation)
         if len(op):
             ret = self.exec(op)
         return ret
 
-    def get_all_bills(self, fields=None):
+    def get_all_bills(self, fields=None, filter_=None):
         """
         Special method to get all Bills
         :return: list of Bills
@@ -157,12 +156,9 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name', 'bill_number']
-        op = self.build_get_all_operation('bill', fields)
-        res = self.endpoint(op)
-        self.validate_response_or_raise(res)
-        return (op + res).bill
+        return self.get_all_objects('bill', fields, filter_)
 
-    def get_all_committees(self, fields=None):
+    def get_all_committees(self, fields=None, filter_=None):
         """
         Special method to get all Committees
         :return: list of Committees
@@ -170,12 +166,9 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name']
-        op = self.build_get_all_operation('committee', fields)
-        res = self.endpoint(op)
-        self.validate_response_or_raise(res)
-        return (op + res).committee
+        return self.get_all_objects('committee', fields, filter_)
 
-    def get_all_minutes(self, fields=None):
+    def get_all_minutes(self, fields=None, filter_=None):
         """
         Special method to get all Minutes
         :return: list of Minutes
@@ -183,23 +176,42 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name', 'start_date_time']
-        op = self.build_get_all_operation('minutes', fields)
-        res = self.endpoint(op)
-        self.validate_response_or_raise(res)
-        return (op + res).minutes
+        return self.get_all_objects('minutes', fields, filter_)
 
-    def get_all_news(self, fields=None, start_date=None, end_date=None):
+    def get_all_members(self, fields=None, filter_=None):
+        """
+        Special method to get all Members
+        :return: list of Members
+        """
+
+        if fields is None:
+            fields = ['id', 'name']
+        return self.get_all_objects('member', fields, filter_)
+
+    def get_all_news(self, fields=None, filter_=None, start_date=None, end_date=None):
         """
         Special method to get all News
         :return: list of News
         """
 
+        def to_neo4j_datetime(dt):
+            return _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
+
         if fields is None:
             fields = ['id', 'title', 'published_at', 'url']
-        op = self.build_get_all_news_operation(fields, start_date, end_date)
+        if filter_ is None:
+            filter_ = _NewsFilter(None)
+        if start_date:
+            filter_.published_at_gte = to_neo4j_datetime(start_date)
+        if end_date:
+            filter_.published_at_lt = to_neo4j_datetime(end_date)
+        return self.get_all_objects('news', fields, filter_)
+
+    def get_all_objects(self, class_name, fields=None, filter_=None):
+        op = self.build_get_all_operation(class_name, fields, filter_)
         res = self.endpoint(op)
         self.validate_response_or_raise(res)
-        return (op + res).news
+        return getattr(op + res, class_name)
 
     @staticmethod
     def validate_response_or_raise(res):
@@ -267,32 +279,7 @@ class GraphQLClient:
         else:
             maybe_alias = f'op{len(op)}'
 
-        method_name = 'remove_' if remove else 'merge_'
-        if from_id.startswith('Url') and to_id.startswith('Bill'):
-            method_name += 'url_referred_bills'
-        elif from_id.startswith('Url') and to_id.startswith('Minutes'):
-            method_name += 'url_referred_minutes'
-        elif from_id.startswith('News') and to_id.startswith('Bill'):
-            method_name += 'news_referred_bills'
-        elif from_id.startswith('News') and to_id.startswith('Minutes'):
-            method_name += 'news_referred_minutes'
-        elif from_id.startswith('Speech') and to_id.startswith('Minutes'):
-            method_name += 'speech_belonged_to_minutes'
-        elif from_id.startswith('Minutes') and to_id.startswith('Bill'):
-            method_name += 'minutes_discussed_bills'
-        elif from_id.startswith('Minutes') and to_id.startswith('Committee'):
-            method_name += 'minutes_belonged_to_committee'
-        elif from_id.startswith('Bill') and to_id.startswith('Timeline'):
-            method_name += 'timeline_bills'
-        elif from_id.startswith('Minutes') and to_id.startswith('Timeline'):
-            method_name += 'timeline_minutes'
-        elif from_id.startswith('News') and to_id.startswith('Timeline'):
-            method_name += 'timeline_news'
-        elif from_id.startswith('Bill') and to_id.startswith('Committee'):
-            method_name += 'bill_belonged_to_committees'
-        else:
-            raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
-
+        method_name = GraphQLClient.build_link_method_name(from_id, to_id, remove)
         res = getattr(op, method_name)(
             from_=GraphQLClient.build_input(from_id),
             to=GraphQLClient.build_input(to_id),
@@ -303,10 +290,23 @@ class GraphQLClient:
         return op
 
     @staticmethod
+    def build_link_method_name(from_id, to_id, remove=False):
+        from_id_type = from_id.split(':')[0]
+        to_id_type = to_id.split(':')[0]
+        key = (from_id_type, to_id_type)
+
+        if key not in _link_method_name_map:
+            raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
+
+        method_prefix = 'remove' if remove else 'merge'
+        method_body = _link_method_name_map[key]
+        return f'{method_prefix}_{method_body}'
+
+    @staticmethod
     def build_input(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillInput, _CommitteeInput, _MinutesInput, _SpeechInput, \
-            _UrlInput, _NewsInput, _TimelineInput
+            _UrlInput, _NewsInput, _TimelineInput, _MemberInput
 
         class_name = '_{}Input'.format(id_.split(':')[0])
         try:
@@ -318,7 +318,7 @@ class GraphQLClient:
     def build_filter(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
-            _UrlFilter, _NewsFilter, _TimelineFilter
+            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter
 
         class_name = '_{}Filter'.format(id_.split(':')[0])
         try:
@@ -327,25 +327,36 @@ class GraphQLClient:
             raise GraphQLException(f'unknown id type to build GraphQL filter: {id_}')
 
     @staticmethod
-    def build_get_all_operation(class_name, fields):
+    def build_get_all_operation(class_name, fields=None, filter_=None):
         op = Operation(Query)
-        ret = getattr(op, class_name)
-        for field in fields:
-            getattr(ret, field)()
+        ret = getattr(op, class_name)(filter=filter_)
+        if fields is not None:
+            for field in fields:
+                getattr(ret, field)()
         return op
 
-    @staticmethod
-    def build_get_all_news_operation(fields, start_date=None, end_date=None):
-        def to_neo4j_datetime(dt):
-            return _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
 
-        op = Operation(Query)
-        news_filter = _NewsFilter(None)
-        if start_date:
-            news_filter.published_at_gte = to_neo4j_datetime(start_date)
-        if end_date:
-            news_filter.published_at_lt = to_neo4j_datetime(end_date)
-        news = op.news(filter=news_filter)
-        for field in fields:
-            getattr(news, field)()
-        return op
+# key1: from id type, key2: to id type, value: link method name
+# we may automatically generate this map from schema.py
+_link_method_name_map = {
+    ('Url', 'Bill'): 'url_referred_bills',
+    ('Url', 'Law'): 'url_referred_laws',
+    ('Url', 'Member'): 'url_referred_members',
+    ('Url', 'Minutes'): 'url_referred_minutes',
+    ('News', 'Bill'): 'news_referred_bills',
+    ('News', 'Law'): 'news_referred_laws',
+    ('News', 'Member'): 'news_referred_members',
+    ('News', 'Minutes'): 'news_referred_minutes',
+    ('News', 'Timeline'): 'timeline_news',
+    ('Speech', 'Minutes'): 'speech_belonged_to_minutes',
+    ('Minutes', 'Bill'): 'minutes_discussed_bills',
+    ('Minutes', 'Law'): 'minutes_discussed_laws',
+    ('Minutes', 'Committee'): 'minutes_belonged_to_committee',
+    ('Minutes', 'Timeline'): 'timeline_minutes',
+    ('Bill', 'Committee'): 'bill_belonged_to_committees',
+    ('Bill', 'Timeline'): 'timeline_bills',
+    ('Member', 'Bill'): 'member_submitted_bills',
+    ('Member', 'Diet'): 'member_attended_diets',
+    ('Member', 'Speech'): 'member_delivered_speeches',
+    ('Member', 'Minutes'): 'member_attended_minutes'
+}
