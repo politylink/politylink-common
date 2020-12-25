@@ -230,7 +230,7 @@ class GraphQLClient:
         try:
             res = getattr(op, method_name)(**param)
         except AttributeError:
-            raise GraphQLException(f'unknown id type : {id_}')
+            raise GraphQLException(f'unknown id type : {obj.id}')
         res.id()
         return op
 
