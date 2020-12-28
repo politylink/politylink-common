@@ -2,7 +2,7 @@ from typing import List
 
 
 class AbstractFinder:
-    search_fields: list = NotImplemented
+    search_fields = []
 
     def find(self, text) -> list:
         NotImplemented
