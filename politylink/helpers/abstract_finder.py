@@ -12,7 +12,7 @@ class AbstractFinder:
         if len(objects) == 1:
             return objects[0]
         else:
-            raise ValueError(f'found {len(objects)} results that match with {text}:{objects}')
+            raise ValueError(f'{self.__class__.__name__} found {len(objects)} results that match with {text}:{objects}')
 
     @classmethod
     def match(cls, obj, text) -> bool:
