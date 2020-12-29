@@ -306,7 +306,7 @@ class GraphQLClient:
     def build_input(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillInput, _CommitteeInput, _MinutesInput, _SpeechInput, \
-            _UrlInput, _NewsInput, _TimelineInput, _MemberInput
+            _UrlInput, _NewsInput, _TimelineInput, _MemberInput, _DietInput
 
         class_name = '_{}Input'.format(id_.split(':')[0])
         try:
@@ -318,7 +318,7 @@ class GraphQLClient:
     def build_filter(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
-            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter
+            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter, _DietFilter
 
         class_name = '_{}Filter'.format(id_.split(':')[0])
         try:
@@ -353,8 +353,10 @@ _link_method_name_map = {
     ('Minutes', 'Law'): 'minutes_discussed_laws',
     ('Minutes', 'Committee'): 'minutes_belonged_to_committee',
     ('Minutes', 'Timeline'): 'timeline_minutes',
+    ('Minutes', 'Diet'): 'minutes_belonged_to_diet',
     ('Bill', 'Committee'): 'bill_belonged_to_committees',
     ('Bill', 'Timeline'): 'timeline_bills',
+    ('Bill', 'Diet'): 'bill_belonged_to_diets',
     ('Member', 'Bill'): 'member_submitted_bills',
     ('Member', 'Diet'): 'member_attended_diets',
     ('Member', 'Speech'): 'member_delivered_speeches',
