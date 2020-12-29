@@ -32,13 +32,13 @@ class GraphQLClient:
         self.validate_response_or_raise(res)
         return res['data']
 
-    def get(self, id_, fields=None):
+    def get(self, id_, fields=None, depth=2):
         """
         General method to get single GraphQL object by id
         """
 
         op = self.build_get_operation(id_, fields)
-        res = self.endpoint(op)
+        res = self.endpoint(op.__to_graphql__(auto_select_depth=depth))
         self.validate_response_or_raise(res)
         method_name = id_.split(':')[0].lower()
         data = getattr(op + res, method_name)
