@@ -70,12 +70,12 @@ class _LawOrdering(sgqlc.types.Enum):
 
 class _MemberOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'nameHira_asc', 'nameHira_desc', 'firstName_asc', 'firstName_desc', 'firstNameHira_asc', 'firstNameHira_desc', 'lastName_asc', 'lastName_desc', 'lastNameHira_asc', 'lastNameHira_desc', 'house_asc', 'house_desc', 'description_asc', 'description_desc', 'image_asc', 'image_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'nameHira_asc', 'nameHira_desc', 'firstName_asc', 'firstName_desc', 'firstNameHira_asc', 'firstNameHira_desc', 'lastName_asc', 'lastName_desc', 'lastNameHira_asc', 'lastNameHira_desc', 'house_asc', 'house_desc', 'description_asc', 'description_desc', 'image_asc', 'image_desc', 'totalMinutes_asc', 'totalMinutes_desc', '_id_asc', '_id_desc')
 
 
 class _MinutesOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'startDateTime_asc', 'startDateTime_desc', 'endDateTime_asc', 'endDateTime_desc', 'summary_asc', 'summary_desc', 'totalNews_asc', 'totalNews_desc', 'totalBills_asc', 'totalBills_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'startDateTime_asc', 'startDateTime_desc', 'endDateTime_asc', 'endDateTime_desc', 'summary_asc', 'summary_desc', 'totalNews_asc', 'totalNews_desc', 'totalBills_asc', 'totalBills_desc', 'totalMembers_asc', 'totalMembers_desc', '_id_asc', '_id_desc')
 
 
 class _NewsOrdering(sgqlc.types.Enum):
@@ -109,7 +109,7 @@ class _UrlOrdering(sgqlc.types.Enum):
 ########################################################################
 class _BillFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'bill_number', 'bill_number_not', 'bill_number_in', 'bill_number_not_in', 'bill_number_contains', 'bill_number_not_contains', 'bill_number_starts_with', 'bill_number_not_starts_with', 'bill_number_ends_with', 'bill_number_not_ends_with', 'category', 'category_not', 'category_in', 'category_not_in', 'is_amendment', 'is_amendment_not', 'is_passed', 'is_passed_not', 'reason', 'reason_not', 'reason_in', 'reason_not_in', 'reason_contains', 'reason_not_contains', 'reason_starts_with', 'reason_not_starts_with', 'reason_ends_with', 'reason_not_ends_with', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'first_house', 'first_house_not', 'first_house_in', 'first_house_not_in', 'be_submitted_by_members', 'be_submitted_by_members_not', 'be_submitted_by_members_in', 'be_submitted_by_members_not_in', 'be_submitted_by_members_some', 'be_submitted_by_members_none', 'be_submitted_by_members_single', 'be_submitted_by_members_every', 'be_received_by_diet', 'be_received_by_diet_not', 'be_received_by_diet_in', 'be_received_by_diet_not_in', 'be_discussed_by_minutes', 'be_discussed_by_minutes_not', 'be_discussed_by_minutes_in', 'be_discussed_by_minutes_not_in', 'be_discussed_by_minutes_some', 'be_discussed_by_minutes_none', 'be_discussed_by_minutes_single', 'be_discussed_by_minutes_every', 'belonged_to_committees', 'belonged_to_committees_not', 'belonged_to_committees_in', 'belonged_to_committees_not_in', 'belonged_to_committees_some', 'belonged_to_committees_none', 'belonged_to_committees_single', 'belonged_to_committees_every', 'amended_laws', 'amended_laws_not', 'amended_laws_in', 'amended_laws_not_in', 'amended_laws_some', 'amended_laws_none', 'amended_laws_single', 'amended_laws_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'news', 'news_not', 'news_in', 'news_not_in', 'news_some', 'news_none', 'news_single', 'news_every', 'submitted_date', 'submitted_date_not', 'submitted_date_in', 'submitted_date_not_in', 'submitted_date_lt', 'submitted_date_lte', 'submitted_date_gt', 'submitted_date_gte', 'passed_representatives_committee_date', 'passed_representatives_committee_date_not', 'passed_representatives_committee_date_in', 'passed_representatives_committee_date_not_in', 'passed_representatives_committee_date_lt', 'passed_representatives_committee_date_lte', 'passed_representatives_committee_date_gt', 'passed_representatives_committee_date_gte', 'passed_representatives_date', 'passed_representatives_date_not', 'passed_representatives_date_in', 'passed_representatives_date_not_in', 'passed_representatives_date_lt', 'passed_representatives_date_lte', 'passed_representatives_date_gt', 'passed_representatives_date_gte', 'passed_councilors_committee_date', 'passed_councilors_committee_date_not', 'passed_councilors_committee_date_in', 'passed_councilors_committee_date_not_in', 'passed_councilors_committee_date_lt', 'passed_councilors_committee_date_lte', 'passed_councilors_committee_date_gt', 'passed_councilors_committee_date_gte', 'passed_councilors_date', 'passed_councilors_date_not', 'passed_councilors_date_in', 'passed_councilors_date_not_in', 'passed_councilors_date_lt', 'passed_councilors_date_lte', 'passed_councilors_date_gt', 'passed_councilors_date_gte', 'proclaimed_date', 'proclaimed_date_not', 'proclaimed_date_in', 'proclaimed_date_not_in', 'proclaimed_date_lt', 'proclaimed_date_lte', 'proclaimed_date_gt', 'proclaimed_date_gte')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'bill_number', 'bill_number_not', 'bill_number_in', 'bill_number_not_in', 'bill_number_contains', 'bill_number_not_contains', 'bill_number_starts_with', 'bill_number_not_starts_with', 'bill_number_ends_with', 'bill_number_not_ends_with', 'category', 'category_not', 'category_in', 'category_not_in', 'is_amendment', 'is_amendment_not', 'is_passed', 'is_passed_not', 'reason', 'reason_not', 'reason_in', 'reason_not_in', 'reason_contains', 'reason_not_contains', 'reason_starts_with', 'reason_not_starts_with', 'reason_ends_with', 'reason_not_ends_with', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'first_house', 'first_house_not', 'first_house_in', 'first_house_not_in', 'be_submitted_by_members', 'be_submitted_by_members_not', 'be_submitted_by_members_in', 'be_submitted_by_members_not_in', 'be_submitted_by_members_some', 'be_submitted_by_members_none', 'be_submitted_by_members_single', 'be_submitted_by_members_every', 'belonged_to_diets', 'belonged_to_diets_not', 'belonged_to_diets_in', 'belonged_to_diets_not_in', 'belonged_to_diets_some', 'belonged_to_diets_none', 'belonged_to_diets_single', 'belonged_to_diets_every', 'be_discussed_by_minutes', 'be_discussed_by_minutes_not', 'be_discussed_by_minutes_in', 'be_discussed_by_minutes_not_in', 'be_discussed_by_minutes_some', 'be_discussed_by_minutes_none', 'be_discussed_by_minutes_single', 'be_discussed_by_minutes_every', 'belonged_to_committees', 'belonged_to_committees_not', 'belonged_to_committees_in', 'belonged_to_committees_not_in', 'belonged_to_committees_some', 'belonged_to_committees_none', 'belonged_to_committees_single', 'belonged_to_committees_every', 'amended_laws', 'amended_laws_not', 'amended_laws_in', 'amended_laws_not_in', 'amended_laws_some', 'amended_laws_none', 'amended_laws_single', 'amended_laws_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'news', 'news_not', 'news_in', 'news_not_in', 'news_some', 'news_none', 'news_single', 'news_every', 'submitted_date', 'submitted_date_not', 'submitted_date_in', 'submitted_date_not_in', 'submitted_date_lt', 'submitted_date_lte', 'submitted_date_gt', 'submitted_date_gte', 'passed_representatives_committee_date', 'passed_representatives_committee_date_not', 'passed_representatives_committee_date_in', 'passed_representatives_committee_date_not_in', 'passed_representatives_committee_date_lt', 'passed_representatives_committee_date_lte', 'passed_representatives_committee_date_gt', 'passed_representatives_committee_date_gte', 'passed_representatives_date', 'passed_representatives_date_not', 'passed_representatives_date_in', 'passed_representatives_date_not_in', 'passed_representatives_date_lt', 'passed_representatives_date_lte', 'passed_representatives_date_gt', 'passed_representatives_date_gte', 'passed_councilors_committee_date', 'passed_councilors_committee_date_not', 'passed_councilors_committee_date_in', 'passed_councilors_committee_date_not_in', 'passed_councilors_committee_date_lt', 'passed_councilors_committee_date_lte', 'passed_councilors_committee_date_gt', 'passed_councilors_committee_date_gte', 'passed_councilors_date', 'passed_councilors_date_not', 'passed_councilors_date_in', 'passed_councilors_date_not_in', 'passed_councilors_date_lt', 'passed_councilors_date_lte', 'passed_councilors_date_gt', 'passed_councilors_date_gte', 'proclaimed_date', 'proclaimed_date_not', 'proclaimed_date_in', 'proclaimed_date_not_in', 'proclaimed_date_lt', 'proclaimed_date_lte', 'proclaimed_date_gt', 'proclaimed_date_gte')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_BillFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_BillFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -182,10 +182,14 @@ class _BillFilter(sgqlc.types.Input):
     be_submitted_by_members_none = sgqlc.types.Field('_MemberFilter', graphql_name='beSubmittedByMembers_none')
     be_submitted_by_members_single = sgqlc.types.Field('_MemberFilter', graphql_name='beSubmittedByMembers_single')
     be_submitted_by_members_every = sgqlc.types.Field('_MemberFilter', graphql_name='beSubmittedByMembers_every')
-    be_received_by_diet = sgqlc.types.Field('_DietFilter', graphql_name='beReceivedByDiet')
-    be_received_by_diet_not = sgqlc.types.Field('_DietFilter', graphql_name='beReceivedByDiet_not')
-    be_received_by_diet_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_DietFilter')), graphql_name='beReceivedByDiet_in')
-    be_received_by_diet_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_DietFilter')), graphql_name='beReceivedByDiet_not_in')
+    belonged_to_diets = sgqlc.types.Field('_DietFilter', graphql_name='belongedToDiets')
+    belonged_to_diets_not = sgqlc.types.Field('_DietFilter', graphql_name='belongedToDiets_not')
+    belonged_to_diets_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_DietFilter')), graphql_name='belongedToDiets_in')
+    belonged_to_diets_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_DietFilter')), graphql_name='belongedToDiets_not_in')
+    belonged_to_diets_some = sgqlc.types.Field('_DietFilter', graphql_name='belongedToDiets_some')
+    belonged_to_diets_none = sgqlc.types.Field('_DietFilter', graphql_name='belongedToDiets_none')
+    belonged_to_diets_single = sgqlc.types.Field('_DietFilter', graphql_name='belongedToDiets_single')
+    belonged_to_diets_every = sgqlc.types.Field('_DietFilter', graphql_name='belongedToDiets_every')
     be_discussed_by_minutes = sgqlc.types.Field('_MinutesFilter', graphql_name='beDiscussedByMinutes')
     be_discussed_by_minutes_not = sgqlc.types.Field('_MinutesFilter', graphql_name='beDiscussedByMinutes_not')
     be_discussed_by_minutes_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='beDiscussedByMinutes_in')
@@ -363,7 +367,7 @@ class _CommitteeInput(sgqlc.types.Input):
 
 class _DietFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'number', 'number_not', 'number_in', 'number_not_in', 'number_lt', 'number_lte', 'number_gt', 'number_gte', 'category', 'category_not', 'category_in', 'category_not_in', 'start_date', 'start_date_not', 'start_date_in', 'start_date_not_in', 'start_date_lt', 'start_date_lte', 'start_date_gt', 'start_date_gte', 'end_date', 'end_date_not', 'end_date_in', 'end_date_not_in', 'end_date_lt', 'end_date_lte', 'end_date_gt', 'end_date_gte', 'received_bills', 'received_bills_not', 'received_bills_in', 'received_bills_not_in', 'received_bills_some', 'received_bills_none', 'received_bills_single', 'received_bills_every', 'minutes', 'minutes_not', 'minutes_in', 'minutes_not_in', 'minutes_some', 'minutes_none', 'minutes_single', 'minutes_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'number', 'number_not', 'number_in', 'number_not_in', 'number_lt', 'number_lte', 'number_gt', 'number_gte', 'category', 'category_not', 'category_in', 'category_not_in', 'start_date', 'start_date_not', 'start_date_in', 'start_date_not_in', 'start_date_lt', 'start_date_lte', 'start_date_gt', 'start_date_gte', 'end_date', 'end_date_not', 'end_date_in', 'end_date_not_in', 'end_date_lt', 'end_date_lte', 'end_date_gt', 'end_date_gte', 'bills', 'bills_not', 'bills_in', 'bills_not_in', 'bills_some', 'bills_none', 'bills_single', 'bills_every', 'minutes', 'minutes_not', 'minutes_in', 'minutes_not_in', 'minutes_some', 'minutes_none', 'minutes_single', 'minutes_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_DietFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_DietFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -414,14 +418,14 @@ class _DietFilter(sgqlc.types.Input):
     end_date_lte = sgqlc.types.Field('_Neo4jDateTimeInput', graphql_name='endDate_lte')
     end_date_gt = sgqlc.types.Field('_Neo4jDateTimeInput', graphql_name='endDate_gt')
     end_date_gte = sgqlc.types.Field('_Neo4jDateTimeInput', graphql_name='endDate_gte')
-    received_bills = sgqlc.types.Field(_BillFilter, graphql_name='receivedBills')
-    received_bills_not = sgqlc.types.Field(_BillFilter, graphql_name='receivedBills_not')
-    received_bills_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(_BillFilter)), graphql_name='receivedBills_in')
-    received_bills_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(_BillFilter)), graphql_name='receivedBills_not_in')
-    received_bills_some = sgqlc.types.Field(_BillFilter, graphql_name='receivedBills_some')
-    received_bills_none = sgqlc.types.Field(_BillFilter, graphql_name='receivedBills_none')
-    received_bills_single = sgqlc.types.Field(_BillFilter, graphql_name='receivedBills_single')
-    received_bills_every = sgqlc.types.Field(_BillFilter, graphql_name='receivedBills_every')
+    bills = sgqlc.types.Field(_BillFilter, graphql_name='bills')
+    bills_not = sgqlc.types.Field(_BillFilter, graphql_name='bills_not')
+    bills_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(_BillFilter)), graphql_name='bills_in')
+    bills_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(_BillFilter)), graphql_name='bills_not_in')
+    bills_some = sgqlc.types.Field(_BillFilter, graphql_name='bills_some')
+    bills_none = sgqlc.types.Field(_BillFilter, graphql_name='bills_none')
+    bills_single = sgqlc.types.Field(_BillFilter, graphql_name='bills_single')
+    bills_every = sgqlc.types.Field(_BillFilter, graphql_name='bills_every')
     minutes = sgqlc.types.Field('_MinutesFilter', graphql_name='minutes')
     minutes_not = sgqlc.types.Field('_MinutesFilter', graphql_name='minutes_not')
     minutes_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='minutes_in')
@@ -1350,7 +1354,7 @@ class _UrlInput(sgqlc.types.Input):
 ########################################################################
 class Bill(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'bill_number', 'category', 'is_amendment', 'is_passed', 'reason', 'summary', 'aliases', 'tags', 'first_house', 'be_submitted_by_members', 'be_received_by_diet', 'be_discussed_by_minutes', 'belonged_to_committees', 'amended_laws', 'urls', 'news', 'submitted_date', 'passed_representatives_committee_date', 'passed_representatives_date', 'passed_councilors_committee_date', 'passed_councilors_date', 'proclaimed_date', 'total_news', 'total_minutes', '_id')
+    __field_names__ = ('id', 'name', 'bill_number', 'category', 'is_amendment', 'is_passed', 'reason', 'summary', 'aliases', 'tags', 'first_house', 'be_submitted_by_members', 'belonged_to_diets', 'be_discussed_by_minutes', 'belonged_to_committees', 'amended_laws', 'urls', 'news', 'submitted_date', 'passed_representatives_committee_date', 'passed_representatives_date', 'passed_councilors_committee_date', 'passed_councilors_date', 'proclaimed_date', 'total_news', 'total_minutes', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     bill_number = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='billNumber')
@@ -1369,7 +1373,10 @@ class Bill(sgqlc.types.Type):
         ('filter', sgqlc.types.Arg(_MemberFilter, graphql_name='filter', default=None)),
 ))
     )
-    be_received_by_diet = sgqlc.types.Field('Diet', graphql_name='beReceivedByDiet', args=sgqlc.types.ArgDict((
+    belonged_to_diets = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('Diet')), graphql_name='belongedToDiets', args=sgqlc.types.ArgDict((
+        ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
+        ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
+        ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(_DietOrdering), graphql_name='orderBy', default=None)),
         ('filter', sgqlc.types.Arg(_DietFilter, graphql_name='filter', default=None)),
 ))
     )
@@ -1457,14 +1464,14 @@ class Committee(sgqlc.types.Type):
 
 class Diet(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'number', 'category', 'start_date', 'end_date', 'received_bills', 'minutes', '_id')
+    __field_names__ = ('id', 'name', 'number', 'category', 'start_date', 'end_date', 'bills', 'minutes', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
-    name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
-    number = sgqlc.types.Field(Int, graphql_name='number')
+    name = sgqlc.types.Field(String, graphql_name='name')
+    number = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='number')
     category = sgqlc.types.Field(DietCategory, graphql_name='category')
     start_date = sgqlc.types.Field('_Neo4jDateTime', graphql_name='startDate')
     end_date = sgqlc.types.Field('_Neo4jDateTime', graphql_name='endDate')
-    received_bills = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(Bill))), graphql_name='receivedBills', args=sgqlc.types.ArgDict((
+    bills = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(Bill))), graphql_name='bills', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
         ('order_by', sgqlc.types.Arg(sgqlc.types.list_of(_BillOrdering), graphql_name='orderBy', default=None)),
@@ -1574,7 +1581,7 @@ class Law(sgqlc.types.Type):
 
 class Member(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'name_hira', 'first_name', 'first_name_hira', 'last_name', 'last_name_hira', 'house', 'description', 'image', 'tags', 'be_elected_by_elections', 'submitted_bills', 'attended_diets', 'attended_minutes', 'delivered_speeches', 'urls', 'news', '_id')
+    __field_names__ = ('id', 'name', 'name_hira', 'first_name', 'first_name_hira', 'last_name', 'last_name_hira', 'house', 'description', 'image', 'tags', 'be_elected_by_elections', 'submitted_bills', 'attended_diets', 'attended_minutes', 'delivered_speeches', 'urls', 'news', 'total_minutes', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     name_hira = sgqlc.types.Field(String, graphql_name='nameHira')
@@ -1635,12 +1642,13 @@ class Member(sgqlc.types.Type):
         ('filter', sgqlc.types.Arg(_NewsFilter, graphql_name='filter', default=None)),
 ))
     )
+    total_minutes = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalMinutes')
     _id = sgqlc.types.Field(String, graphql_name='_id')
 
 
 class Minutes(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'summary', 'tags', 'urls', 'news', 'speeches', 'discussed_bills', 'discussed_laws', 'total_news', 'total_bills', '_id')
+    __field_names__ = ('id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'summary', 'tags', 'urls', 'news', 'speeches', 'discussed_bills', 'discussed_laws', 'total_news', 'total_bills', 'total_members', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     start_date_time = sgqlc.types.Field('_Neo4jDateTime', graphql_name='startDateTime')
@@ -1700,12 +1708,13 @@ class Minutes(sgqlc.types.Type):
     )
     total_news = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalNews')
     total_bills = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalBills')
+    total_members = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalMembers')
     _id = sgqlc.types.Field(String, graphql_name='_id')
 
 
 class Mutation(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('delete_all_members', 'delete_all_elections', 'delete_all_election_results', 'delete_all_diets', 'delete_all_laws', 'delete_all_bills', 'delete_all_committees', 'delete_all_minutes', 'delete_all_speeches', 'delete_all_urls', 'delete_all_news', 'delete_all_timelines', 'delete_all_news_reference', 'add_member_be_elected_by_elections', 'remove_member_be_elected_by_elections', 'merge_member_be_elected_by_elections', 'add_member_submitted_bills', 'remove_member_submitted_bills', 'merge_member_submitted_bills', 'add_member_attended_diets', 'remove_member_attended_diets', 'merge_member_attended_diets', 'add_member_attended_minutes', 'remove_member_attended_minutes', 'merge_member_attended_minutes', 'add_member_delivered_speeches', 'remove_member_delivered_speeches', 'merge_member_delivered_speeches', 'add_member_urls', 'remove_member_urls', 'merge_member_urls', 'add_member_news', 'remove_member_news', 'merge_member_news', 'create_member', 'update_member', 'delete_member', 'merge_member', 'add_election_election_results', 'remove_election_election_results', 'merge_election_election_results', 'create_election', 'update_election', 'delete_election', 'merge_election', 'add_election_result_belonged_to_election', 'remove_election_result_belonged_to_election', 'merge_election_result_belonged_to_election', 'add_election_result_elected_members', 'remove_election_result_elected_members', 'merge_election_result_elected_members', 'create_election_result', 'update_election_result', 'delete_election_result', 'merge_election_result', 'add_diet_received_bills', 'remove_diet_received_bills', 'merge_diet_received_bills', 'add_diet_minutes', 'remove_diet_minutes', 'merge_diet_minutes', 'create_diet', 'update_diet', 'delete_diet', 'merge_diet', 'add_law_be_discussed_by_minutes', 'remove_law_be_discussed_by_minutes', 'merge_law_be_discussed_by_minutes', 'add_law_referred_laws', 'remove_law_referred_laws', 'merge_law_referred_laws', 'add_law_be_referred_by_laws', 'remove_law_be_referred_by_laws', 'merge_law_be_referred_by_laws', 'add_law_be_amended_by_bills', 'remove_law_be_amended_by_bills', 'merge_law_be_amended_by_bills', 'add_law_urls', 'remove_law_urls', 'merge_law_urls', 'add_law_news', 'remove_law_news', 'merge_law_news', 'create_law', 'update_law', 'delete_law', 'merge_law', 'add_bill_be_submitted_by_members', 'remove_bill_be_submitted_by_members', 'merge_bill_be_submitted_by_members', 'add_bill_be_received_by_diet', 'remove_bill_be_received_by_diet', 'merge_bill_be_received_by_diet', 'add_bill_be_discussed_by_minutes', 'remove_bill_be_discussed_by_minutes', 'merge_bill_be_discussed_by_minutes', 'add_bill_belonged_to_committees', 'remove_bill_belonged_to_committees', 'merge_bill_belonged_to_committees', 'add_bill_amended_laws', 'remove_bill_amended_laws', 'merge_bill_amended_laws', 'add_bill_urls', 'remove_bill_urls', 'merge_bill_urls', 'add_bill_news', 'remove_bill_news', 'merge_bill_news', 'create_bill', 'update_bill', 'delete_bill', 'merge_bill', 'add_committee_members', 'remove_committee_members', 'merge_committee_members', 'add_committee_minutes', 'remove_committee_minutes', 'merge_committee_minutes', 'add_committee_bills', 'remove_committee_bills', 'merge_committee_bills', 'create_committee', 'update_committee', 'delete_committee', 'merge_committee', 'add_minutes_belonged_to_diet', 'remove_minutes_belonged_to_diet', 'merge_minutes_belonged_to_diet', 'add_minutes_belonged_to_committee', 'remove_minutes_belonged_to_committee', 'merge_minutes_belonged_to_committee', 'add_minutes_be_attended_by_members', 'remove_minutes_be_attended_by_members', 'merge_minutes_be_attended_by_members', 'add_minutes_urls', 'remove_minutes_urls', 'merge_minutes_urls', 'add_minutes_news', 'remove_minutes_news', 'merge_minutes_news', 'add_minutes_speeches', 'remove_minutes_speeches', 'merge_minutes_speeches', 'add_minutes_discussed_bills', 'remove_minutes_discussed_bills', 'merge_minutes_discussed_bills', 'add_minutes_discussed_laws', 'remove_minutes_discussed_laws', 'merge_minutes_discussed_laws', 'create_minutes', 'update_minutes', 'delete_minutes', 'merge_minutes', 'add_speech_belonged_to_minutes', 'remove_speech_belonged_to_minutes', 'merge_speech_belonged_to_minutes', 'add_speech_be_delivered_by_member', 'remove_speech_be_delivered_by_member', 'merge_speech_be_delivered_by_member', 'create_speech', 'update_speech', 'delete_speech', 'merge_speech', 'add_url_referred_bills', 'remove_url_referred_bills', 'merge_url_referred_bills', 'add_url_referred_laws', 'remove_url_referred_laws', 'merge_url_referred_laws', 'add_url_referred_members', 'remove_url_referred_members', 'merge_url_referred_members', 'add_url_referred_minutes', 'remove_url_referred_minutes', 'merge_url_referred_minutes', 'create_url', 'update_url', 'delete_url', 'merge_url', 'add_news_referred_bills', 'remove_news_referred_bills', 'merge_news_referred_bills', 'add_news_referred_laws', 'remove_news_referred_laws', 'merge_news_referred_laws', 'add_news_referred_members', 'remove_news_referred_members', 'merge_news_referred_members', 'add_news_referred_minutes', 'remove_news_referred_minutes', 'merge_news_referred_minutes', 'create_news', 'update_news', 'delete_news', 'merge_news', 'add_timeline_bills', 'remove_timeline_bills', 'merge_timeline_bills', 'add_timeline_minutes', 'remove_timeline_minutes', 'merge_timeline_minutes', 'add_timeline_news', 'remove_timeline_news', 'merge_timeline_news', 'create_timeline', 'update_timeline', 'delete_timeline', 'merge_timeline')
+    __field_names__ = ('delete_all_members', 'delete_all_elections', 'delete_all_election_results', 'delete_all_diets', 'delete_all_laws', 'delete_all_bills', 'delete_all_committees', 'delete_all_minutes', 'delete_all_speeches', 'delete_all_urls', 'delete_all_news', 'delete_all_timelines', 'delete_all_news_reference', 'add_member_be_elected_by_elections', 'remove_member_be_elected_by_elections', 'merge_member_be_elected_by_elections', 'add_member_submitted_bills', 'remove_member_submitted_bills', 'merge_member_submitted_bills', 'add_member_attended_diets', 'remove_member_attended_diets', 'merge_member_attended_diets', 'add_member_attended_minutes', 'remove_member_attended_minutes', 'merge_member_attended_minutes', 'add_member_delivered_speeches', 'remove_member_delivered_speeches', 'merge_member_delivered_speeches', 'add_member_urls', 'remove_member_urls', 'merge_member_urls', 'add_member_news', 'remove_member_news', 'merge_member_news', 'create_member', 'update_member', 'delete_member', 'merge_member', 'add_election_election_results', 'remove_election_election_results', 'merge_election_election_results', 'create_election', 'update_election', 'delete_election', 'merge_election', 'add_election_result_belonged_to_election', 'remove_election_result_belonged_to_election', 'merge_election_result_belonged_to_election', 'add_election_result_elected_members', 'remove_election_result_elected_members', 'merge_election_result_elected_members', 'create_election_result', 'update_election_result', 'delete_election_result', 'merge_election_result', 'add_diet_bills', 'remove_diet_bills', 'merge_diet_bills', 'add_diet_minutes', 'remove_diet_minutes', 'merge_diet_minutes', 'create_diet', 'update_diet', 'delete_diet', 'merge_diet', 'add_law_be_discussed_by_minutes', 'remove_law_be_discussed_by_minutes', 'merge_law_be_discussed_by_minutes', 'add_law_referred_laws', 'remove_law_referred_laws', 'merge_law_referred_laws', 'add_law_be_referred_by_laws', 'remove_law_be_referred_by_laws', 'merge_law_be_referred_by_laws', 'add_law_be_amended_by_bills', 'remove_law_be_amended_by_bills', 'merge_law_be_amended_by_bills', 'add_law_urls', 'remove_law_urls', 'merge_law_urls', 'add_law_news', 'remove_law_news', 'merge_law_news', 'create_law', 'update_law', 'delete_law', 'merge_law', 'add_bill_be_submitted_by_members', 'remove_bill_be_submitted_by_members', 'merge_bill_be_submitted_by_members', 'add_bill_belonged_to_diets', 'remove_bill_belonged_to_diets', 'merge_bill_belonged_to_diets', 'add_bill_be_discussed_by_minutes', 'remove_bill_be_discussed_by_minutes', 'merge_bill_be_discussed_by_minutes', 'add_bill_belonged_to_committees', 'remove_bill_belonged_to_committees', 'merge_bill_belonged_to_committees', 'add_bill_amended_laws', 'remove_bill_amended_laws', 'merge_bill_amended_laws', 'add_bill_urls', 'remove_bill_urls', 'merge_bill_urls', 'add_bill_news', 'remove_bill_news', 'merge_bill_news', 'create_bill', 'update_bill', 'delete_bill', 'merge_bill', 'add_committee_members', 'remove_committee_members', 'merge_committee_members', 'add_committee_minutes', 'remove_committee_minutes', 'merge_committee_minutes', 'add_committee_bills', 'remove_committee_bills', 'merge_committee_bills', 'create_committee', 'update_committee', 'delete_committee', 'merge_committee', 'add_minutes_belonged_to_diet', 'remove_minutes_belonged_to_diet', 'merge_minutes_belonged_to_diet', 'add_minutes_belonged_to_committee', 'remove_minutes_belonged_to_committee', 'merge_minutes_belonged_to_committee', 'add_minutes_be_attended_by_members', 'remove_minutes_be_attended_by_members', 'merge_minutes_be_attended_by_members', 'add_minutes_urls', 'remove_minutes_urls', 'merge_minutes_urls', 'add_minutes_news', 'remove_minutes_news', 'merge_minutes_news', 'add_minutes_speeches', 'remove_minutes_speeches', 'merge_minutes_speeches', 'add_minutes_discussed_bills', 'remove_minutes_discussed_bills', 'merge_minutes_discussed_bills', 'add_minutes_discussed_laws', 'remove_minutes_discussed_laws', 'merge_minutes_discussed_laws', 'create_minutes', 'update_minutes', 'delete_minutes', 'merge_minutes', 'add_speech_belonged_to_minutes', 'remove_speech_belonged_to_minutes', 'merge_speech_belonged_to_minutes', 'add_speech_be_delivered_by_member', 'remove_speech_be_delivered_by_member', 'merge_speech_be_delivered_by_member', 'create_speech', 'update_speech', 'delete_speech', 'merge_speech', 'add_url_referred_bills', 'remove_url_referred_bills', 'merge_url_referred_bills', 'add_url_referred_laws', 'remove_url_referred_laws', 'merge_url_referred_laws', 'add_url_referred_members', 'remove_url_referred_members', 'merge_url_referred_members', 'add_url_referred_minutes', 'remove_url_referred_minutes', 'merge_url_referred_minutes', 'create_url', 'update_url', 'delete_url', 'merge_url', 'add_news_referred_bills', 'remove_news_referred_bills', 'merge_news_referred_bills', 'add_news_referred_laws', 'remove_news_referred_laws', 'merge_news_referred_laws', 'add_news_referred_members', 'remove_news_referred_members', 'merge_news_referred_members', 'add_news_referred_minutes', 'remove_news_referred_minutes', 'merge_news_referred_minutes', 'create_news', 'update_news', 'delete_news', 'merge_news', 'add_timeline_bills', 'remove_timeline_bills', 'merge_timeline_bills', 'add_timeline_minutes', 'remove_timeline_minutes', 'merge_timeline_minutes', 'add_timeline_news', 'remove_timeline_news', 'merge_timeline_news', 'create_timeline', 'update_timeline', 'delete_timeline', 'merge_timeline')
     delete_all_members = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(ID))), graphql_name='DeleteAllMembers')
     delete_all_elections = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(ID))), graphql_name='DeleteAllElections')
     delete_all_election_results = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(ID))), graphql_name='DeleteAllElectionResults')
@@ -1965,19 +1974,19 @@ class Mutation(sgqlc.types.Type):
         ('prefecture', sgqlc.types.Arg(String, graphql_name='prefecture', default=None)),
 ))
     )
-    add_diet_received_bills = sgqlc.types.Field('_AddDietReceivedBillsPayload', graphql_name='AddDietReceivedBills', args=sgqlc.types.ArgDict((
-        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='from', default=None)),
-        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='to', default=None)),
+    add_diet_bills = sgqlc.types.Field('_AddDietBillsPayload', graphql_name='AddDietBills', args=sgqlc.types.ArgDict((
+        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='from', default=None)),
+        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='to', default=None)),
 ))
     )
-    remove_diet_received_bills = sgqlc.types.Field('_RemoveDietReceivedBillsPayload', graphql_name='RemoveDietReceivedBills', args=sgqlc.types.ArgDict((
-        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='from', default=None)),
-        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='to', default=None)),
+    remove_diet_bills = sgqlc.types.Field('_RemoveDietBillsPayload', graphql_name='RemoveDietBills', args=sgqlc.types.ArgDict((
+        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='from', default=None)),
+        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='to', default=None)),
 ))
     )
-    merge_diet_received_bills = sgqlc.types.Field('_MergeDietReceivedBillsPayload', graphql_name='MergeDietReceivedBills', args=sgqlc.types.ArgDict((
-        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='from', default=None)),
-        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='to', default=None)),
+    merge_diet_bills = sgqlc.types.Field('_MergeDietBillsPayload', graphql_name='MergeDietBills', args=sgqlc.types.ArgDict((
+        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='from', default=None)),
+        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='to', default=None)),
 ))
     )
     add_diet_minutes = sgqlc.types.Field('_AddDietMinutesPayload', graphql_name='AddDietMinutes', args=sgqlc.types.ArgDict((
@@ -1997,8 +2006,8 @@ class Mutation(sgqlc.types.Type):
     )
     create_diet = sgqlc.types.Field(Diet, graphql_name='CreateDiet', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
-        ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
-        ('number', sgqlc.types.Arg(Int, graphql_name='number', default=None)),
+        ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
+        ('number', sgqlc.types.Arg(sgqlc.types.non_null(Int), graphql_name='number', default=None)),
         ('category', sgqlc.types.Arg(DietCategory, graphql_name='category', default=None)),
         ('start_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDate', default=None)),
         ('end_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDate', default=None)),
@@ -2159,19 +2168,19 @@ class Mutation(sgqlc.types.Type):
         ('to', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='to', default=None)),
 ))
     )
-    add_bill_be_received_by_diet = sgqlc.types.Field('_AddBillBeReceivedByDietPayload', graphql_name='AddBillBeReceivedByDiet', args=sgqlc.types.ArgDict((
-        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='from', default=None)),
-        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='to', default=None)),
+    add_bill_belonged_to_diets = sgqlc.types.Field('_AddBillBelongedToDietsPayload', graphql_name='AddBillBelongedToDiets', args=sgqlc.types.ArgDict((
+        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='from', default=None)),
+        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='to', default=None)),
 ))
     )
-    remove_bill_be_received_by_diet = sgqlc.types.Field('_RemoveBillBeReceivedByDietPayload', graphql_name='RemoveBillBeReceivedByDiet', args=sgqlc.types.ArgDict((
-        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='from', default=None)),
-        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='to', default=None)),
+    remove_bill_belonged_to_diets = sgqlc.types.Field('_RemoveBillBelongedToDietsPayload', graphql_name='RemoveBillBelongedToDiets', args=sgqlc.types.ArgDict((
+        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='from', default=None)),
+        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='to', default=None)),
 ))
     )
-    merge_bill_be_received_by_diet = sgqlc.types.Field('_MergeBillBeReceivedByDietPayload', graphql_name='MergeBillBeReceivedByDiet', args=sgqlc.types.ArgDict((
-        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='from', default=None)),
-        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='to', default=None)),
+    merge_bill_belonged_to_diets = sgqlc.types.Field('_MergeBillBelongedToDietsPayload', graphql_name='MergeBillBelongedToDiets', args=sgqlc.types.ArgDict((
+        ('from_', sgqlc.types.Arg(sgqlc.types.non_null(_BillInput), graphql_name='from', default=None)),
+        ('to', sgqlc.types.Arg(sgqlc.types.non_null(_DietInput), graphql_name='to', default=None)),
 ))
     )
     add_bill_be_discussed_by_minutes = sgqlc.types.Field('_AddBillBeDiscussedByMinutesPayload', graphql_name='AddBillBeDiscussedByMinutes', args=sgqlc.types.ArgDict((
@@ -2931,6 +2940,7 @@ class Query(sgqlc.types.Type):
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('image', sgqlc.types.Arg(String, graphql_name='image', default=None)),
         ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
+        ('total_minutes', sgqlc.types.Arg(Int, graphql_name='totalMinutes', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -3043,6 +3053,7 @@ class Query(sgqlc.types.Type):
         ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
         ('total_news', sgqlc.types.Arg(Int, graphql_name='totalNews', default=None)),
         ('total_bills', sgqlc.types.Arg(Int, graphql_name='totalBills', default=None)),
+        ('total_members', sgqlc.types.Arg(Int, graphql_name='totalMembers', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -3212,13 +3223,6 @@ class _AddBillBeDiscussedByMinutesPayload(sgqlc.types.Type):
     to = sgqlc.types.Field(Bill, graphql_name='to')
 
 
-class _AddBillBeReceivedByDietPayload(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('from_', 'to')
-    from_ = sgqlc.types.Field(Diet, graphql_name='from')
-    to = sgqlc.types.Field(Bill, graphql_name='to')
-
-
 class _AddBillBeSubmittedByMembersPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('from_', 'to')
@@ -3231,6 +3235,13 @@ class _AddBillBelongedToCommitteesPayload(sgqlc.types.Type):
     __field_names__ = ('from_', 'to')
     from_ = sgqlc.types.Field(Bill, graphql_name='from')
     to = sgqlc.types.Field(Committee, graphql_name='to')
+
+
+class _AddBillBelongedToDietsPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('from_', 'to')
+    from_ = sgqlc.types.Field(Bill, graphql_name='from')
+    to = sgqlc.types.Field(Diet, graphql_name='to')
 
 
 class _AddBillNewsPayload(sgqlc.types.Type):
@@ -3268,18 +3279,18 @@ class _AddCommitteeMinutesPayload(sgqlc.types.Type):
     to = sgqlc.types.Field(Committee, graphql_name='to')
 
 
+class _AddDietBillsPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('from_', 'to')
+    from_ = sgqlc.types.Field(Bill, graphql_name='from')
+    to = sgqlc.types.Field(Diet, graphql_name='to')
+
+
 class _AddDietMinutesPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('from_', 'to')
     from_ = sgqlc.types.Field(Minutes, graphql_name='from')
     to = sgqlc.types.Field(Diet, graphql_name='to')
-
-
-class _AddDietReceivedBillsPayload(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('from_', 'to')
-    from_ = sgqlc.types.Field(Diet, graphql_name='from')
-    to = sgqlc.types.Field(Bill, graphql_name='to')
 
 
 class _AddElectionElectionResultsPayload(sgqlc.types.Type):
@@ -3555,13 +3566,6 @@ class _MergeBillBeDiscussedByMinutesPayload(sgqlc.types.Type):
     to = sgqlc.types.Field(Bill, graphql_name='to')
 
 
-class _MergeBillBeReceivedByDietPayload(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('from_', 'to')
-    from_ = sgqlc.types.Field(Diet, graphql_name='from')
-    to = sgqlc.types.Field(Bill, graphql_name='to')
-
-
 class _MergeBillBeSubmittedByMembersPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('from_', 'to')
@@ -3574,6 +3578,13 @@ class _MergeBillBelongedToCommitteesPayload(sgqlc.types.Type):
     __field_names__ = ('from_', 'to')
     from_ = sgqlc.types.Field(Bill, graphql_name='from')
     to = sgqlc.types.Field(Committee, graphql_name='to')
+
+
+class _MergeBillBelongedToDietsPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('from_', 'to')
+    from_ = sgqlc.types.Field(Bill, graphql_name='from')
+    to = sgqlc.types.Field(Diet, graphql_name='to')
 
 
 class _MergeBillNewsPayload(sgqlc.types.Type):
@@ -3611,18 +3622,18 @@ class _MergeCommitteeMinutesPayload(sgqlc.types.Type):
     to = sgqlc.types.Field(Committee, graphql_name='to')
 
 
+class _MergeDietBillsPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('from_', 'to')
+    from_ = sgqlc.types.Field(Bill, graphql_name='from')
+    to = sgqlc.types.Field(Diet, graphql_name='to')
+
+
 class _MergeDietMinutesPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('from_', 'to')
     from_ = sgqlc.types.Field(Minutes, graphql_name='from')
     to = sgqlc.types.Field(Diet, graphql_name='to')
-
-
-class _MergeDietReceivedBillsPayload(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('from_', 'to')
-    from_ = sgqlc.types.Field(Diet, graphql_name='from')
-    to = sgqlc.types.Field(Bill, graphql_name='to')
 
 
 class _MergeElectionElectionResultsPayload(sgqlc.types.Type):
@@ -3976,13 +3987,6 @@ class _RemoveBillBeDiscussedByMinutesPayload(sgqlc.types.Type):
     to = sgqlc.types.Field(Bill, graphql_name='to')
 
 
-class _RemoveBillBeReceivedByDietPayload(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('from_', 'to')
-    from_ = sgqlc.types.Field(Diet, graphql_name='from')
-    to = sgqlc.types.Field(Bill, graphql_name='to')
-
-
 class _RemoveBillBeSubmittedByMembersPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('from_', 'to')
@@ -3995,6 +3999,13 @@ class _RemoveBillBelongedToCommitteesPayload(sgqlc.types.Type):
     __field_names__ = ('from_', 'to')
     from_ = sgqlc.types.Field(Bill, graphql_name='from')
     to = sgqlc.types.Field(Committee, graphql_name='to')
+
+
+class _RemoveBillBelongedToDietsPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('from_', 'to')
+    from_ = sgqlc.types.Field(Bill, graphql_name='from')
+    to = sgqlc.types.Field(Diet, graphql_name='to')
 
 
 class _RemoveBillNewsPayload(sgqlc.types.Type):
@@ -4032,18 +4043,18 @@ class _RemoveCommitteeMinutesPayload(sgqlc.types.Type):
     to = sgqlc.types.Field(Committee, graphql_name='to')
 
 
+class _RemoveDietBillsPayload(sgqlc.types.Type):
+    __schema__ = schema
+    __field_names__ = ('from_', 'to')
+    from_ = sgqlc.types.Field(Bill, graphql_name='from')
+    to = sgqlc.types.Field(Diet, graphql_name='to')
+
+
 class _RemoveDietMinutesPayload(sgqlc.types.Type):
     __schema__ = schema
     __field_names__ = ('from_', 'to')
     from_ = sgqlc.types.Field(Minutes, graphql_name='from')
     to = sgqlc.types.Field(Diet, graphql_name='to')
-
-
-class _RemoveDietReceivedBillsPayload(sgqlc.types.Type):
-    __schema__ = schema
-    __field_names__ = ('from_', 'to')
-    from_ = sgqlc.types.Field(Diet, graphql_name='from')
-    to = sgqlc.types.Field(Bill, graphql_name='to')
 
 
 class _RemoveElectionElectionResultsPayload(sgqlc.types.Type):

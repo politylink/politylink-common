@@ -28,6 +28,8 @@ def idgen(obj):
         base = _basegen_minutes(obj)
     elif isinstance(obj, Speech):
         base = _basegen_speech(obj)
+    elif isinstance(obj, Diet):
+        base = _basegen_diet(obj)
     elif hasattr(obj, 'name'):
         base = _basegen_str(getattr(obj, 'name'))
     else:
@@ -70,3 +72,7 @@ def _basegen_minutes(minutes: Minutes):
 
 def _basegen_speech(speech: Speech):
     return _basegen_str(f'{speech.minutes_id}{speech.order_in_minutes}')
+
+
+def _basegen_diet(diet: Diet):
+    return diet.number
