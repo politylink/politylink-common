@@ -214,7 +214,7 @@ class GraphQLClient:
         """
 
         if fields is None:
-            fields = ['id', 'member_id', 'bill_id', 'minutes_id']
+            fields = ['id', 'datetime', 'member_id', 'bill_id', 'minutes_id']
         if filter_ is None:
             filter_ = _ActivityFilter(None)
         if member_id:
