@@ -50,7 +50,7 @@ class _CommitteeOrdering(sgqlc.types.Enum):
 
 class _DietOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'number_asc', 'number_desc', 'category_asc', 'category_desc', 'startDate_asc', 'startDate_desc', 'endDate_asc', 'endDate_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'number_asc', 'number_desc', 'category_asc', 'category_desc', 'startDate_asc', 'startDate_desc', 'endDate_asc', 'endDate_desc', 'totalBills_asc', 'totalBills_desc', 'totalMinutes_asc', 'totalMinutes_desc', '_id_asc', '_id_desc')
 
 
 class _ElectionOrdering(sgqlc.types.Enum):
@@ -75,7 +75,7 @@ class _MemberOrdering(sgqlc.types.Enum):
 
 class _MinutesOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'startDateTime_asc', 'startDateTime_desc', 'endDateTime_asc', 'endDateTime_desc', 'summary_asc', 'summary_desc', 'totalNews_asc', 'totalNews_desc', 'totalBills_asc', 'totalBills_desc', 'totalMembers_asc', 'totalMembers_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'ndlMinId_asc', 'ndlMinId_desc', 'name_asc', 'name_desc', 'startDateTime_asc', 'startDateTime_desc', 'endDateTime_asc', 'endDateTime_desc', 'summary_asc', 'summary_desc', 'totalNews_asc', 'totalNews_desc', 'totalBills_asc', 'totalBills_desc', 'totalMembers_asc', 'totalMembers_desc', '_id_asc', '_id_desc')
 
 
 class _NewsOrdering(sgqlc.types.Enum):
@@ -826,7 +826,7 @@ class _MemberInput(sgqlc.types.Input):
 
 class _MinutesFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'start_date_time', 'start_date_time_not', 'start_date_time_in', 'start_date_time_not_in', 'start_date_time_lt', 'start_date_time_lte', 'start_date_time_gt', 'start_date_time_gte', 'end_date_time', 'end_date_time_not', 'end_date_time_in', 'end_date_time_not_in', 'end_date_time_lt', 'end_date_time_lte', 'end_date_time_gt', 'end_date_time_gte', 'belonged_to_diet', 'belonged_to_diet_not', 'belonged_to_diet_in', 'belonged_to_diet_not_in', 'belonged_to_committee', 'belonged_to_committee_not', 'belonged_to_committee_in', 'belonged_to_committee_not_in', 'be_attended_by_members', 'be_attended_by_members_not', 'be_attended_by_members_in', 'be_attended_by_members_not_in', 'be_attended_by_members_some', 'be_attended_by_members_none', 'be_attended_by_members_single', 'be_attended_by_members_every', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'news', 'news_not', 'news_in', 'news_not_in', 'news_some', 'news_none', 'news_single', 'news_every', 'speeches', 'speeches_not', 'speeches_in', 'speeches_not_in', 'speeches_some', 'speeches_none', 'speeches_single', 'speeches_every', 'discussed_bills', 'discussed_bills_not', 'discussed_bills_in', 'discussed_bills_not_in', 'discussed_bills_some', 'discussed_bills_none', 'discussed_bills_single', 'discussed_bills_every', 'discussed_laws', 'discussed_laws_not', 'discussed_laws_in', 'discussed_laws_not_in', 'discussed_laws_some', 'discussed_laws_none', 'discussed_laws_single', 'discussed_laws_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'ndl_min_id', 'ndl_min_id_not', 'ndl_min_id_in', 'ndl_min_id_not_in', 'ndl_min_id_contains', 'ndl_min_id_not_contains', 'ndl_min_id_starts_with', 'ndl_min_id_not_starts_with', 'ndl_min_id_ends_with', 'ndl_min_id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'start_date_time', 'start_date_time_not', 'start_date_time_in', 'start_date_time_not_in', 'start_date_time_lt', 'start_date_time_lte', 'start_date_time_gt', 'start_date_time_gte', 'end_date_time', 'end_date_time_not', 'end_date_time_in', 'end_date_time_not_in', 'end_date_time_lt', 'end_date_time_lte', 'end_date_time_gt', 'end_date_time_gte', 'belonged_to_diet', 'belonged_to_diet_not', 'belonged_to_diet_in', 'belonged_to_diet_not_in', 'belonged_to_committee', 'belonged_to_committee_not', 'belonged_to_committee_in', 'belonged_to_committee_not_in', 'be_attended_by_members', 'be_attended_by_members_not', 'be_attended_by_members_in', 'be_attended_by_members_not_in', 'be_attended_by_members_some', 'be_attended_by_members_none', 'be_attended_by_members_single', 'be_attended_by_members_every', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'news', 'news_not', 'news_in', 'news_not_in', 'news_some', 'news_none', 'news_single', 'news_every', 'speeches', 'speeches_not', 'speeches_in', 'speeches_not_in', 'speeches_some', 'speeches_none', 'speeches_single', 'speeches_every', 'discussed_bills', 'discussed_bills_not', 'discussed_bills_in', 'discussed_bills_not_in', 'discussed_bills_some', 'discussed_bills_none', 'discussed_bills_single', 'discussed_bills_every', 'discussed_laws', 'discussed_laws_not', 'discussed_laws_in', 'discussed_laws_not_in', 'discussed_laws_some', 'discussed_laws_none', 'discussed_laws_single', 'discussed_laws_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -839,6 +839,16 @@ class _MinutesFilter(sgqlc.types.Input):
     id_not_starts_with = sgqlc.types.Field(ID, graphql_name='id_not_starts_with')
     id_ends_with = sgqlc.types.Field(ID, graphql_name='id_ends_with')
     id_not_ends_with = sgqlc.types.Field(ID, graphql_name='id_not_ends_with')
+    ndl_min_id = sgqlc.types.Field(String, graphql_name='ndlMinId')
+    ndl_min_id_not = sgqlc.types.Field(String, graphql_name='ndlMinId_not')
+    ndl_min_id_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='ndlMinId_in')
+    ndl_min_id_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='ndlMinId_not_in')
+    ndl_min_id_contains = sgqlc.types.Field(String, graphql_name='ndlMinId_contains')
+    ndl_min_id_not_contains = sgqlc.types.Field(String, graphql_name='ndlMinId_not_contains')
+    ndl_min_id_starts_with = sgqlc.types.Field(String, graphql_name='ndlMinId_starts_with')
+    ndl_min_id_not_starts_with = sgqlc.types.Field(String, graphql_name='ndlMinId_not_starts_with')
+    ndl_min_id_ends_with = sgqlc.types.Field(String, graphql_name='ndlMinId_ends_with')
+    ndl_min_id_not_ends_with = sgqlc.types.Field(String, graphql_name='ndlMinId_not_ends_with')
     name = sgqlc.types.Field(String, graphql_name='name')
     name_not = sgqlc.types.Field(String, graphql_name='name_not')
     name_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='name_in')
@@ -1464,7 +1474,7 @@ class Committee(sgqlc.types.Type):
 
 class Diet(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'number', 'category', 'start_date', 'end_date', 'bills', 'minutes', '_id')
+    __field_names__ = ('id', 'name', 'number', 'category', 'start_date', 'end_date', 'bills', 'minutes', 'total_bills', 'total_minutes', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(String, graphql_name='name')
     number = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='number')
@@ -1485,6 +1495,8 @@ class Diet(sgqlc.types.Type):
         ('filter', sgqlc.types.Arg(_MinutesFilter, graphql_name='filter', default=None)),
 ))
     )
+    total_bills = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalBills')
+    total_minutes = sgqlc.types.Field(sgqlc.types.non_null(Int), graphql_name='totalMinutes')
     _id = sgqlc.types.Field(String, graphql_name='_id')
 
 
@@ -1648,8 +1660,9 @@ class Member(sgqlc.types.Type):
 
 class Minutes(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'summary', 'tags', 'urls', 'news', 'speeches', 'discussed_bills', 'discussed_laws', 'total_news', 'total_bills', 'total_members', '_id')
+    __field_names__ = ('id', 'ndl_min_id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'summary', 'tags', 'urls', 'news', 'speeches', 'discussed_bills', 'discussed_laws', 'total_news', 'total_bills', 'total_members', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
+    ndl_min_id = sgqlc.types.Field(String, graphql_name='ndlMinId')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     start_date_time = sgqlc.types.Field('_Neo4jDateTime', graphql_name='startDateTime')
     end_date_time = sgqlc.types.Field('_Neo4jDateTime', graphql_name='endDateTime')
@@ -2526,6 +2539,7 @@ class Mutation(sgqlc.types.Type):
     )
     create_minutes = sgqlc.types.Field(Minutes, graphql_name='CreateMinutes', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
+        ('ndl_min_id', sgqlc.types.Arg(String, graphql_name='ndlMinId', default=None)),
         ('name', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='name', default=None)),
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
@@ -2536,6 +2550,7 @@ class Mutation(sgqlc.types.Type):
     )
     update_minutes = sgqlc.types.Field(Minutes, graphql_name='UpdateMinutes', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='id', default=None)),
+        ('ndl_min_id', sgqlc.types.Arg(String, graphql_name='ndlMinId', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
@@ -2550,6 +2565,7 @@ class Mutation(sgqlc.types.Type):
     )
     merge_minutes = sgqlc.types.Field(Minutes, graphql_name='MergeMinutes', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='id', default=None)),
+        ('ndl_min_id', sgqlc.types.Arg(String, graphql_name='ndlMinId', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
@@ -2979,6 +2995,8 @@ class Query(sgqlc.types.Type):
         ('category', sgqlc.types.Arg(DietCategory, graphql_name='category', default=None)),
         ('start_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDate', default=None)),
         ('end_date', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDate', default=None)),
+        ('total_bills', sgqlc.types.Arg(Int, graphql_name='totalBills', default=None)),
+        ('total_minutes', sgqlc.types.Arg(Int, graphql_name='totalMinutes', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -3045,6 +3063,7 @@ class Query(sgqlc.types.Type):
     )
     minutes = sgqlc.types.Field(sgqlc.types.list_of('Minutes'), graphql_name='Minutes', args=sgqlc.types.ArgDict((
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
+        ('ndl_min_id', sgqlc.types.Arg(String, graphql_name='ndlMinId', default=None)),
         ('name', sgqlc.types.Arg(String, graphql_name='name', default=None)),
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
