@@ -62,6 +62,10 @@ class TestGraphQLClient:
         data = client.merge(member)
         assert data['MergeMember']['id'] == member.id
 
+        activity = self._build_sample_activity()
+        data = client.merge(activity)
+        assert data['MergeActivity']['id'] == activity.id
+
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_bulk_merge(self):
         client = GraphQLClient()
@@ -272,3 +276,11 @@ class TestGraphQLClient:
         member.name = 'ネコ・チャン'
         member.id = idgen(member)
         return member
+
+    @staticmethod
+    def _build_sample_activity():
+        activity = Activity(None)
+        activity.member_id = 'Member:id'
+        activity.datetime = _Neo4jDateTimeInput(year=2020, month=1, day=1)
+        activity.id = idgen(activity)
+        return activity

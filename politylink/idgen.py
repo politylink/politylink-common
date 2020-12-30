@@ -30,6 +30,8 @@ def idgen(obj):
         base = _basegen_speech(obj)
     elif isinstance(obj, Diet):
         base = _basegen_diet(obj)
+    elif isinstance(obj, Activity):
+        base = _basegen_activity(obj)
     elif hasattr(obj, 'name'):
         base = _basegen_str(getattr(obj, 'name'))
     else:
@@ -76,3 +78,13 @@ def _basegen_speech(speech: Speech):
 
 def _basegen_diet(diet: Diet):
     return diet.number
+
+
+def _basegen_activity(activity: Activity):
+    id_str = ''
+    for id_field in ['member_id', 'bill_id', 'minutes_id']:  # order matters
+        if hasattr(activity, id_field):
+            id_str += getattr(activity, id_field)
+    dt = activity.datetime
+    dt_str = f'{dt.year:04}{dt.month:02}{dt.day:02}'
+    return _basegen_str(f'{id_str}{dt_str}')

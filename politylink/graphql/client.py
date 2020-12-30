@@ -5,7 +5,7 @@ from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
-from politylink.graphql.schema import _NewsFilter, _Neo4jDateTimeInput
+from politylink.graphql.schema import _NewsFilter, _Neo4jDateTimeInput, _ActivityFilter
 
 
 class GraphQLException(Exception):
@@ -207,6 +207,24 @@ class GraphQLClient:
             filter_.published_at_lt = to_neo4j_datetime(end_date)
         return self.get_all_objects('news', fields, filter_)
 
+    def get_all_activities(self, fields=None, filter_=None, member_id=None, bill_id=None, minutes_id=None):
+        """
+        Special method to get all Activities
+        :return: list of Activity
+        """
+
+        if fields is None:
+            fields = ['id', 'datetime', 'member_id', 'bill_id', 'minutes_id']
+        if filter_ is None:
+            filter_ = _ActivityFilter(None)
+        if member_id:
+            filter_.member_id = member_id
+        if bill_id:
+            filter_.bill_id = bill_id
+        if minutes_id:
+            filter_.minutes_id = minutes_id
+        return self.get_all_objects('activity', fields, filter_)
+
     def get_all_objects(self, class_name, fields=None, filter_=None):
         op = self.build_get_all_operation(class_name, fields, filter_)
         res = self.endpoint(op)
@@ -306,7 +324,7 @@ class GraphQLClient:
     def build_input(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillInput, _CommitteeInput, _MinutesInput, _SpeechInput, \
-            _UrlInput, _NewsInput, _TimelineInput, _MemberInput, _DietInput
+            _UrlInput, _NewsInput, _TimelineInput, _MemberInput, _DietInput, _ActivityInput
 
         class_name = '_{}Input'.format(id_.split(':')[0])
         try:
@@ -318,7 +336,7 @@ class GraphQLClient:
     def build_filter(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
-            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter, _DietFilter
+            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter, _DietFilter, _ActivityFilter
 
         class_name = '_{}Filter'.format(id_.split(':')[0])
         try:
@@ -343,11 +361,15 @@ _link_method_name_map = {
     ('Url', 'Law'): 'url_referred_laws',
     ('Url', 'Member'): 'url_referred_members',
     ('Url', 'Minutes'): 'url_referred_minutes',
+    ('Url', 'Activity'): 'url_referred_activities',
     ('News', 'Bill'): 'news_referred_bills',
     ('News', 'Law'): 'news_referred_laws',
     ('News', 'Member'): 'news_referred_members',
     ('News', 'Minutes'): 'news_referred_minutes',
     ('News', 'Timeline'): 'timeline_news',
+    ('Activity', 'Member'): 'activity_member',
+    ('Activity', 'Minutes'): 'activity_minutes',
+    ('Activity', 'Bill'): 'activity_bill',
     ('Speech', 'Minutes'): 'speech_belonged_to_minutes',
     ('Minutes', 'Bill'): 'minutes_discussed_bills',
     ('Minutes', 'Law'): 'minutes_discussed_laws',
