@@ -21,6 +21,7 @@ class AbstractFinder:
                 for field_text in extract_texts(getattr(obj, field)):
                     if field_text and (text in field_text or field_text in text):
                         return True
+        return False
 
 
 def extract_texts(value) -> List[str]:
