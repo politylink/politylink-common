@@ -75,7 +75,7 @@ class _LawOrdering(sgqlc.types.Enum):
 
 class _MemberOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'nameHira_asc', 'nameHira_desc', 'firstName_asc', 'firstName_desc', 'firstNameHira_asc', 'firstNameHira_desc', 'lastName_asc', 'lastName_desc', 'lastNameHira_asc', 'lastNameHira_desc', 'house_asc', 'house_desc', 'description_asc', 'description_desc', 'image_asc', 'image_desc', 'totalMinutes_asc', 'totalMinutes_desc', 'totalActivities_asc', 'totalActivities_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'name_asc', 'name_desc', 'nameHira_asc', 'nameHira_desc', 'firstName_asc', 'firstName_desc', 'firstNameHira_asc', 'firstNameHira_desc', 'lastName_asc', 'lastName_desc', 'lastNameHira_asc', 'lastNameHira_desc', 'house_asc', 'house_desc', 'description_asc', 'description_desc', 'image_asc', 'image_desc', 'website_asc', 'website_desc', 'twitter_asc', 'twitter_desc', 'facebook_asc', 'facebook_desc', 'totalMinutes_asc', 'totalMinutes_desc', 'totalActivities_asc', 'totalActivities_desc', '_id_asc', '_id_desc')
 
 
 class _MinutesOrdering(sgqlc.types.Enum):
@@ -757,7 +757,7 @@ class _LawInput(sgqlc.types.Input):
 
 class _MemberFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'name_hira', 'name_hira_not', 'name_hira_in', 'name_hira_not_in', 'name_hira_contains', 'name_hira_not_contains', 'name_hira_starts_with', 'name_hira_not_starts_with', 'name_hira_ends_with', 'name_hira_not_ends_with', 'first_name', 'first_name_not', 'first_name_in', 'first_name_not_in', 'first_name_contains', 'first_name_not_contains', 'first_name_starts_with', 'first_name_not_starts_with', 'first_name_ends_with', 'first_name_not_ends_with', 'first_name_hira', 'first_name_hira_not', 'first_name_hira_in', 'first_name_hira_not_in', 'first_name_hira_contains', 'first_name_hira_not_contains', 'first_name_hira_starts_with', 'first_name_hira_not_starts_with', 'first_name_hira_ends_with', 'first_name_hira_not_ends_with', 'last_name', 'last_name_not', 'last_name_in', 'last_name_not_in', 'last_name_contains', 'last_name_not_contains', 'last_name_starts_with', 'last_name_not_starts_with', 'last_name_ends_with', 'last_name_not_ends_with', 'last_name_hira', 'last_name_hira_not', 'last_name_hira_in', 'last_name_hira_not_in', 'last_name_hira_contains', 'last_name_hira_not_contains', 'last_name_hira_starts_with', 'last_name_hira_not_starts_with', 'last_name_hira_ends_with', 'last_name_hira_not_ends_with', 'house', 'house_not', 'house_in', 'house_not_in', 'description', 'description_not', 'description_in', 'description_not_in', 'description_contains', 'description_not_contains', 'description_starts_with', 'description_not_starts_with', 'description_ends_with', 'description_not_ends_with', 'image', 'image_not', 'image_in', 'image_not_in', 'image_contains', 'image_not_contains', 'image_starts_with', 'image_not_starts_with', 'image_ends_with', 'image_not_ends_with', 'be_elected_by_elections', 'be_elected_by_elections_not', 'be_elected_by_elections_in', 'be_elected_by_elections_not_in', 'be_elected_by_elections_some', 'be_elected_by_elections_none', 'be_elected_by_elections_single', 'be_elected_by_elections_every', 'submitted_bills', 'submitted_bills_not', 'submitted_bills_in', 'submitted_bills_not_in', 'submitted_bills_some', 'submitted_bills_none', 'submitted_bills_single', 'submitted_bills_every', 'attended_diets', 'attended_diets_not', 'attended_diets_in', 'attended_diets_not_in', 'attended_diets_some', 'attended_diets_none', 'attended_diets_single', 'attended_diets_every', 'attended_minutes', 'attended_minutes_not', 'attended_minutes_in', 'attended_minutes_not_in', 'attended_minutes_some', 'attended_minutes_none', 'attended_minutes_single', 'attended_minutes_every', 'delivered_speeches', 'delivered_speeches_not', 'delivered_speeches_in', 'delivered_speeches_not_in', 'delivered_speeches_some', 'delivered_speeches_none', 'delivered_speeches_single', 'delivered_speeches_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'news', 'news_not', 'news_in', 'news_not_in', 'news_some', 'news_none', 'news_single', 'news_every', 'activities', 'activities_not', 'activities_in', 'activities_not_in', 'activities_some', 'activities_none', 'activities_single', 'activities_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'name_hira', 'name_hira_not', 'name_hira_in', 'name_hira_not_in', 'name_hira_contains', 'name_hira_not_contains', 'name_hira_starts_with', 'name_hira_not_starts_with', 'name_hira_ends_with', 'name_hira_not_ends_with', 'first_name', 'first_name_not', 'first_name_in', 'first_name_not_in', 'first_name_contains', 'first_name_not_contains', 'first_name_starts_with', 'first_name_not_starts_with', 'first_name_ends_with', 'first_name_not_ends_with', 'first_name_hira', 'first_name_hira_not', 'first_name_hira_in', 'first_name_hira_not_in', 'first_name_hira_contains', 'first_name_hira_not_contains', 'first_name_hira_starts_with', 'first_name_hira_not_starts_with', 'first_name_hira_ends_with', 'first_name_hira_not_ends_with', 'last_name', 'last_name_not', 'last_name_in', 'last_name_not_in', 'last_name_contains', 'last_name_not_contains', 'last_name_starts_with', 'last_name_not_starts_with', 'last_name_ends_with', 'last_name_not_ends_with', 'last_name_hira', 'last_name_hira_not', 'last_name_hira_in', 'last_name_hira_not_in', 'last_name_hira_contains', 'last_name_hira_not_contains', 'last_name_hira_starts_with', 'last_name_hira_not_starts_with', 'last_name_hira_ends_with', 'last_name_hira_not_ends_with', 'house', 'house_not', 'house_in', 'house_not_in', 'description', 'description_not', 'description_in', 'description_not_in', 'description_contains', 'description_not_contains', 'description_starts_with', 'description_not_starts_with', 'description_ends_with', 'description_not_ends_with', 'image', 'image_not', 'image_in', 'image_not_in', 'image_contains', 'image_not_contains', 'image_starts_with', 'image_not_starts_with', 'image_ends_with', 'image_not_ends_with', 'website', 'website_not', 'website_in', 'website_not_in', 'website_contains', 'website_not_contains', 'website_starts_with', 'website_not_starts_with', 'website_ends_with', 'website_not_ends_with', 'twitter', 'twitter_not', 'twitter_in', 'twitter_not_in', 'twitter_contains', 'twitter_not_contains', 'twitter_starts_with', 'twitter_not_starts_with', 'twitter_ends_with', 'twitter_not_ends_with', 'facebook', 'facebook_not', 'facebook_in', 'facebook_not_in', 'facebook_contains', 'facebook_not_contains', 'facebook_starts_with', 'facebook_not_starts_with', 'facebook_ends_with', 'facebook_not_ends_with', 'be_elected_by_elections', 'be_elected_by_elections_not', 'be_elected_by_elections_in', 'be_elected_by_elections_not_in', 'be_elected_by_elections_some', 'be_elected_by_elections_none', 'be_elected_by_elections_single', 'be_elected_by_elections_every', 'submitted_bills', 'submitted_bills_not', 'submitted_bills_in', 'submitted_bills_not_in', 'submitted_bills_some', 'submitted_bills_none', 'submitted_bills_single', 'submitted_bills_every', 'attended_diets', 'attended_diets_not', 'attended_diets_in', 'attended_diets_not_in', 'attended_diets_some', 'attended_diets_none', 'attended_diets_single', 'attended_diets_every', 'attended_minutes', 'attended_minutes_not', 'attended_minutes_in', 'attended_minutes_not_in', 'attended_minutes_some', 'attended_minutes_none', 'attended_minutes_single', 'attended_minutes_every', 'delivered_speeches', 'delivered_speeches_not', 'delivered_speeches_in', 'delivered_speeches_not_in', 'delivered_speeches_some', 'delivered_speeches_none', 'delivered_speeches_single', 'delivered_speeches_every', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'news', 'news_not', 'news_in', 'news_not_in', 'news_some', 'news_none', 'news_single', 'news_every', 'activities', 'activities_not', 'activities_in', 'activities_not_in', 'activities_some', 'activities_none', 'activities_single', 'activities_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MemberFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MemberFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -854,6 +854,36 @@ class _MemberFilter(sgqlc.types.Input):
     image_not_starts_with = sgqlc.types.Field(String, graphql_name='image_not_starts_with')
     image_ends_with = sgqlc.types.Field(String, graphql_name='image_ends_with')
     image_not_ends_with = sgqlc.types.Field(String, graphql_name='image_not_ends_with')
+    website = sgqlc.types.Field(String, graphql_name='website')
+    website_not = sgqlc.types.Field(String, graphql_name='website_not')
+    website_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='website_in')
+    website_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='website_not_in')
+    website_contains = sgqlc.types.Field(String, graphql_name='website_contains')
+    website_not_contains = sgqlc.types.Field(String, graphql_name='website_not_contains')
+    website_starts_with = sgqlc.types.Field(String, graphql_name='website_starts_with')
+    website_not_starts_with = sgqlc.types.Field(String, graphql_name='website_not_starts_with')
+    website_ends_with = sgqlc.types.Field(String, graphql_name='website_ends_with')
+    website_not_ends_with = sgqlc.types.Field(String, graphql_name='website_not_ends_with')
+    twitter = sgqlc.types.Field(String, graphql_name='twitter')
+    twitter_not = sgqlc.types.Field(String, graphql_name='twitter_not')
+    twitter_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='twitter_in')
+    twitter_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='twitter_not_in')
+    twitter_contains = sgqlc.types.Field(String, graphql_name='twitter_contains')
+    twitter_not_contains = sgqlc.types.Field(String, graphql_name='twitter_not_contains')
+    twitter_starts_with = sgqlc.types.Field(String, graphql_name='twitter_starts_with')
+    twitter_not_starts_with = sgqlc.types.Field(String, graphql_name='twitter_not_starts_with')
+    twitter_ends_with = sgqlc.types.Field(String, graphql_name='twitter_ends_with')
+    twitter_not_ends_with = sgqlc.types.Field(String, graphql_name='twitter_not_ends_with')
+    facebook = sgqlc.types.Field(String, graphql_name='facebook')
+    facebook_not = sgqlc.types.Field(String, graphql_name='facebook_not')
+    facebook_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='facebook_in')
+    facebook_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='facebook_not_in')
+    facebook_contains = sgqlc.types.Field(String, graphql_name='facebook_contains')
+    facebook_not_contains = sgqlc.types.Field(String, graphql_name='facebook_not_contains')
+    facebook_starts_with = sgqlc.types.Field(String, graphql_name='facebook_starts_with')
+    facebook_not_starts_with = sgqlc.types.Field(String, graphql_name='facebook_not_starts_with')
+    facebook_ends_with = sgqlc.types.Field(String, graphql_name='facebook_ends_with')
+    facebook_not_ends_with = sgqlc.types.Field(String, graphql_name='facebook_not_ends_with')
     be_elected_by_elections = sgqlc.types.Field(_ElectionFilter, graphql_name='beElectedByElections')
     be_elected_by_elections_not = sgqlc.types.Field(_ElectionFilter, graphql_name='beElectedByElections_not')
     be_elected_by_elections_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(_ElectionFilter)), graphql_name='beElectedByElections_in')
@@ -1749,7 +1779,7 @@ class Law(sgqlc.types.Type):
 
 class Member(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'name', 'name_hira', 'first_name', 'first_name_hira', 'last_name', 'last_name_hira', 'house', 'description', 'image', 'tags', 'be_elected_by_elections', 'submitted_bills', 'attended_diets', 'attended_minutes', 'delivered_speeches', 'urls', 'news', 'activities', 'total_minutes', 'total_activities', '_id')
+    __field_names__ = ('id', 'name', 'name_hira', 'first_name', 'first_name_hira', 'last_name', 'last_name_hira', 'house', 'description', 'image', 'tags', 'website', 'twitter', 'facebook', 'be_elected_by_elections', 'submitted_bills', 'attended_diets', 'attended_minutes', 'delivered_speeches', 'urls', 'news', 'activities', 'total_minutes', 'total_activities', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
     name_hira = sgqlc.types.Field(String, graphql_name='nameHira')
@@ -1761,6 +1791,9 @@ class Member(sgqlc.types.Type):
     description = sgqlc.types.Field(String, graphql_name='description')
     image = sgqlc.types.Field(String, graphql_name='image')
     tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
+    website = sgqlc.types.Field(String, graphql_name='website')
+    twitter = sgqlc.types.Field(String, graphql_name='twitter')
+    facebook = sgqlc.types.Field(String, graphql_name='facebook')
     be_elected_by_elections = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(Election))), graphql_name='beElectedByElections', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2046,6 +2079,9 @@ class Mutation(sgqlc.types.Type):
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('image', sgqlc.types.Arg(String, graphql_name='image', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
+        ('website', sgqlc.types.Arg(String, graphql_name='website', default=None)),
+        ('twitter', sgqlc.types.Arg(String, graphql_name='twitter', default=None)),
+        ('facebook', sgqlc.types.Arg(String, graphql_name='facebook', default=None)),
 ))
     )
     update_member = sgqlc.types.Field(Member, graphql_name='UpdateMember', args=sgqlc.types.ArgDict((
@@ -2060,6 +2096,9 @@ class Mutation(sgqlc.types.Type):
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('image', sgqlc.types.Arg(String, graphql_name='image', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
+        ('website', sgqlc.types.Arg(String, graphql_name='website', default=None)),
+        ('twitter', sgqlc.types.Arg(String, graphql_name='twitter', default=None)),
+        ('facebook', sgqlc.types.Arg(String, graphql_name='facebook', default=None)),
 ))
     )
     delete_member = sgqlc.types.Field(Member, graphql_name='DeleteMember', args=sgqlc.types.ArgDict((
@@ -2078,6 +2117,9 @@ class Mutation(sgqlc.types.Type):
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('image', sgqlc.types.Arg(String, graphql_name='image', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
+        ('website', sgqlc.types.Arg(String, graphql_name='website', default=None)),
+        ('twitter', sgqlc.types.Arg(String, graphql_name='twitter', default=None)),
+        ('facebook', sgqlc.types.Arg(String, graphql_name='facebook', default=None)),
 ))
     )
     add_election_election_results = sgqlc.types.Field('_AddElectionElectionResultsPayload', graphql_name='AddElectionElectionResults', args=sgqlc.types.ArgDict((
@@ -3278,6 +3320,9 @@ class Query(sgqlc.types.Type):
         ('description', sgqlc.types.Arg(String, graphql_name='description', default=None)),
         ('image', sgqlc.types.Arg(String, graphql_name='image', default=None)),
         ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
+        ('website', sgqlc.types.Arg(String, graphql_name='website', default=None)),
+        ('twitter', sgqlc.types.Arg(String, graphql_name='twitter', default=None)),
+        ('facebook', sgqlc.types.Arg(String, graphql_name='facebook', default=None)),
         ('total_minutes', sgqlc.types.Arg(Int, graphql_name='totalMinutes', default=None)),
         ('total_activities', sgqlc.types.Arg(Int, graphql_name='totalActivities', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),

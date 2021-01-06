@@ -7,14 +7,13 @@ class CommitteeFinder(AbstractFinder):
     Cache based Committee finder
     """
 
-    search_fields = ['name', 'aliases']
-
-    def __init__(self, committees=None, **kwargs):
+    def __init__(self, committees=None, search_fields=None, **kwargs):
+        super().__init__(search_fields or ['name', 'aliases'])
         if committees:
             self.committees = committees
         else:
             client = GraphQLClient(**kwargs)
             self.committees = client.get_all_committees(['id'] + self.search_fields)
 
-    def find(self, text):
-        return list(filter(lambda x: self.match(x, text), self.committees))
+    def find(self, text, exact_match=False):
+        return list(filter(lambda x: self.match(x, text, exact_match), self.committees))
