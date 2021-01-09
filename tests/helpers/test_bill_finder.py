@@ -33,3 +33,12 @@ class TestBillFinder:
         assert len(bill_finder.find('第2号')) == 0
         assert len(bill_finder.find('法律案')) == 3
         assert len(bill_finder.find('法律案A(成立)')) == 2
+
+    def test_match(self):
+        bill_finder = BillFinder(bills=[], search_fields=['name', 'aliases'])
+
+        assert bill_finder.match(Bill({'name': '法律案A'}), text='法律案', exact_match=False)
+        assert bill_finder.match(Bill({'name': '法律案A'}), text='法律案A', exact_match=True)
+        assert not bill_finder.match(Bill({'name': '法律案A'}), text='法律案', exact_match=True)
+        assert bill_finder.match(Bill({'aliases': ['猫ちゃん', '法律案']}), text='法律案', exact_match=True)
+        assert not bill_finder.match(Bill({'aliases': ['法律', '案']}), text='法律案', exact_match=True)

@@ -2,25 +2,29 @@ from typing import List
 
 
 class AbstractFinder:
-    search_fields = []
+    def __init__(self, search_fields):
+        self.search_fields = search_fields
 
-    def find(self, text) -> list:
+    def find(self, text, exact_match=False) -> list:
         NotImplemented
 
-    def find_one(self, text):
-        objects = self.find(text)
+    def find_one(self, text, exact_match=False):
+        objects = self.find(text, exact_match)
         if len(objects) == 1:
             return objects[0]
         else:
             raise ValueError(f'{self.__class__.__name__} found {len(objects)} results that match with {text}:{objects}')
 
-    @classmethod
-    def match(cls, obj, text) -> bool:
-        for field in cls.search_fields:
+    def match(self, obj, text, exact_match=False) -> bool:
+        for field in self.search_fields:
             if hasattr(obj, field):
                 for field_text in extract_texts(getattr(obj, field)):
-                    if field_text and (text in field_text or field_text in text):
-                        return True
+                    if exact_match:
+                        if text == field_text:
+                            return True
+                    else:
+                        if text in field_text or field_text in text:
+                            return True
         return False
 
 
@@ -30,7 +34,7 @@ def extract_texts(value) -> List[str]:
     """
 
     texts = []
-    if isinstance(value, str):
+    if isinstance(value, str) and value:
         texts.append(value)
     elif isinstance(value, list):
         for e in value:
