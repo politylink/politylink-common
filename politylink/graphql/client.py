@@ -151,7 +151,7 @@ class GraphQLClient:
     def get_all_bills(self, fields=None, filter_=None):
         """
         Special method to get all Bills
-        :return: list of Bills
+        :return: list of Bill
         """
 
         if fields is None:
@@ -161,7 +161,7 @@ class GraphQLClient:
     def get_all_committees(self, fields=None, filter_=None):
         """
         Special method to get all Committees
-        :return: list of Committees
+        :return: list of Committee
         """
 
         if fields is None:
@@ -181,12 +181,22 @@ class GraphQLClient:
     def get_all_members(self, fields=None, filter_=None):
         """
         Special method to get all Members
-        :return: list of Members
+        :return: list of Member
         """
 
         if fields is None:
             fields = ['id', 'name']
         return self.get_all_objects('member', fields, filter_)
+
+    def get_all_diets(self, fields=None, filter_=None):
+        """
+        Special method to get all Diets
+        :return: list of Diet
+        """
+
+        if fields is None:
+            fields = ['id', 'number']
+        return self.get_all_objects('diet', fields, filter_)
 
     def get_all_news(self, fields=None, filter_=None, start_date=None, end_date=None):
         """
