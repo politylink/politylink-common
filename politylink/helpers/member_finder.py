@@ -15,5 +15,5 @@ class MemberFinder(AbstractFinder):
             client = GraphQLClient(**kwargs)
             self.members = client.get_all_members(['id'] + self.search_fields)
 
-    def find(self, text, exact_match=False):
-        return list(filter(lambda x: self.match(x, text, exact_match), self.members))
+    def find(self, text, exact_match=False, *args, **kwargs):
+        return list(filter(lambda x: self.is_text_match(x, text, exact_match), self.members))

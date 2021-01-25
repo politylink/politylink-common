@@ -9,7 +9,7 @@ class TestBillFinder:
         bills = [
             Bill({'id': 'Bill:0', 'name': '法律案A'}),
             Bill({'id': 'Bill:1', 'name': '法律案B'}),
-            Bill({'id': 'Bill:2', 'name': '法律案A', 'billNumber': '第1号'})
+            Bill({'id': 'Bill:2', 'name': '法律案A', 'billNumber': '第100回国会閣法第1号'})
         ]
         bill_finder = BillFinder(bills)
 
@@ -34,11 +34,14 @@ class TestBillFinder:
         assert len(bill_finder.find('法律案')) == 3
         assert len(bill_finder.find('法律案A(成立)')) == 2
 
+        assert len(bill_finder.find('法律案', diet_number=100)) == 1
+        assert len(bill_finder.find('法律案', diet_number=101)) == 0
+
     def test_match(self):
         bill_finder = BillFinder(bills=[], search_fields=['name', 'aliases'])
 
-        assert bill_finder.match(Bill({'name': '法律案A'}), text='法律案', exact_match=False)
-        assert bill_finder.match(Bill({'name': '法律案A'}), text='法律案A', exact_match=True)
-        assert not bill_finder.match(Bill({'name': '法律案A'}), text='法律案', exact_match=True)
-        assert bill_finder.match(Bill({'aliases': ['猫ちゃん', '法律案']}), text='法律案', exact_match=True)
-        assert not bill_finder.match(Bill({'aliases': ['法律', '案']}), text='法律案', exact_match=True)
+        assert bill_finder.is_text_match(Bill({'name': '法律案A'}), text='法律案', exact_match=False)
+        assert bill_finder.is_text_match(Bill({'name': '法律案A'}), text='法律案A', exact_match=True)
+        assert not bill_finder.is_text_match(Bill({'name': '法律案A'}), text='法律案', exact_match=True)
+        assert bill_finder.is_text_match(Bill({'aliases': ['猫ちゃん', '法律案']}), text='法律案', exact_match=True)
+        assert not bill_finder.is_text_match(Bill({'aliases': ['法律', '案']}), text='法律案', exact_match=True)

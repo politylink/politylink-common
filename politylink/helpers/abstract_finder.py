@@ -5,17 +5,17 @@ class AbstractFinder:
     def __init__(self, search_fields):
         self.search_fields = search_fields
 
-    def find(self, text, exact_match=False) -> list:
+    def find(self, text, exact_match=False, *args, **kwargs) -> list:
         NotImplemented
 
-    def find_one(self, text, exact_match=False):
-        objects = self.find(text, exact_match)
+    def find_one(self, text, exact_match=False, *args, **kwargs):
+        objects = self.find(text, exact_match, *args, **kwargs)
         if len(objects) == 1:
             return objects[0]
         else:
             raise ValueError(f'{self.__class__.__name__} found {len(objects)} results that match with {text}:{objects}')
 
-    def match(self, obj, text, exact_match=False) -> bool:
+    def is_text_match(self, obj, text, exact_match=False) -> bool:
         for field in self.search_fields:
             if hasattr(obj, field):
                 for field_text in extract_texts(getattr(obj, field)):

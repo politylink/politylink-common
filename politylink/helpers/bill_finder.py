@@ -15,5 +15,16 @@ class BillFinder(AbstractFinder):
             client = GraphQLClient(**kwargs)
             self.bills = client.get_all_bills(['id'] + self.search_fields)
 
-    def find(self, text, exact_match=False):
-        return list(filter(lambda x: self.match(x, text, exact_match), self.bills))
+    def find(self, text, exact_match=False, diet_number=None, *args, **kwargs):
+        return list(filter(
+            lambda x: self.is_text_match(x, text, exact_match) and self.is_diet_match(x, diet_number),
+            self.bills
+        ))
+
+    @staticmethod
+    def is_diet_match(bill, diet_number=None):
+        if diet_number is None:
+            return True
+        if hasattr(bill, 'bill_number'):
+            return f'第{diet_number}回国会' in bill.bill_number
+        return False
