@@ -1,6 +1,6 @@
 import pytest
 
-from politylink.graphql.schema import Bill
+from politylink.graphql.schema import Bill, BillCategory
 from politylink.helpers import BillFinder
 
 
@@ -9,7 +9,7 @@ class TestBillFinder:
         bills = [
             Bill({'id': 'Bill:0', 'name': '法律案A'}),
             Bill({'id': 'Bill:1', 'name': '法律案B'}),
-            Bill({'id': 'Bill:2', 'name': '法律案A', 'billNumber': '第100回国会閣法第1号'})
+            Bill({'id': 'Bill:2', 'name': '法律案A', 'billNumber': '第100回国会閣法第1号', 'category': 'KAKUHOU'})
         ]
         bill_finder = BillFinder(bills)
 
@@ -36,6 +36,9 @@ class TestBillFinder:
 
         assert len(bill_finder.find('法律案', diet_number=100)) == 1
         assert len(bill_finder.find('法律案', diet_number=101)) == 0
+
+        assert len(bill_finder.find('法律案', category=BillCategory.KAKUHOU)) == 1
+        assert len(bill_finder.find('法律案', category=BillCategory.SANHOU)) == 0
 
     def test_match(self):
         bill_finder = BillFinder(bills=[], search_fields=['name', 'aliases'])
