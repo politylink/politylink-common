@@ -15,5 +15,5 @@ class CommitteeFinder(AbstractFinder):
             client = GraphQLClient(**kwargs)
             self.committees = client.get_all_committees(['id'] + self.search_fields)
 
-    def find(self, text, exact_match=False):
-        return list(filter(lambda x: self.match(x, text, exact_match), self.committees))
+    def find(self, text, exact_match=False, *args, **kwargs):
+        return list(filter(lambda x: self.is_text_match(x, text, exact_match), self.committees))
