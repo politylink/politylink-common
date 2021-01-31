@@ -18,9 +18,7 @@ class MinutesFinder:
         minutes_filter.name_contains = text
         if dt:
             minutes_filter.start_date_time = _Neo4jDateTimeInput(year=dt.year, month=dt.month, day=dt.day)
-        minutes = op.minutes(filter=minutes_filter)
-        minutes.id()
-        minutes.name()
+        op.minutes(filter=minutes_filter)
 
         data = self.client.endpoint(op)
         GraphQLClient.validate_response_or_raise(data)
