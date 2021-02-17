@@ -148,7 +148,7 @@ class GraphQLClient:
             ret = self.exec(op)
         return ret
 
-    def get_all_bills(self, fields=None, filter_=None):
+    def get_all_bills(self, fields=None, filter_=None, depth=1):
         """
         Special method to get all Bills
         :return: list of Bill
@@ -156,9 +156,9 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name', 'bill_number']
-        return self.get_all_objects('bill', fields, filter_)
+        return self.get_all_objects('bill', fields, filter_, depth)
 
-    def get_all_committees(self, fields=None, filter_=None):
+    def get_all_committees(self, fields=None, filter_=None, depth=1):
         """
         Special method to get all Committees
         :return: list of Committee
@@ -166,9 +166,9 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name']
-        return self.get_all_objects('committee', fields, filter_)
+        return self.get_all_objects('committee', fields, filter_, depth)
 
-    def get_all_minutes(self, fields=None, filter_=None):
+    def get_all_minutes(self, fields=None, filter_=None, depth=1):
         """
         Special method to get all Minutes
         :return: list of Minutes
@@ -176,9 +176,9 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name', 'start_date_time']
-        return self.get_all_objects('minutes', fields, filter_)
+        return self.get_all_objects('minutes', fields, filter_, depth)
 
-    def get_all_members(self, fields=None, filter_=None):
+    def get_all_members(self, fields=None, filter_=None, depth=1):
         """
         Special method to get all Members
         :return: list of Member
@@ -186,9 +186,9 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'name']
-        return self.get_all_objects('member', fields, filter_)
+        return self.get_all_objects('member', fields, filter_, depth)
 
-    def get_all_diets(self, fields=None, filter_=None):
+    def get_all_diets(self, fields=None, filter_=None, depth=1):
         """
         Special method to get all Diets
         :return: list of Diet
@@ -196,9 +196,9 @@ class GraphQLClient:
 
         if fields is None:
             fields = ['id', 'number']
-        return self.get_all_objects('diet', fields, filter_)
+        return self.get_all_objects('diet', fields, filter_, depth)
 
-    def get_all_news(self, fields=None, filter_=None, start_date=None, end_date=None):
+    def get_all_news(self, fields=None, filter_=None, depth=1, start_date=None, end_date=None):
         """
         Special method to get all News
         :return: list of News
@@ -215,9 +215,9 @@ class GraphQLClient:
             filter_.published_at_gte = to_neo4j_datetime(start_date)
         if end_date:
             filter_.published_at_lt = to_neo4j_datetime(end_date)
-        return self.get_all_objects('news', fields, filter_)
+        return self.get_all_objects('news', fields, filter_, depth)
 
-    def get_all_activities(self, fields=None, filter_=None, member_id=None, bill_id=None, minutes_id=None):
+    def get_all_activities(self, fields=None, filter_=None, depth=1, member_id=None, bill_id=None, minutes_id=None):
         """
         Special method to get all Activities
         :return: list of Activity
@@ -233,11 +233,11 @@ class GraphQLClient:
             filter_.bill_id = bill_id
         if minutes_id:
             filter_.minutes_id = minutes_id
-        return self.get_all_objects('activity', fields, filter_)
+        return self.get_all_objects('activity', fields, filter_, depth)
 
-    def get_all_objects(self, class_name, fields=None, filter_=None):
+    def get_all_objects(self, class_name, fields=None, filter_=None, depth=1):
         op = self.build_get_all_operation(class_name, fields, filter_)
-        res = self.endpoint(op)
+        res = self.endpoint(op.__to_graphql__(auto_select_depth=depth))
         self.validate_response_or_raise(res)
         return getattr(op + res, class_name)
 
