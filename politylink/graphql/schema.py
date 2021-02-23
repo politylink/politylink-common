@@ -1857,7 +1857,7 @@ class Member(sgqlc.types.Type):
 
 class Minutes(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'ndl_min_id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'summary', 'tags', 'urls', 'news', 'activities', 'speeches', 'discussed_bills', 'discussed_laws', 'total_news', 'total_bills', 'total_members', 'total_activities', '_id')
+    __field_names__ = ('id', 'ndl_min_id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'topic_ids', 'speakers', 'speaker_ids', 'summary', 'tags', 'urls', 'news', 'activities', 'speeches', 'discussed_bills', 'discussed_laws', 'total_news', 'total_bills', 'total_members', 'total_activities', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     ndl_min_id = sgqlc.types.Field(String, graphql_name='ndlMinId')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
@@ -1879,6 +1879,9 @@ class Minutes(sgqlc.types.Type):
 ))
     )
     topics = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topics')
+    topic_ids = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topicIds')
+    speakers = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speakers')
+    speaker_ids = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speakerIds')
     summary = sgqlc.types.Field(String, graphql_name='summary')
     tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
     urls = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Url'))), graphql_name='urls', args=sgqlc.types.ArgDict((
@@ -2804,6 +2807,9 @@ class Mutation(sgqlc.types.Type):
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topics', default=None)),
+        ('topic_ids', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='topicIds', default=None)),
+        ('speakers', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speakers', default=None)),
+        ('speaker_ids', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speakerIds', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
 ))
@@ -2815,6 +2821,9 @@ class Mutation(sgqlc.types.Type):
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topics', default=None)),
+        ('topic_ids', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topicIds', default=None)),
+        ('speakers', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='speakers', default=None)),
+        ('speaker_ids', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='speakerIds', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
@@ -2830,6 +2839,9 @@ class Mutation(sgqlc.types.Type):
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topics', default=None)),
+        ('topic_ids', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='topicIds', default=None)),
+        ('speakers', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='speakers', default=None)),
+        ('speaker_ids', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='speakerIds', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
 ))
@@ -3437,6 +3449,9 @@ class Query(sgqlc.types.Type):
         ('start_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='startDateTime', default=None)),
         ('end_date_time', sgqlc.types.Arg(_Neo4jDateTimeInput, graphql_name='endDateTime', default=None)),
         ('topics', sgqlc.types.Arg(String, graphql_name='topics', default=None)),
+        ('topic_ids', sgqlc.types.Arg(String, graphql_name='topicIds', default=None)),
+        ('speakers', sgqlc.types.Arg(String, graphql_name='speakers', default=None)),
+        ('speaker_ids', sgqlc.types.Arg(String, graphql_name='speakerIds', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
         ('total_news', sgqlc.types.Arg(Int, graphql_name='totalNews', default=None)),
