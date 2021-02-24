@@ -12,6 +12,9 @@ pandas = "^1.0.5"
 sgqlc = "^11.0"
 kanjize = "^0.1.0"
 elasticsearch = "^7.9.1"
+nltk = "^3.5"
+pke = { git = "https://github.com/boudinfl/pke.git"}
+spacy = "^2.3.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
