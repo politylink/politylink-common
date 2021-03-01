@@ -4,4 +4,4 @@ from politylink.nlp.keyphrase import KeyPhraseExtractor
 class TestKeyPhraseExtractor:
     def test_extract(self):
         extractor = KeyPhraseExtractor()
-        assert ['猫', '元気'] == extractor.get_key_phrase(text='今日も猫ちゃんは元気に庭を走り回っています', n=2)
+        assert ['日本犬', '世界中'] == extractor.extract(text='柴犬は日本犬の一種であり、世界中で人気の犬種です。', n=2)
