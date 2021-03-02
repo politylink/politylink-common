@@ -2,7 +2,10 @@
 ```
 pip install politylink
 ```
-
+`politylink.nlp.keyphrase`を使用する場合は、NLTKのストップワードをダウンロードしてください。
+```
+python -m nltk.downloader stopwords
+```
 ## 使い方
 
 ### GraphQLClient
