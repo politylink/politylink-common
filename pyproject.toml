@@ -13,7 +13,6 @@ sgqlc = "^11.0"
 kanjize = "^0.1.0"
 elasticsearch = "^7.9.1"
 nltk = "^3.5"
-pke = { git = "https://github.com/boudinfl/pke.git" }
 spacy = "^2.3.5"
 ginza = "^4.0.5"
 
