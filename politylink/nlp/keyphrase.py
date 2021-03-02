@@ -13,14 +13,14 @@ class KeyPhraseExtractor:
         stopwords = set()
 
         p = path.join(path.dirname(__file__), 'stopwords_minutes.txt')
-        stopwords |= self.load_stopwords(p)
+        stopwords.update(self.load_stopwords(p))
 
         p = path.join(path.dirname(__file__), 'stopwords_slothlib.txt')
-        stopwords |= self.load_stopwords(p)
+        stopwords.update(self.load_stopwords(p))
 
-        stopwords |= self.get_member_names()
+        stopwords.update(self.get_member_names())
 
-        stopwords |= stop_words.STOP_WORDS
+        stopwords.update(stop_words.STOP_WORDS)
         stopwords = list(stopwords)
 
         # set stop words
@@ -31,7 +31,7 @@ class KeyPhraseExtractor:
 
     def load_stopwords(self, file_path):
         with open(file_path, mode='r') as f:
-            stopwords = set(f.read().splitlines())
+            stopwords = f.read().splitlines()
         return stopwords
 
     def get_member_names(self):
@@ -39,7 +39,7 @@ class KeyPhraseExtractor:
         fields = ['first_name', 'first_name_hira', 'last_name', 'last_name_hira']
         members = client.get_all_members(fields=fields)
         member_names = [m[f] for f in fields for m in members]
-        return set(member_names)
+        return member_names
 
     def extract(self, text, n=3):
         """
