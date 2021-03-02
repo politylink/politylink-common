@@ -2,12 +2,9 @@
 ```
 pip install politylink
 ```
-`politylink.nlp.keyphrase`を使用する場合は、追加で以下を行ってください。
-- pkeのインストール
-- NLTKのストップワードのダウンロード
+`politylink.nlp.keyphrase`を使用する場合は、追加で以下を実行してください。
 ```
 pip install git+https://github.com/boudinfl/pke.git
-
 python -m nltk.downloader stopwords
 ```
 ## 使い方
