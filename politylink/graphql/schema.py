@@ -80,7 +80,7 @@ class _MemberOrdering(sgqlc.types.Enum):
 
 class _MinutesOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'ndlMinId_asc', 'ndlMinId_desc', 'name_asc', 'name_desc', 'startDateTime_asc', 'startDateTime_desc', 'endDateTime_asc', 'endDateTime_desc', 'summary_asc', 'summary_desc', 'totalNews_asc', 'totalNews_desc', 'totalBills_asc', 'totalBills_desc', 'totalMembers_asc', 'totalMembers_desc', 'totalActivities_asc', 'totalActivities_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'ndlMinId_asc', 'ndlMinId_desc', 'name_asc', 'name_desc', 'startDateTime_asc', 'startDateTime_desc', 'endDateTime_asc', 'endDateTime_desc', 'summary_asc', 'summary_desc', 'wordcloud_asc', 'wordcloud_desc', 'totalNews_asc', 'totalNews_desc', 'totalBills_asc', 'totalBills_desc', 'totalMembers_asc', 'totalMembers_desc', 'totalActivities_asc', 'totalActivities_desc', '_id_asc', '_id_desc')
 
 
 class _NewsOrdering(sgqlc.types.Enum):
@@ -958,7 +958,7 @@ class _MemberInput(sgqlc.types.Input):
 
 class _MinutesFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'ndl_min_id', 'ndl_min_id_not', 'ndl_min_id_in', 'ndl_min_id_not_in', 'ndl_min_id_contains', 'ndl_min_id_not_contains', 'ndl_min_id_starts_with', 'ndl_min_id_not_starts_with', 'ndl_min_id_ends_with', 'ndl_min_id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'start_date_time', 'start_date_time_not', 'start_date_time_in', 'start_date_time_not_in', 'start_date_time_lt', 'start_date_time_lte', 'start_date_time_gt', 'start_date_time_gte', 'end_date_time', 'end_date_time_not', 'end_date_time_in', 'end_date_time_not_in', 'end_date_time_lt', 'end_date_time_lte', 'end_date_time_gt', 'end_date_time_gte', 'belonged_to_diet', 'belonged_to_diet_not', 'belonged_to_diet_in', 'belonged_to_diet_not_in', 'belonged_to_committee', 'belonged_to_committee_not', 'belonged_to_committee_in', 'belonged_to_committee_not_in', 'be_attended_by_members', 'be_attended_by_members_not', 'be_attended_by_members_in', 'be_attended_by_members_not_in', 'be_attended_by_members_some', 'be_attended_by_members_none', 'be_attended_by_members_single', 'be_attended_by_members_every', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'news', 'news_not', 'news_in', 'news_not_in', 'news_some', 'news_none', 'news_single', 'news_every', 'activities', 'activities_not', 'activities_in', 'activities_not_in', 'activities_some', 'activities_none', 'activities_single', 'activities_every', 'speeches', 'speeches_not', 'speeches_in', 'speeches_not_in', 'speeches_some', 'speeches_none', 'speeches_single', 'speeches_every', 'discussed_bills', 'discussed_bills_not', 'discussed_bills_in', 'discussed_bills_not_in', 'discussed_bills_some', 'discussed_bills_none', 'discussed_bills_single', 'discussed_bills_every', 'discussed_laws', 'discussed_laws_not', 'discussed_laws_in', 'discussed_laws_not_in', 'discussed_laws_some', 'discussed_laws_none', 'discussed_laws_single', 'discussed_laws_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'ndl_min_id', 'ndl_min_id_not', 'ndl_min_id_in', 'ndl_min_id_not_in', 'ndl_min_id_contains', 'ndl_min_id_not_contains', 'ndl_min_id_starts_with', 'ndl_min_id_not_starts_with', 'ndl_min_id_ends_with', 'ndl_min_id_not_ends_with', 'name', 'name_not', 'name_in', 'name_not_in', 'name_contains', 'name_not_contains', 'name_starts_with', 'name_not_starts_with', 'name_ends_with', 'name_not_ends_with', 'start_date_time', 'start_date_time_not', 'start_date_time_in', 'start_date_time_not_in', 'start_date_time_lt', 'start_date_time_lte', 'start_date_time_gt', 'start_date_time_gte', 'end_date_time', 'end_date_time_not', 'end_date_time_in', 'end_date_time_not_in', 'end_date_time_lt', 'end_date_time_lte', 'end_date_time_gt', 'end_date_time_gte', 'belonged_to_diet', 'belonged_to_diet_not', 'belonged_to_diet_in', 'belonged_to_diet_not_in', 'belonged_to_committee', 'belonged_to_committee_not', 'belonged_to_committee_in', 'belonged_to_committee_not_in', 'be_attended_by_members', 'be_attended_by_members_not', 'be_attended_by_members_in', 'be_attended_by_members_not_in', 'be_attended_by_members_some', 'be_attended_by_members_none', 'be_attended_by_members_single', 'be_attended_by_members_every', 'summary', 'summary_not', 'summary_in', 'summary_not_in', 'summary_contains', 'summary_not_contains', 'summary_starts_with', 'summary_not_starts_with', 'summary_ends_with', 'summary_not_ends_with', 'wordcloud', 'wordcloud_not', 'wordcloud_in', 'wordcloud_not_in', 'wordcloud_contains', 'wordcloud_not_contains', 'wordcloud_starts_with', 'wordcloud_not_starts_with', 'wordcloud_ends_with', 'wordcloud_not_ends_with', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every', 'news', 'news_not', 'news_in', 'news_not_in', 'news_some', 'news_none', 'news_single', 'news_every', 'activities', 'activities_not', 'activities_in', 'activities_not_in', 'activities_some', 'activities_none', 'activities_single', 'activities_every', 'speeches', 'speeches_not', 'speeches_in', 'speeches_not_in', 'speeches_some', 'speeches_none', 'speeches_single', 'speeches_every', 'discussed_bills', 'discussed_bills_not', 'discussed_bills_in', 'discussed_bills_not_in', 'discussed_bills_some', 'discussed_bills_none', 'discussed_bills_single', 'discussed_bills_every', 'discussed_laws', 'discussed_laws_not', 'discussed_laws_in', 'discussed_laws_not_in', 'discussed_laws_some', 'discussed_laws_none', 'discussed_laws_single', 'discussed_laws_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_MinutesFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -1033,6 +1033,16 @@ class _MinutesFilter(sgqlc.types.Input):
     summary_not_starts_with = sgqlc.types.Field(String, graphql_name='summary_not_starts_with')
     summary_ends_with = sgqlc.types.Field(String, graphql_name='summary_ends_with')
     summary_not_ends_with = sgqlc.types.Field(String, graphql_name='summary_not_ends_with')
+    wordcloud = sgqlc.types.Field(String, graphql_name='wordcloud')
+    wordcloud_not = sgqlc.types.Field(String, graphql_name='wordcloud_not')
+    wordcloud_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='wordcloud_in')
+    wordcloud_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='wordcloud_not_in')
+    wordcloud_contains = sgqlc.types.Field(String, graphql_name='wordcloud_contains')
+    wordcloud_not_contains = sgqlc.types.Field(String, graphql_name='wordcloud_not_contains')
+    wordcloud_starts_with = sgqlc.types.Field(String, graphql_name='wordcloud_starts_with')
+    wordcloud_not_starts_with = sgqlc.types.Field(String, graphql_name='wordcloud_not_starts_with')
+    wordcloud_ends_with = sgqlc.types.Field(String, graphql_name='wordcloud_ends_with')
+    wordcloud_not_ends_with = sgqlc.types.Field(String, graphql_name='wordcloud_not_ends_with')
     urls = sgqlc.types.Field('_UrlFilter', graphql_name='urls')
     urls_not = sgqlc.types.Field('_UrlFilter', graphql_name='urls_not')
     urls_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_UrlFilter')), graphql_name='urls_in')
@@ -1857,7 +1867,7 @@ class Member(sgqlc.types.Type):
 
 class Minutes(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'ndl_min_id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'topic_ids', 'speakers', 'speaker_ids', 'summary', 'tags', 'urls', 'news', 'activities', 'speeches', 'discussed_bills', 'discussed_laws', 'total_news', 'total_bills', 'total_members', 'total_activities', '_id')
+    __field_names__ = ('id', 'ndl_min_id', 'name', 'start_date_time', 'end_date_time', 'belonged_to_diet', 'belonged_to_committee', 'be_attended_by_members', 'topics', 'topic_ids', 'speakers', 'speaker_ids', 'summary', 'tags', 'wordcloud', 'urls', 'news', 'activities', 'speeches', 'discussed_bills', 'discussed_laws', 'total_news', 'total_bills', 'total_members', 'total_activities', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     ndl_min_id = sgqlc.types.Field(String, graphql_name='ndlMinId')
     name = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='name')
@@ -1884,6 +1894,7 @@ class Minutes(sgqlc.types.Type):
     speaker_ids = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speakerIds')
     summary = sgqlc.types.Field(String, graphql_name='summary')
     tags = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags')
+    wordcloud = sgqlc.types.Field(String, graphql_name='wordcloud')
     urls = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null('Url'))), graphql_name='urls', args=sgqlc.types.ArgDict((
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
@@ -2812,6 +2823,7 @@ class Mutation(sgqlc.types.Type):
         ('speaker_ids', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='speakerIds', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='tags', default=None)),
+        ('wordcloud', sgqlc.types.Arg(String, graphql_name='wordcloud', default=None)),
 ))
     )
     update_minutes = sgqlc.types.Field(Minutes, graphql_name='UpdateMinutes', args=sgqlc.types.ArgDict((
@@ -2826,6 +2838,7 @@ class Mutation(sgqlc.types.Type):
         ('speaker_ids', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='speakerIds', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
+        ('wordcloud', sgqlc.types.Arg(String, graphql_name='wordcloud', default=None)),
 ))
     )
     delete_minutes = sgqlc.types.Field(Minutes, graphql_name='DeleteMinutes', args=sgqlc.types.ArgDict((
@@ -2844,6 +2857,7 @@ class Mutation(sgqlc.types.Type):
         ('speaker_ids', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='speakerIds', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('tags', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='tags', default=None)),
+        ('wordcloud', sgqlc.types.Arg(String, graphql_name='wordcloud', default=None)),
 ))
     )
     add_speech_belonged_to_minutes = sgqlc.types.Field('_AddSpeechBelongedToMinutesPayload', graphql_name='AddSpeechBelongedToMinutes', args=sgqlc.types.ArgDict((
@@ -3454,6 +3468,7 @@ class Query(sgqlc.types.Type):
         ('speaker_ids', sgqlc.types.Arg(String, graphql_name='speakerIds', default=None)),
         ('summary', sgqlc.types.Arg(String, graphql_name='summary', default=None)),
         ('tags', sgqlc.types.Arg(String, graphql_name='tags', default=None)),
+        ('wordcloud', sgqlc.types.Arg(String, graphql_name='wordcloud', default=None)),
         ('total_news', sgqlc.types.Arg(Int, graphql_name='totalNews', default=None)),
         ('total_bills', sgqlc.types.Arg(Int, graphql_name='totalBills', default=None)),
         ('total_members', sgqlc.types.Arg(Int, graphql_name='totalMembers', default=None)),
