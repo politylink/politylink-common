@@ -1528,7 +1528,7 @@ class Activity(sgqlc.types.Type):
     member_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='memberId')
     minutes_id = sgqlc.types.Field(String, graphql_name='minutesId')
     bill_id = sgqlc.types.Field(String, graphql_name='billId')
-    keyphrases = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(String)), graphql_name='keyphrases')
+    keyphrases = sgqlc.types.Field(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(String))), graphql_name='keyphrases')
     member = sgqlc.types.Field('Member', graphql_name='member', args=sgqlc.types.ArgDict((
         ('filter', sgqlc.types.Arg(_MemberFilter, graphql_name='filter', default=None)),
 ))
@@ -3252,7 +3252,7 @@ class Mutation(sgqlc.types.Type):
         ('member_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='memberId', default=None)),
         ('minutes_id', sgqlc.types.Arg(String, graphql_name='minutesId', default=None)),
         ('bill_id', sgqlc.types.Arg(String, graphql_name='billId', default=None)),
-        ('keyphrases', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(String)), graphql_name='keyphrases', default=None)),
+        ('keyphrases', sgqlc.types.Arg(sgqlc.types.non_null(sgqlc.types.list_of(sgqlc.types.non_null(String))), graphql_name='keyphrases', default=None)),
 ))
     )
     update_activity = sgqlc.types.Field(Activity, graphql_name='UpdateActivity', args=sgqlc.types.ArgDict((
