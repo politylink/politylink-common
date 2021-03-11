@@ -1522,12 +1522,13 @@ class _UrlInput(sgqlc.types.Input):
 ########################################################################
 class Activity(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'datetime', 'member_id', 'minutes_id', 'bill_id', 'member', 'minutes', 'bill', 'urls', '_id')
+    __field_names__ = ('id', 'datetime', 'member_id', 'minutes_id', 'bill_id', 'keyphrases', 'member', 'minutes', 'bill', 'urls', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     datetime = sgqlc.types.Field(sgqlc.types.non_null('_Neo4jDateTime'), graphql_name='datetime')
     member_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='memberId')
     minutes_id = sgqlc.types.Field(String, graphql_name='minutesId')
     bill_id = sgqlc.types.Field(String, graphql_name='billId')
+    keyphrases = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='keyphrases')
     member = sgqlc.types.Field('Member', graphql_name='member', args=sgqlc.types.ArgDict((
         ('filter', sgqlc.types.Arg(_MemberFilter, graphql_name='filter', default=None)),
 ))
@@ -3251,6 +3252,7 @@ class Mutation(sgqlc.types.Type):
         ('member_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='memberId', default=None)),
         ('minutes_id', sgqlc.types.Arg(String, graphql_name='minutesId', default=None)),
         ('bill_id', sgqlc.types.Arg(String, graphql_name='billId', default=None)),
+        ('keyphrases', sgqlc.types.Arg(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='keyphrases', default=None)),
 ))
     )
     update_activity = sgqlc.types.Field(Activity, graphql_name='UpdateActivity', args=sgqlc.types.ArgDict((
@@ -3259,6 +3261,7 @@ class Mutation(sgqlc.types.Type):
         ('member_id', sgqlc.types.Arg(String, graphql_name='memberId', default=None)),
         ('minutes_id', sgqlc.types.Arg(String, graphql_name='minutesId', default=None)),
         ('bill_id', sgqlc.types.Arg(String, graphql_name='billId', default=None)),
+        ('keyphrases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='keyphrases', default=None)),
 ))
     )
     delete_activity = sgqlc.types.Field(Activity, graphql_name='DeleteActivity', args=sgqlc.types.ArgDict((
@@ -3271,6 +3274,7 @@ class Mutation(sgqlc.types.Type):
         ('member_id', sgqlc.types.Arg(String, graphql_name='memberId', default=None)),
         ('minutes_id', sgqlc.types.Arg(String, graphql_name='minutesId', default=None)),
         ('bill_id', sgqlc.types.Arg(String, graphql_name='billId', default=None)),
+        ('keyphrases', sgqlc.types.Arg(sgqlc.types.list_of(String), graphql_name='keyphrases', default=None)),
 ))
     )
 
@@ -3542,6 +3546,7 @@ class Query(sgqlc.types.Type):
         ('member_id', sgqlc.types.Arg(String, graphql_name='memberId', default=None)),
         ('minutes_id', sgqlc.types.Arg(String, graphql_name='minutesId', default=None)),
         ('bill_id', sgqlc.types.Arg(String, graphql_name='billId', default=None)),
+        ('keyphrases', sgqlc.types.Arg(String, graphql_name='keyphrases', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
         ('offset', sgqlc.types.Arg(Int, graphql_name='offset', default=None)),
