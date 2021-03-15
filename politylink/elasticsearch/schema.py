@@ -1,6 +1,21 @@
 from enum import Enum
 
 
+def to_cls(id_):
+    """
+    map Politylink ID to ElasticSearch schema class
+    """
+
+    if id_.startswith('News'):
+        return NewsText
+    elif id_.startswith('Bill'):
+        return BillText
+    elif id_.startswith('Minutes'):
+        return MinutesText
+    else:
+        raise ValueError(f'unknown id type: {id_}')
+
+
 class AbstractText:
     """
     Abstract class to define elasticsearch document schema

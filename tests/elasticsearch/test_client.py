@@ -1,5 +1,3 @@
-from datetime import date
-
 import pytest
 
 from politylink.elasticsearch.client import ElasticsearchClient, ElasticsearchException
@@ -16,7 +14,7 @@ class TestGraphQLClient:
     ]
     minutes_texts = [
         MinutesText(
-            {'id': 'Minutes:1', 'title': '猫委員会', 'body': 'これより会議を始めます。'})
+            {'id': 'Minutes:1', 'title': '猫委員会', 'body': '吾輩は猫である。'})
     ]
 
     def test_index(self):
@@ -50,3 +48,10 @@ class TestGraphQLClient:
         assert len(client.search(BillText))
         assert len(client.search(BillText, '猫'))
         assert len(client.search(NewsText))
+
+    def test_get_term_statistics(self):
+        client = ElasticsearchClient()
+        minutes_id = self.minutes_texts[0].id
+        term2stats = client.get_term_statistics(minutes_id)
+        assert '吾輩' in term2stats
+        assert 1 == term2stats['吾輩']['tf']
