@@ -1,7 +1,9 @@
+from datetime import date
+
 import pytest
 
 from politylink.elasticsearch.client import ElasticsearchClient, ElasticsearchException
-from politylink.elasticsearch.schema import BillText, NewsText
+from politylink.elasticsearch.schema import BillText, NewsText, MinutesText
 
 
 class TestGraphQLClient:
@@ -12,6 +14,10 @@ class TestGraphQLClient:
     news_texts = [
         NewsText({'id': 'News:1', 'title': 'ネコちゃんニュース'})
     ]
+    minutes_texts = [
+        MinutesText(
+            {'id': 'Minutes:1', 'title': '猫委員会', 'body': 'これより会議を始めます。'})
+    ]
 
     def test_index(self):
         client = ElasticsearchClient()
@@ -19,6 +25,8 @@ class TestGraphQLClient:
             client.index(bill_text)
         for news_text in self.news_texts:
             client.index(news_text)
+        for minutes_text in self.minutes_texts:
+            client.index(minutes_text)
 
     def test_get(self):
         client = ElasticsearchClient()
@@ -28,6 +36,9 @@ class TestGraphQLClient:
         for news_text in self.news_texts:
             res = client.get(news_text.id)
             assert news_text.title == res.title
+        for minutes_text in self.minutes_texts:
+            res = client.get(minutes_text.id)
+            assert minutes_text.title == res.title
 
     def test_get_fail(self):
         client = ElasticsearchClient()
