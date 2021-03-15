@@ -54,3 +54,12 @@ class BillText(AbstractText):
         BODY = 'body'
         SUPPL = 'suppl'
         REASON = 'reason'
+
+
+class MinutesText(AbstractText):
+    index = 'minutes'
+
+    class Field(str, Enum):
+        ID = 'id'
+        TITLE = 'title'
+        BODY = 'body'

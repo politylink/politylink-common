@@ -2,7 +2,7 @@ from urllib.parse import urlparse
 
 from elasticsearch import Elasticsearch
 
-from politylink.elasticsearch.schema import NewsText, BillText, AbstractText
+from politylink.elasticsearch.schema import NewsText, BillText, MinutesText, AbstractText
 
 
 class ElasticsearchException(Exception):
@@ -42,6 +42,8 @@ class ElasticsearchClient:
                 cls = NewsText
             elif id_.startswith('Bill'):
                 cls = BillText
+            elif id_.startswith('Minutes'):
+                cls = MinutesText
             res = self.client.get(index=cls.index, id=id_)
             return cls(res['_source'])
         except Exception as e:
