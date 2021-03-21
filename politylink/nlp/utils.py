@@ -8,6 +8,7 @@ WORDCLOUD_POS_TAGS = ['ADJ', 'ADV', 'NOUN', 'PROPN']
 def filter_by_pos(texts, pos_tags):
     """
     filter text that includes target Part-Of-Speech tags
+    https://spacy.io/api/annotation#pos-tagging
     """
 
     ret = []
