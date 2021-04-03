@@ -16,11 +16,7 @@ class ElasticsearchClient:
     """
 
     def __init__(self, url='http://localhost:9200'):
-        def to_node(url):
-            res = urlparse(url)
-            return {'host': res.hostname, 'port': res.port}
-
-        self.client = Elasticsearch(hosts=[to_node(url)])
+        self.client = Elasticsearch(url)
 
     def index(self, obj):
         """
