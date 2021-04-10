@@ -32,6 +32,8 @@ def idgen(obj):
         base = _basegen_diet(obj)
     elif isinstance(obj, Activity):
         base = _basegen_activity(obj)
+    elif isinstance(obj, Billstatus):
+        base = _basegen_billstatus(obj)
     elif hasattr(obj, 'name'):
         base = _basegen_str(getattr(obj, 'name'))
     else:
@@ -88,3 +90,7 @@ def _basegen_activity(activity: Activity):
     dt = activity.datetime
     dt_str = f'{dt.year:04}{dt.month:02}{dt.day:02}'
     return _basegen_str(f'{id_str}{dt_str}')
+
+
+def _basegen_billstatus(billstatus: Billstatus):
+    return _basegen_str(f'{billstatus.bill_id}{billstatus.minutes_id}')
