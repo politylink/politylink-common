@@ -1,8 +1,7 @@
-from urllib.parse import urlparse
-
 import math
 from elasticsearch import Elasticsearch
 
+from politylink.elasticsearch import ELASTICSEARCH_URL
 from politylink.elasticsearch.schema import AbstractText, to_cls
 
 
@@ -15,7 +14,7 @@ class ElasticsearchClient:
     Elasticsearch client for politylink endpoint
     """
 
-    def __init__(self, url='http://localhost:9200'):
+    def __init__(self, url=ELASTICSEARCH_URL):
         self.client = Elasticsearch(url)
 
     def index(self, obj):
