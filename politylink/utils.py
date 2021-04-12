@@ -9,6 +9,24 @@ def get_env_or_default(key, default):
     return os.environ[key] if key in os.environ else default
 
 
+def filter_dict_by_value(dict_, num_items):
+    """
+    valueが大きい上位のitemに絞る
+    """
+
+    sorted_items = sorted(dict_.items(), key=lambda x: x[1], reverse=True)
+    num_items = min(len(dict_), num_items)
+    return dict(sorted_items[:num_items])
+
+
+def filter_dict_by_thresh(dict_, thresh):
+    """
+    valueがthresh以上のitemに絞る
+    """
+
+    return dict(filter(lambda x: x[1] >= thresh, dict_.items()))
+
+
 class DateConverter:
     era2year = {'明治': 1872, '大正': 1912, '昭和': 1925, '平成': 1989, '令和': 2019}
     pattern = r'((?:明治|大正|昭和|平成|令和).*)年(.*)月(.*)日'
