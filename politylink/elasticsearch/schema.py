@@ -78,3 +78,4 @@ class MinutesText(AbstractText):
         ID = 'id'
         TITLE = 'title'
         BODY = 'body'
+        DATE = 'date'
