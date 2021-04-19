@@ -1,3 +1,4 @@
+import re
 from functools import partial
 
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
@@ -39,7 +40,7 @@ class GraphQLClient:
         op = self.build_get_operation(id_, fields)
         res = self.endpoint(op.__to_graphql__(auto_select_depth=depth))
         self.validate_response_or_raise(res)
-        method_name = id_.split(':')[0].lower()
+        method_name = re.sub(r"(.)([A-Z])", r"\1_\2", id_.split(':')[0]).lower()
         data = getattr(op + res, method_name)
         if len(data) == 0:
             raise GraphQLException(f'{id_} does not exist')
@@ -253,7 +254,7 @@ class GraphQLClient:
         else:
             param['__alias__'] = f'op{len(op)}'
 
-        method_name = 'merge_{}'.format(obj.id.split(':')[0].lower())
+        method_name = 'merge_{}'.format(re.sub(r"(.)([A-Z])", r"\1_\2", obj.id.split(':')[0]).lower())
         try:
             res = getattr(op, method_name)(**param)
         except AttributeError:
@@ -272,7 +273,7 @@ class GraphQLClient:
     @staticmethod
     def build_get_operation(id_, fields=None):
         op = Operation(Query)
-        method_name = id_.split(':')[0].lower()
+        method_name = re.sub(r"(.)([A-Z])", r"\1_\2", id_.split(':')[0]).lower()
         try:
             obj = getattr(op, method_name)(filter=GraphQLClient.build_filter(id_))
         except AttributeError:
@@ -290,7 +291,7 @@ class GraphQLClient:
         else:
             maybe_alias = f'op{len(op)}'
 
-        method_name = 'delete_{}'.format(id_.split(':')[0].lower())
+        method_name = 'delete_{}'.format(re.sub(r"(.)([A-Z])", r"\1_\2", id_.split(':')[0]).lower())
         try:
             res = getattr(op, method_name)(id=id_, __alias__=maybe_alias)
         except AttributeError:
@@ -333,7 +334,7 @@ class GraphQLClient:
     def build_input(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillInput, _CommitteeInput, _MinutesInput, _SpeechInput, \
-            _UrlInput, _NewsInput, _TimelineInput, _MemberInput, _DietInput, _ActivityInput, _BillstatusInput
+            _UrlInput, _NewsInput, _TimelineInput, _MemberInput, _DietInput, _ActivityInput, _BillActionInput
 
         class_name = '_{}Input'.format(id_.split(':')[0])
         try:
@@ -345,7 +346,7 @@ class GraphQLClient:
     def build_filter(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
-            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter, _DietFilter, _ActivityFilter, _BillstatusFilter
+            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter, _DietFilter, _ActivityFilter, _BillActionFilter
 
         class_name = '_{}Filter'.format(id_.split(':')[0])
         try:
@@ -371,6 +372,7 @@ _link_method_name_map = {
     ('Url', 'Member'): 'url_referred_members',
     ('Url', 'Minutes'): 'url_referred_minutes',
     ('Url', 'Activity'): 'url_referred_activities',
+    ('Url', 'BillAction'): 'url_referred_bill_actions',
     ('News', 'Bill'): 'news_referred_bills',
     ('News', 'Law'): 'news_referred_laws',
     ('News', 'Member'): 'news_referred_members',
@@ -392,6 +394,6 @@ _link_method_name_map = {
     ('Member', 'Diet'): 'member_attended_diets',
     ('Member', 'Speech'): 'member_delivered_speeches',
     ('Member', 'Minutes'): 'member_attended_minutes',
-    ('Billstatus', 'Bill'): 'billstatus_belonged_to_bill',
-    ('Billstatus', 'Minutes'): 'billstatus_belonged_to_minutes'
+    ('BillAction', 'Bill'): 'bill_action_belonged_to_bill',
+    ('BillAction', 'Minutes'): 'bill_action_belonged_to_minutes'
 }
