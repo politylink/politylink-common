@@ -12,6 +12,8 @@ def to_cls(id_):
         return BillText
     elif id_.startswith('Minutes'):
         return MinutesText
+    elif id_.startswith('Speech'):
+        return SpeechText
     else:
         raise ValueError(f'unknown id type: {id_}')
 
@@ -78,3 +80,15 @@ class MinutesText(AbstractText):
         ID = 'id'
         TITLE = 'title'
         BODY = 'body'
+        DATE = 'date'
+
+
+class SpeechText(AbstractText):
+    index = 'speech'
+
+    class Field(str, Enum):
+        ID = 'id'
+        TITLE = 'title'
+        SPEAKER = 'speaker'
+        BODY = 'body'
+        DATE = 'date'

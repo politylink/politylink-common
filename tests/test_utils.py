@@ -1,6 +1,18 @@
 from datetime import datetime
 
-from politylink.utils import DateConverter
+from politylink.utils import DateConverter, filter_dict_by_value, filter_dict_by_thresh
+
+
+def test_filter_dict_by_value():
+    data = {'a': 1, 'b': 3, 'c': 2}
+    filtered = filter_dict_by_value(data, num_items=2)
+    assert set(filtered.keys()) == {'b', 'c'}
+
+
+def test_filter_dict_by_thresh():
+    data = {'a': 1, 'b': 3, 'c': 2}
+    filtered = filter_dict_by_thresh(data, thresh=2)
+    assert set(filtered.keys()) == {'b', 'c'}
 
 
 class TestDateConverter:

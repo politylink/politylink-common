@@ -1,7 +1,7 @@
 import pytest
 
 from politylink.elasticsearch.client import ElasticsearchClient, ElasticsearchException
-from politylink.elasticsearch.schema import BillText, NewsText, MinutesText
+from politylink.elasticsearch.schema import BillText, NewsText, MinutesText, SpeechText
 
 
 class TestGraphQLClient:
@@ -13,8 +13,10 @@ class TestGraphQLClient:
         NewsText({'id': 'News:1', 'title': 'ネコちゃんニュース'})
     ]
     minutes_texts = [
-        MinutesText(
-            {'id': 'Minutes:1', 'title': '猫委員会', 'body': '吾輩は猫である。'})
+        MinutesText({'id': 'Minutes:1', 'title': '猫委員会', 'body': '吾輩は猫である。'})
+    ]
+    speech_texts = [
+        SpeechText({'id': 'Speech:1', 'title': '犬委員会', 'speaker': '柴犬', 'body': '会議を始めます'})
     ]
 
     def test_index(self):
@@ -25,6 +27,12 @@ class TestGraphQLClient:
             client.index(news_text)
         for minutes_text in self.minutes_texts:
             client.index(minutes_text)
+        for speech_text in self.speech_texts:
+            client.index(speech_text)
+
+    def test_bulk_index(self):
+        client = ElasticsearchClient()
+        client.bulk_index(self.bill_texts)
 
     def test_get(self):
         client = ElasticsearchClient()
@@ -37,6 +45,9 @@ class TestGraphQLClient:
         for minutes_text in self.minutes_texts:
             res = client.get(minutes_text.id)
             assert minutes_text.title == res.title
+        for speech_text in self.speech_texts:
+            res = client.get(speech_text.id)
+            assert speech_text.title == res.title
 
     def test_get_fail(self):
         client = ElasticsearchClient()

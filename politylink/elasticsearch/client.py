@@ -1,8 +1,7 @@
-from urllib.parse import urlparse
-
 import math
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, helpers
 
+from politylink.elasticsearch import ELASTICSEARCH_URL
 from politylink.elasticsearch.schema import AbstractText, to_cls
 
 
@@ -15,12 +14,8 @@ class ElasticsearchClient:
     Elasticsearch client for politylink endpoint
     """
 
-    def __init__(self, url='http://localhost:9200'):
-        def to_node(url):
-            res = urlparse(url)
-            return {'host': res.hostname, 'port': res.port}
-
-        self.client = Elasticsearch(hosts=[to_node(url)])
+    def __init__(self, url=ELASTICSEARCH_URL):
+        self.client = Elasticsearch(url)
 
     def index(self, obj):
         """
@@ -32,6 +27,17 @@ class ElasticsearchClient:
             return self.client.index(index=obj.index, id=obj.id, body=obj.__dict__)
         except Exception as e:
             raise ElasticsearchException(f'failed to index {obj}') from e
+
+    def bulk_index(self, objects):
+        def actions():
+            for obj in objects:
+                assert isinstance(obj, AbstractText)
+                yield {'_index': obj.index, '_id': obj.id, '_source': obj.__dict__}
+
+        try:
+            return helpers.bulk(client=self.client, actions=actions())
+        except Exception as e:
+            raise ElasticsearchException(f'failed to bulk index') from e
 
     def get(self, id_):
         """
