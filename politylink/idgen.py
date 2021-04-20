@@ -93,4 +93,4 @@ def _basegen_activity(activity: Activity):
 
 
 def _basegen_bill_action(bill_action: BillAction):
-    return _basegen_str(f'{bill_action.bill_id}{bill_action.minutes_id}{bill_action.action}')
+    return _basegen_str(f'{bill_action.bill_id}{bill_action.minutes_id}{bill_action.type}')

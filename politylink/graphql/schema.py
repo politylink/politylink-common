@@ -50,7 +50,7 @@ class _ActivityOrdering(sgqlc.types.Enum):
 
 class _BillActionOrdering(sgqlc.types.Enum):
     __schema__ = schema
-    __choices__ = ('id_asc', 'id_desc', 'billId_asc', 'billId_desc', 'minutesId_asc', 'minutesId_desc', 'action_asc', 'action_desc', 'report_asc', 'report_desc', '_id_asc', '_id_desc')
+    __choices__ = ('id_asc', 'id_desc', 'billId_asc', 'billId_desc', 'minutesId_asc', 'minutesId_desc', 'type_asc', 'type_desc', 'report_asc', 'report_desc', '_id_asc', '_id_desc')
 
 
 class _BillOrdering(sgqlc.types.Enum):
@@ -205,7 +205,7 @@ class _ActivityInput(sgqlc.types.Input):
 
 class _BillActionFilter(sgqlc.types.Input):
     __schema__ = schema
-    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'bill_id', 'bill_id_not', 'bill_id_in', 'bill_id_not_in', 'bill_id_contains', 'bill_id_not_contains', 'bill_id_starts_with', 'bill_id_not_starts_with', 'bill_id_ends_with', 'bill_id_not_ends_with', 'minutes_id', 'minutes_id_not', 'minutes_id_in', 'minutes_id_not_in', 'minutes_id_contains', 'minutes_id_not_contains', 'minutes_id_starts_with', 'minutes_id_not_starts_with', 'minutes_id_ends_with', 'minutes_id_not_ends_with', 'action', 'action_not', 'action_in', 'action_not_in', 'report', 'report_not', 'report_in', 'report_not_in', 'report_contains', 'report_not_contains', 'report_starts_with', 'report_not_starts_with', 'report_ends_with', 'report_not_ends_with', 'belonged_to_minutes', 'belonged_to_minutes_not', 'belonged_to_minutes_in', 'belonged_to_minutes_not_in', 'belonged_to_bill', 'belonged_to_bill_not', 'belonged_to_bill_in', 'belonged_to_bill_not_in', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every')
+    __field_names__ = ('and_', 'or_', 'id', 'id_not', 'id_in', 'id_not_in', 'id_contains', 'id_not_contains', 'id_starts_with', 'id_not_starts_with', 'id_ends_with', 'id_not_ends_with', 'bill_id', 'bill_id_not', 'bill_id_in', 'bill_id_not_in', 'bill_id_contains', 'bill_id_not_contains', 'bill_id_starts_with', 'bill_id_not_starts_with', 'bill_id_ends_with', 'bill_id_not_ends_with', 'minutes_id', 'minutes_id_not', 'minutes_id_in', 'minutes_id_not_in', 'minutes_id_contains', 'minutes_id_not_contains', 'minutes_id_starts_with', 'minutes_id_not_starts_with', 'minutes_id_ends_with', 'minutes_id_not_ends_with', 'type', 'type_not', 'type_in', 'type_not_in', 'report', 'report_not', 'report_in', 'report_not_in', 'report_contains', 'report_not_contains', 'report_starts_with', 'report_not_starts_with', 'report_ends_with', 'report_not_ends_with', 'belonged_to_minutes', 'belonged_to_minutes_not', 'belonged_to_minutes_in', 'belonged_to_minutes_not_in', 'belonged_to_bill', 'belonged_to_bill_not', 'belonged_to_bill_in', 'belonged_to_bill_not_in', 'urls', 'urls_not', 'urls_in', 'urls_not_in', 'urls_some', 'urls_none', 'urls_single', 'urls_every')
     and_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_BillActionFilter')), graphql_name='AND')
     or_ = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null('_BillActionFilter')), graphql_name='OR')
     id = sgqlc.types.Field(ID, graphql_name='id')
@@ -238,10 +238,10 @@ class _BillActionFilter(sgqlc.types.Input):
     minutes_id_not_starts_with = sgqlc.types.Field(String, graphql_name='minutesId_not_starts_with')
     minutes_id_ends_with = sgqlc.types.Field(String, graphql_name='minutesId_ends_with')
     minutes_id_not_ends_with = sgqlc.types.Field(String, graphql_name='minutesId_not_ends_with')
-    action = sgqlc.types.Field(BillActionType, graphql_name='action')
-    action_not = sgqlc.types.Field(BillActionType, graphql_name='action_not')
-    action_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(BillActionType)), graphql_name='action_in')
-    action_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(BillActionType)), graphql_name='action_not_in')
+    type = sgqlc.types.Field(BillActionType, graphql_name='type')
+    type_not = sgqlc.types.Field(BillActionType, graphql_name='type_not')
+    type_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(BillActionType)), graphql_name='type_in')
+    type_not_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(BillActionType)), graphql_name='type_not_in')
     report = sgqlc.types.Field(String, graphql_name='report')
     report_not = sgqlc.types.Field(String, graphql_name='report_not')
     report_in = sgqlc.types.Field(sgqlc.types.list_of(sgqlc.types.non_null(String)), graphql_name='report_in')
@@ -1749,11 +1749,11 @@ class Bill(sgqlc.types.Type):
 
 class BillAction(sgqlc.types.Type):
     __schema__ = schema
-    __field_names__ = ('id', 'bill_id', 'minutes_id', 'action', 'report', 'belonged_to_minutes', 'belonged_to_bill', 'urls', '_id')
+    __field_names__ = ('id', 'bill_id', 'minutes_id', 'type', 'report', 'belonged_to_minutes', 'belonged_to_bill', 'urls', '_id')
     id = sgqlc.types.Field(sgqlc.types.non_null(ID), graphql_name='id')
     bill_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='billId')
     minutes_id = sgqlc.types.Field(sgqlc.types.non_null(String), graphql_name='minutesId')
-    action = sgqlc.types.Field(sgqlc.types.non_null(BillActionType), graphql_name='action')
+    type = sgqlc.types.Field(sgqlc.types.non_null(BillActionType), graphql_name='type')
     report = sgqlc.types.Field(String, graphql_name='report')
     belonged_to_minutes = sgqlc.types.Field(sgqlc.types.non_null('Minutes'), graphql_name='belongedToMinutes', args=sgqlc.types.ArgDict((
         ('filter', sgqlc.types.Arg(_MinutesFilter, graphql_name='filter', default=None)),
@@ -3519,7 +3519,7 @@ class Mutation(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
         ('bill_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='billId', default=None)),
         ('minutes_id', sgqlc.types.Arg(sgqlc.types.non_null(String), graphql_name='minutesId', default=None)),
-        ('action', sgqlc.types.Arg(sgqlc.types.non_null(BillActionType), graphql_name='action', default=None)),
+        ('type', sgqlc.types.Arg(sgqlc.types.non_null(BillActionType), graphql_name='type', default=None)),
         ('report', sgqlc.types.Arg(String, graphql_name='report', default=None)),
 ))
     )
@@ -3527,7 +3527,7 @@ class Mutation(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='id', default=None)),
         ('bill_id', sgqlc.types.Arg(String, graphql_name='billId', default=None)),
         ('minutes_id', sgqlc.types.Arg(String, graphql_name='minutesId', default=None)),
-        ('action', sgqlc.types.Arg(BillActionType, graphql_name='action', default=None)),
+        ('type', sgqlc.types.Arg(BillActionType, graphql_name='type', default=None)),
         ('report', sgqlc.types.Arg(String, graphql_name='report', default=None)),
 ))
     )
@@ -3539,7 +3539,7 @@ class Mutation(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(sgqlc.types.non_null(ID), graphql_name='id', default=None)),
         ('bill_id', sgqlc.types.Arg(String, graphql_name='billId', default=None)),
         ('minutes_id', sgqlc.types.Arg(String, graphql_name='minutesId', default=None)),
-        ('action', sgqlc.types.Arg(BillActionType, graphql_name='action', default=None)),
+        ('type', sgqlc.types.Arg(BillActionType, graphql_name='type', default=None)),
         ('report', sgqlc.types.Arg(String, graphql_name='report', default=None)),
 ))
     )
@@ -3825,7 +3825,7 @@ class Query(sgqlc.types.Type):
         ('id', sgqlc.types.Arg(ID, graphql_name='id', default=None)),
         ('bill_id', sgqlc.types.Arg(String, graphql_name='billId', default=None)),
         ('minutes_id', sgqlc.types.Arg(String, graphql_name='minutesId', default=None)),
-        ('action', sgqlc.types.Arg(BillActionType, graphql_name='action', default=None)),
+        ('type', sgqlc.types.Arg(BillActionType, graphql_name='type', default=None)),
         ('report', sgqlc.types.Arg(String, graphql_name='report', default=None)),
         ('_id', sgqlc.types.Arg(String, graphql_name='_id', default=None)),
         ('first', sgqlc.types.Arg(Int, graphql_name='first', default=None)),
