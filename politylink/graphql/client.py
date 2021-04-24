@@ -1,11 +1,13 @@
 import re
 from functools import partial
 
+import stringcase
+from sgqlc.endpoint.http import HTTPEndpoint
+from sgqlc.operation import Operation
+
 from politylink.graphql import POLITYLINK_AUTH, POLITYLINK_URL
 from politylink.graphql.schema import *
 from politylink.graphql.schema import _NewsFilter, _Neo4jDateTimeInput, _ActivityFilter
-from sgqlc.endpoint.http import HTTPEndpoint
-from sgqlc.operation import Operation
 
 
 class GraphQLException(Exception):
@@ -40,7 +42,7 @@ class GraphQLClient:
         op = self.build_get_operation(id_, fields)
         res = self.endpoint(op.__to_graphql__(auto_select_depth=depth))
         self.validate_response_or_raise(res)
-        method_name = re.sub(r"(.)([A-Z])", r"\1_\2", id_.split(':')[0]).lower()
+        method_name = build_method_name(id_)
         data = getattr(op + res, method_name)
         if len(data) == 0:
             raise GraphQLException(f'{id_} does not exist')
@@ -254,7 +256,7 @@ class GraphQLClient:
         else:
             param['__alias__'] = f'op{len(op)}'
 
-        method_name = 'merge_{}'.format(re.sub(r"(.)([A-Z])", r"\1_\2", obj.id.split(':')[0]).lower())
+        method_name = build_method_name(obj.id, 'merge')
         try:
             res = getattr(op, method_name)(**param)
         except AttributeError:
@@ -273,7 +275,7 @@ class GraphQLClient:
     @staticmethod
     def build_get_operation(id_, fields=None):
         op = Operation(Query)
-        method_name = re.sub(r"(.)([A-Z])", r"\1_\2", id_.split(':')[0]).lower()
+        method_name = build_method_name(id_)
         try:
             obj = getattr(op, method_name)(filter=GraphQLClient.build_filter(id_))
         except AttributeError:
@@ -291,7 +293,7 @@ class GraphQLClient:
         else:
             maybe_alias = f'op{len(op)}'
 
-        method_name = 'delete_{}'.format(re.sub(r"(.)([A-Z])", r"\1_\2", id_.split(':')[0]).lower())
+        method_name = build_method_name(id_, 'delete')
         try:
             res = getattr(op, method_name)(id=id_, __alias__=maybe_alias)
         except AttributeError:
@@ -307,7 +309,7 @@ class GraphQLClient:
         else:
             maybe_alias = f'op{len(op)}'
 
-        method_name = GraphQLClient.build_link_method_name(from_id, to_id, remove)
+        method_name = build_link_method_name(from_id, to_id, remove)
         res = getattr(op, method_name)(
             from_=GraphQLClient.build_input(from_id),
             to=GraphQLClient.build_input(to_id),
@@ -316,19 +318,6 @@ class GraphQLClient:
         res.from_.id()
         res.to.id()
         return op
-
-    @staticmethod
-    def build_link_method_name(from_id, to_id, remove=False):
-        from_id_type = from_id.split(':')[0]
-        to_id_type = to_id.split(':')[0]
-        key = (from_id_type, to_id_type)
-
-        if key not in _link_method_name_map:
-            raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
-
-        method_prefix = 'remove' if remove else 'merge'
-        method_body = _link_method_name_map[key]
-        return f'{method_prefix}_{method_body}'
 
     @staticmethod
     def build_input(id_: str):
@@ -362,6 +351,24 @@ class GraphQLClient:
             for field in fields:
                 getattr(ret, field)()
         return op
+
+
+def build_method_name(id_, prefix=None):
+    body = stringcase.snakecase(id_.split(':')[0])
+    return f'{prefix}_{body}' if prefix else body
+
+
+def build_link_method_name(from_id, to_id, remove=False):
+    from_id_type = from_id.split(':')[0]
+    to_id_type = to_id.split(':')[0]
+    key = (from_id_type, to_id_type)
+
+    if key not in _link_method_name_map:
+        raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
+
+    method_prefix = 'remove' if remove else 'merge'
+    method_body = _link_method_name_map[key]
+    return f'{method_prefix}_{method_body}'
 
 
 # key1: from id type, key2: to id type, value: link method name

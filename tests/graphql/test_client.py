@@ -4,7 +4,8 @@ import pytest
 from sgqlc.operation import Operation
 
 from politylink.graphql import POLITYLINK_AUTH
-from politylink.graphql.client import GraphQLClient, GraphQLException, _link_method_name_map
+from politylink.graphql.client import GraphQLClient, GraphQLException, _link_method_name_map, build_method_name, \
+    build_link_method_name
 from politylink.graphql.schema import *
 from politylink.graphql.schema import _Neo4jDateTimeInput, _BillInput, _MinutesInput, _BillFilter
 from politylink.idgen import idgen
@@ -284,3 +285,15 @@ class TestGraphQLClient:
         activity.datetime = _Neo4jDateTimeInput(year=2020, month=1, day=1)
         activity.id = idgen(activity)
         return activity
+
+
+def test_build_method_name():
+    assert 'bill' == build_method_name('Bill:1')
+    assert 'bill_action' == build_method_name('BillAction:1')
+    assert 'delete_bill' == build_method_name('Bill:1', 'delete')
+    assert 'merge_bill_action' == build_method_name('BillAction:1', 'merge')
+
+
+def test_build_link_method_name():
+    assert 'merge_minutes_discussed_bills' == build_link_method_name('Minutes:1', 'Bill:1')
+    assert 'remove_minutes_discussed_bills' == build_link_method_name('Minutes:1', 'Bill:1', remove=True)
