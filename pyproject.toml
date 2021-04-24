@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "politylink"
-version = "0.1.66"
+version = "0.1.67"
 description = ""
 readme = "README.md"
 homepage = "https://politylink.jp"
@@ -15,6 +15,7 @@ elasticsearch = "^7.9.1"
 nltk = "^3.5"
 spacy = "^2.3.5"
 ginza = "^4.0.5"
+stringcase = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

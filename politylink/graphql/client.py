@@ -1,5 +1,6 @@
 from functools import partial
 
+import stringcase
 from sgqlc.endpoint.http import HTTPEndpoint
 from sgqlc.operation import Operation
 
@@ -40,7 +41,7 @@ class GraphQLClient:
         op = self.build_get_operation(id_, fields)
         res = self.endpoint(op.__to_graphql__(auto_select_depth=depth))
         self.validate_response_or_raise(res)
-        method_name = id_.split(':')[0].lower()
+        method_name = build_method_name(id_)
         data = getattr(op + res, method_name)
         if len(data) == 0:
             raise GraphQLException(f'{id_} does not exist')
@@ -254,7 +255,7 @@ class GraphQLClient:
         else:
             param['__alias__'] = f'op{len(op)}'
 
-        method_name = 'merge_{}'.format(obj.id.split(':')[0].lower())
+        method_name = build_method_name(obj.id, 'merge')
         try:
             res = getattr(op, method_name)(**param)
         except AttributeError:
@@ -273,7 +274,7 @@ class GraphQLClient:
     @staticmethod
     def build_get_operation(id_, fields=None):
         op = Operation(Query)
-        method_name = id_.split(':')[0].lower()
+        method_name = build_method_name(id_)
         try:
             obj = getattr(op, method_name)(filter=GraphQLClient.build_filter(id_))
         except AttributeError:
@@ -291,7 +292,7 @@ class GraphQLClient:
         else:
             maybe_alias = f'op{len(op)}'
 
-        method_name = 'delete_{}'.format(id_.split(':')[0].lower())
+        method_name = build_method_name(id_, 'delete')
         try:
             res = getattr(op, method_name)(id=id_, __alias__=maybe_alias)
         except AttributeError:
@@ -307,7 +308,7 @@ class GraphQLClient:
         else:
             maybe_alias = f'op{len(op)}'
 
-        method_name = GraphQLClient.build_link_method_name(from_id, to_id, remove)
+        method_name = build_link_method_name(from_id, to_id, remove)
         res = getattr(op, method_name)(
             from_=GraphQLClient.build_input(from_id),
             to=GraphQLClient.build_input(to_id),
@@ -318,23 +319,10 @@ class GraphQLClient:
         return op
 
     @staticmethod
-    def build_link_method_name(from_id, to_id, remove=False):
-        from_id_type = from_id.split(':')[0]
-        to_id_type = to_id.split(':')[0]
-        key = (from_id_type, to_id_type)
-
-        if key not in _link_method_name_map:
-            raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
-
-        method_prefix = 'remove' if remove else 'merge'
-        method_body = _link_method_name_map[key]
-        return f'{method_prefix}_{method_body}'
-
-    @staticmethod
     def build_input(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillInput, _CommitteeInput, _MinutesInput, _SpeechInput, \
-            _UrlInput, _NewsInput, _TimelineInput, _MemberInput, _DietInput, _ActivityInput
+            _UrlInput, _NewsInput, _TimelineInput, _MemberInput, _DietInput, _ActivityInput, _BillActionInput
 
         class_name = '_{}Input'.format(id_.split(':')[0])
         try:
@@ -346,7 +334,7 @@ class GraphQLClient:
     def build_filter(id_: str):
         # noinspection PyUnresolvedReferences
         from politylink.graphql.schema import _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
-            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter, _DietFilter, _ActivityFilter
+            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter, _DietFilter, _ActivityFilter, _BillActionFilter
 
         class_name = '_{}Filter'.format(id_.split(':')[0])
         try:
@@ -364,6 +352,24 @@ class GraphQLClient:
         return op
 
 
+def build_method_name(id_, prefix=None):
+    body = stringcase.snakecase(id_.split(':')[0])
+    return f'{prefix}_{body}' if prefix else body
+
+
+def build_link_method_name(from_id, to_id, remove=False):
+    from_id_type = from_id.split(':')[0]
+    to_id_type = to_id.split(':')[0]
+    key = (from_id_type, to_id_type)
+
+    if key not in _link_method_name_map:
+        raise GraphQLException(f'unknown id types to link: from={from_id} to={to_id}')
+
+    method_prefix = 'remove' if remove else 'merge'
+    method_body = _link_method_name_map[key]
+    return f'{method_prefix}_{method_body}'
+
+
 # key1: from id type, key2: to id type, value: link method name
 # we may automatically generate this map from schema.py
 _link_method_name_map = {
@@ -372,6 +378,7 @@ _link_method_name_map = {
     ('Url', 'Member'): 'url_referred_members',
     ('Url', 'Minutes'): 'url_referred_minutes',
     ('Url', 'Activity'): 'url_referred_activities',
+    ('Url', 'BillAction'): 'url_referred_bill_actions',
     ('News', 'Bill'): 'news_referred_bills',
     ('News', 'Law'): 'news_referred_laws',
     ('News', 'Member'): 'news_referred_members',
@@ -392,5 +399,7 @@ _link_method_name_map = {
     ('Member', 'Bill'): 'member_submitted_bills',
     ('Member', 'Diet'): 'member_attended_diets',
     ('Member', 'Speech'): 'member_delivered_speeches',
-    ('Member', 'Minutes'): 'member_attended_minutes'
+    ('Member', 'Minutes'): 'member_attended_minutes',
+    ('BillAction', 'Bill'): 'bill_action_belonged_to_bill',
+    ('BillAction', 'Minutes'): 'bill_action_belonged_to_minutes'
 }
