@@ -1,6 +1,6 @@
 import pytest
 
-from politylink.elasticsearch.client import ElasticsearchClient, ElasticsearchException
+from politylink.elasticsearch.client import ElasticsearchClient, ElasticsearchException, OpType
 from politylink.elasticsearch.schema import BillText, NewsText, MinutesText, SpeechText
 
 
@@ -34,6 +34,7 @@ class TestGraphQLClient:
     def test_bulk_index(self):
         client = ElasticsearchClient()
         client.bulk_index(self.bill_texts)
+        client.bulk_index(self.bill_texts, op_type=OpType.UPDATE)
 
     def test_get(self):
         client = ElasticsearchClient()
