@@ -29,6 +29,7 @@ class AbstractText:
     # define document schema here
     class Field(str, Enum):
         ID = 'id'  # 'id' is required
+        DATE = 'date'  # 2020-01-01
 
     def __init__(self, dct=None):
         if dct:
@@ -43,12 +44,12 @@ class AbstractText:
     @classmethod
     def get_all_fields(cls):
         """
-        return all field names except for 'id'
+        return all field names except for ID and DATE
         """
 
         fields = []
         for field in cls.Field:
-            if field.name != 'ID':
+            if field.name not in {cls.Field.ID.name, cls.Field.DATE.name}:
                 fields.append(field.value)
         return fields
 
@@ -60,6 +61,7 @@ class NewsText(AbstractText):
         ID = 'id'
         TITLE = 'title'
         BODY = 'body'
+        DATE = 'date'
 
 
 class BillText(AbstractText):

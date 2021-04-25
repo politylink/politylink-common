@@ -10,7 +10,8 @@ class TestGraphQLClient:
         BillText({'id': 'Bill:3', 'title': '犬法改正案'})
     ]
     news_texts = [
-        NewsText({'id': 'News:1', 'title': 'ネコちゃんニュース'})
+        NewsText({'id': 'News:1', 'title': 'ネコちゃんニュース', 'date': '2020-01-01'}),
+        NewsText({'id': 'News:2', 'title': 'ワンちゃんニュース', 'date': '2021-01-01'})
     ]
     minutes_texts = [
         MinutesText({'id': 'Minutes:1', 'title': '猫委員会', 'body': '吾輩は猫である。'})
@@ -56,9 +57,10 @@ class TestGraphQLClient:
 
     def test_search(self):
         client = ElasticsearchClient()
-        assert len(client.search(BillText))
-        assert len(client.search(BillText, '猫'))
         assert len(client.search(NewsText))
+        assert len(client.search(NewsText, query='ネコ'))
+        assert 1 == len(client.search(NewsText, query='ネコ', start_date_str='2020-01-01', end_date_str='2020-01-02'))
+        assert 0 == len(client.search(NewsText, query='ネコ', start_date_str='2020-01-02', end_date_str='2020-01-03'))
 
     def test_get_term_statistics(self):
         client = ElasticsearchClient()

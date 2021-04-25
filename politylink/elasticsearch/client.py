@@ -1,5 +1,6 @@
 import math
 from elasticsearch import Elasticsearch, helpers
+from elasticsearch_dsl import Search
 
 from politylink.elasticsearch import ELASTICSEARCH_URL
 from politylink.elasticsearch.schema import AbstractText, to_cls
@@ -51,21 +52,19 @@ class ElasticsearchClient:
         except Exception as e:
             raise ElasticsearchException(f'failed to get {id_}') from e
 
-    def search(self, cls, query=None):
-        """
-        search $cls documents by query
-        return all documents when query is empty
-        """
-
+    def search(self, cls: AbstractText, query: str = None, start_date_str: str = None, end_date_str: str = None):
+        s = Search(using=self.client, index=cls.index)
         if query:
-            query_doc = {'query': {'multi_match': {'query': query, 'fields': cls.get_all_fields()}}}
-        else:
-            query_doc = {'query': {'match_all': {}}}
+            s = s.query('multi_match', query=query, fields=cls.get_all_fields())
+        if start_date_str:
+            s = s.filter('range', **{cls.Field.DATE: {'gte': start_date_str}})
+        if end_date_str:
+            s = s.filter('range', **{cls.Field.DATE: {'lt': end_date_str}})
         try:
-            res = self.client.search(index=cls.index, body=query_doc)
+            res = s.execute()
             return list(map(lambda hit: cls(hit['_source']), res['hits']['hits']))
         except Exception as e:
-            raise ElasticsearchException(f'failed to search {cls.__class__.__name__} for {query_doc}') from e
+            raise ElasticsearchException(f'failed to search {cls.__class__.__name__} for {s.to_dict()}') from e
 
     def get_term_statistics(self, id_):
         """
