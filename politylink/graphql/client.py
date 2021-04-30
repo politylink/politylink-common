@@ -401,5 +401,6 @@ _link_method_name_map = {
     ('Member', 'Speech'): 'member_delivered_speeches',
     ('Member', 'Minutes'): 'member_attended_minutes',
     ('BillAction', 'Bill'): 'bill_action_belonged_to_bill',
-    ('BillAction', 'Minutes'): 'bill_action_belonged_to_minutes'
+    ('BillAction', 'Minutes'): 'bill_action_belonged_to_minutes',
+    ('BillAction', 'Speech'): 'bill_action_belonged_to_speech'
 }
