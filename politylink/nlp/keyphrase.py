@@ -1,9 +1,9 @@
-from os import path
-
 import nltk
 import pke
-from politylink.graphql.client import GraphQLClient
 from spacy.lang.ja import stop_words
+
+from politylink.graphql.client import GraphQLClient
+from politylink.nlp.utils import load_stopwords, STOPWORDS_SLOTHLIB_PATH, STOPWORDS_MINUTES_PATH
 
 
 class KeyPhraseExtractor:
@@ -11,15 +11,9 @@ class KeyPhraseExtractor:
     def __init__(self):
         # load stop words
         stopwords = set()
-
-        p = path.join(path.dirname(__file__), 'stopwords_minutes.txt')
-        stopwords.update(self.load_stopwords(p))
-
-        p = path.join(path.dirname(__file__), 'stopwords_slothlib.txt')
-        stopwords.update(self.load_stopwords(p))
-
+        stopwords.update(load_stopwords(STOPWORDS_SLOTHLIB_PATH))
+        stopwords.update(load_stopwords(STOPWORDS_MINUTES_PATH))
         stopwords.update(self.get_member_names())
-
         stopwords.update(stop_words.STOP_WORDS)
         stopwords = list(stopwords)
 
@@ -28,11 +22,6 @@ class KeyPhraseExtractor:
         nltk.corpus.stopwords.words_org = nltk.corpus.stopwords.words
         nltk.corpus.stopwords.words = lambda lang: stopwords if lang == 'japanese' else nltk.corpus.stopwords.words_org(
             lang)
-
-    def load_stopwords(self, file_path):
-        with open(file_path, mode='r') as f:
-            stopwords = f.read().splitlines()
-        return stopwords
 
     def get_member_names(self):
         client = GraphQLClient()
