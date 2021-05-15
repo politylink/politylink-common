@@ -71,8 +71,18 @@ class BillText(AbstractText):
         ID = 'id'
         TITLE = 'title'
         BODY = 'body'
-        SUPPL = 'suppl'
+        SUPPLEMENT = 'supplement'
         REASON = 'reason'
+        ALIASES = 'aliases'
+        TAGS = 'tags'
+        CATEGORY = 'category'
+        STATUS = 'status'
+        SUBMITTED_DATE = 'submitted_date'
+        LAST_UPDATED_DATE = 'last_updated_date'
+        GROUPS = 'groups'
+        MINISTRIES = 'ministries'
+        FIRST_SUBMITTED_DIET = 'submitted_diet'
+        SUBMITTED_DIETS = 'submitted_diets'
 
 
 class MinutesText(AbstractText):
