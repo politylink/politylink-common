@@ -9,8 +9,9 @@ from politylink.elasticsearch.schema import AbstractText, to_cls
 
 
 class OpType(str, Enum):
-    INDEX = 'index'
-    UPDATE = 'update'
+    INDEX = 'index'  # create or overwrite
+    UPDATE = 'update'  # NotFoundError or update
+    SAFE_INDEX = 'safe_index'  # create or update (round-trip)
 
 
 class ElasticsearchException(Exception):
@@ -35,7 +36,12 @@ class ElasticsearchClient:
             if op_type == OpType.INDEX:
                 return self.client.index(index=obj.index, id=obj.id, body=obj.__dict__)
             elif op_type == OpType.UPDATE:
-                return self.client.update(index=obj.index, id=obj.id, body=obj.__dict__)
+                return self.client.update(index=obj.index, id=obj.id, body={'doc': obj.__dict__})
+            elif op_type == OpType.SAFE_INDEX:
+                if self.exists(obj.id):
+                    self.index(obj, op_type=OpType.UPDATE)
+                else:
+                    self.index(obj, op_type=OpType.INDEX)
             else:
                 raise ElasticsearchException(f'unknown index operation type: {op_type}')
 
@@ -69,6 +75,13 @@ class ElasticsearchClient:
             return cls(res['_source'])
         except Exception as e:
             raise ElasticsearchException(f'failed to get {id_}') from e
+
+    def exists(self, id_):
+        try:
+            cls = to_cls(id_)
+            return self.client.exists(index=cls.index, id=id_)
+        except Exception as e:
+            raise ElasticsearchException(f'failed to check existence of {id_}') from e
 
     def search(self, cls: AbstractText, query: str = None, start_date_str: str = None, end_date_str: str = None):
         s = Search(using=self.client, index=cls.index)
