@@ -37,7 +37,7 @@ class ElasticsearchClient:
                 return self.client.index(index=obj.index, id=obj.id, body=obj.__dict__)
             elif op_type == OpType.UPDATE:
                 return self.client.update(index=obj.index, id=obj.id, body={'doc': obj.__dict__})
-            elif op_type == OpType.SAFE_INDEX:
+            elif op_type == OpType.MERGE:
                 if self.exists(obj.id):
                     self.index(obj, op_type=OpType.UPDATE)
                 else:
