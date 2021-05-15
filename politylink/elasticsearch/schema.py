@@ -81,8 +81,8 @@ class BillText(AbstractText):
         LAST_UPDATED_DATE = 'last_updated_date'
         GROUPS = 'groups'
         MINISTRIES = 'ministries'
-        FIRST_SUBMITTED_DIET = 'submitted_diet'
-        SUBMITTED_DIETS = 'submitted_diets'
+        SUBMITTED_DIET = 'submitted_diet'
+        BELONGED_TO_DIETS = 'belonged_to_diets'
 
 
 class MinutesText(AbstractText):
