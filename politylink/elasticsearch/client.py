@@ -11,7 +11,7 @@ from politylink.elasticsearch.schema import AbstractText, to_cls
 class OpType(str, Enum):
     INDEX = 'index'  # create or overwrite
     UPDATE = 'update'  # NotFoundError or update
-    SAFE_INDEX = 'safe_index'  # create or update (round-trip)
+    MERGE = 'merge'  # create or update (round-trip)
 
 
 class ElasticsearchException(Exception):

@@ -25,7 +25,7 @@ class TestGraphQLClient:
         for bill_text in self.bill_texts:
             client.index(bill_text)
             client.index(bill_text, op_type=OpType.UPDATE)
-            client.index(bill_text, op_type=OpType.SAFE_INDEX)
+            client.index(bill_text, op_type=OpType.MERGE)
         for news_text in self.news_texts:
             client.index(news_text)
         for minutes_text in self.minutes_texts:
