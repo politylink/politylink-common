@@ -153,6 +153,16 @@ class TestGraphQLClient:
             client.get('bill:invalid')
 
     @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
+    def test_bulk_get(self):
+        client = GraphQLClient()
+
+        bill = self._build_sample_bill()
+
+        bills = client.bulk_get([bill.id])
+        assert len(bills) == 1
+        assert bill.id == bills[0].id
+
+    @pytest.mark.skipif(not POLITYLINK_AUTH, reason='authorization required')
     def test_delete(self):
         client = GraphQLClient()
 
@@ -205,6 +215,7 @@ class TestGraphQLClient:
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id))
         LOGGER.warning(GraphQLClient.build_link_operation(url.id, bill.id, remove=True))
         LOGGER.warning(GraphQLClient.build_get_operation(bill.id, ['id', 'name']))
+        LOGGER.warning(GraphQLClient.build_bulk_get_operation(ids=['Bill:1', 'Bill:2'], fields=['id', 'name']))
         LOGGER.warning(GraphQLClient.build_delete_operation(bill.id))
         LOGGER.warning(GraphQLClient.build_get_all_operation('bill', ['id', 'name'],
                                                              _BillFilter({'name_contains': '公文書'})))
