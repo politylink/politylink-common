@@ -50,6 +50,20 @@ class GraphQLClient:
         else:
             raise GraphQLException(f'multiple {id_} exist')
 
+    def bulk_get(self, ids, fields=None, depth=2):
+        """
+        General method to get multiple GraphQL object by list of ids
+        """
+
+        if not ids:
+            raise GraphQLException("id list is empty")
+        op = self.build_bulk_get_operation(ids, fields)
+        res = self.endpoint(op.__to_graphql__(auto_select_depth=depth))
+        self.validate_response_or_raise(res)
+        method_name = build_method_name(ids[0])
+        data = getattr(op + res, method_name)
+        return data
+
     def merge(self, obj):
         """
         General method to merge GraphQL object
@@ -285,6 +299,19 @@ class GraphQLClient:
         return op
 
     @staticmethod
+    def build_bulk_get_operation(ids, fields=None):
+        op = Operation(Query)
+        method_name = build_method_name(ids[0])
+        try:
+            obj = getattr(op, method_name)(filter=GraphQLClient.build_bulk_filter(ids))
+        except AttributeError:
+            raise GraphQLException(f'unknown id type : {ids[0]}')
+        if fields:
+            for field in fields:
+                getattr(obj, field)()
+        return op
+
+    @staticmethod
     def build_delete_operation(id_, op=None):
         if op is None:
             op = Operation(Mutation)
@@ -341,6 +368,18 @@ class GraphQLClient:
             return locals()[class_name]({'id': id_})
         except KeyError:
             raise GraphQLException(f'unknown id type to build GraphQL filter: {id_}')
+
+    @staticmethod
+    def build_bulk_filter(ids: str):
+        # noinspection PyUnresolvedReferences
+        from politylink.graphql.schema import _BillFilter, _CommitteeFilter, _MinutesFilter, _SpeechFilter, \
+            _UrlFilter, _NewsFilter, _TimelineFilter, _MemberFilter, _DietFilter, _ActivityFilter, _BillActionFilter
+
+        class_name = '_{}Filter'.format(ids[0].split(':')[0])
+        try:
+            return locals()[class_name]({'id_in': ids})
+        except KeyError:
+            raise GraphQLException(f'unknown id type to build GraphQL filter: {ids[0]}')
 
     @staticmethod
     def build_get_all_operation(class_name, fields=None, filter_=None):
