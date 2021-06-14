@@ -117,7 +117,7 @@ class IndexedEnum(Enum):
         for e in cls:
             if e.index == index:
                 return e
-        raise ValueError('index not found')
+        raise ValueError(f'index not found: {index}')
 
 
 class BillStatus(IndexedEnum):
@@ -142,9 +142,9 @@ class BillStatus(IndexedEnum):
                 if date and date >= max_date:  # >= to prioritize later
                     max_date = date
                     max_bill_status = bill_status
-        if max_bill_status:
-            return max_bill_status
-        raise ValueError(f'bill does not have any date: {bill}')
+        if max_bill_status is None:
+            raise ValueError(f'bill does not have valid date: {bill}')
+        return max_bill_status
 
 
 class BillCategory(IndexedEnum):
