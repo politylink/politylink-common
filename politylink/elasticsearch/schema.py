@@ -126,7 +126,7 @@ class BillStatus(IndexedEnum):
     PASSED_REPRESENTATIVES = (2, '衆可決')
     PASSED_COUNCILORS_COMMITTEE = (3, '参委可決')
     PASSED_COUNCILORS = (4, '参可決')
-    PROCLAIMED = (5, '交付')
+    PROCLAIMED = (5, '公布')
 
     def __init__(self, index, label):
         super().__init__(index)
