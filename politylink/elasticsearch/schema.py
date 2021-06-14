@@ -1,5 +1,7 @@
 from enum import Enum
 
+from politylink.graphql.schema import Bill
+
 
 def to_cls(id_):
     """
@@ -104,3 +106,59 @@ class SpeechText(AbstractText):
         SPEAKER = 'speaker'
         BODY = 'body'
         DATE = 'date'
+
+
+class IndexedEnum(Enum):
+    def __init__(self, index, *args, **kwargs):
+        self.index = index
+
+    @classmethod
+    def from_index(cls, index: int):
+        for e in cls:
+            if e.index == index:
+                return e
+        raise ValueError('index not found')
+
+
+class BillStatus(IndexedEnum):
+    SUBMITTED = (0, '提出')
+    PASSED_REPRESENTATIVES_COMMITTEE = (1, '衆委可決')
+    PASSED_REPRESENTATIVES = (2, '衆可決')
+    PASSED_COUNCILORS_COMMITTEE = (3, '参委可決')
+    PASSED_COUNCILORS = (4, '参可決')
+    PROCLAIMED = (5, '交付')
+
+    def __init__(self, index, label):
+        super().__init__(index)
+        self.label = label
+
+    @staticmethod
+    def from_gql(bill: Bill):
+        max_date, max_bill_status = '', None
+        for bill_status in BillStatus:
+            gql_date_field = bill_status.name.lower() + '_date'
+            if hasattr(bill, gql_date_field):
+                date = getattr(bill, gql_date_field).formatted
+                if date and date >= max_date:  # >= to prioritize later
+                    max_date = date
+                    max_bill_status = bill_status
+        if max_bill_status:
+            return max_bill_status
+        raise ValueError(f'bill does not have any date: {bill}')
+
+
+class BillCategory(IndexedEnum):
+    KAKUHOU = (0, '閣法')
+    SHUHOU = (1, '衆法')
+    SANHOU = (2, '参法')
+
+    def __init__(self, index, label):
+        super().__init__(index)
+        self.label = label
+
+    @staticmethod
+    def from_gql(bill: Bill):
+        for bill_category in BillCategory:
+            if bill.category == bill_category.name:
+                return bill_category
+        raise ValueError(f'bill does not have valid category: {bill.category}')
