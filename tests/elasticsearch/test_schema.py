@@ -1,6 +1,6 @@
-from politylink.elasticsearch.schema import BillStatus, BillCategory
-from politylink.graphql.schema import Bill, _Neo4jDateTime
 import politylink.graphql.schema
+from politylink.elasticsearch.schema import BillStatus, BillCategory, BillText
+from politylink.graphql.schema import Bill, _Neo4jDateTime
 
 
 def test_bill_status():
@@ -19,3 +19,9 @@ def test_bill_category():
     bill = Bill(None)
     bill.category = politylink.graphql.schema.BillCategory.KAKUHOU
     assert BillCategory.from_gql(bill) == BillCategory.KAKUHOU
+
+
+def test_set_field():
+    bill_text = BillText()
+    bill_text.set(BillText.Field.ID, 'Bill:1')
+    assert bill_text.id == 'Bill:1'

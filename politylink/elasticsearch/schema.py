@@ -40,6 +40,9 @@ class AbstractText:
                 if key in dct:
                     setattr(self, key, dct[key])
 
+    def set(self, field: Field, value):
+        setattr(self, field.value, value)
+
     def __repr__(self):
         return f'<{self.__class__.__name__}: {self.__dict__}>'
 
@@ -71,6 +74,7 @@ class BillText(AbstractText):
 
     class Field(str, Enum):
         ID = 'id'
+        BILL_NUMBER = 'bill_number'
         TITLE = 'title'
         BODY = 'body'
         SUPPLEMENT = 'supplement'
