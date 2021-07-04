@@ -9,7 +9,7 @@ LOGGER = getLogger(__name__)
 
 
 def extract_bill_number_or_none(text, short=False):
-    pattern = r'第?([0-9]+)回?-?(国会)?(閣|衆|参|)法?-?第?([0-9]+)号?'
+    pattern = r'第?([0-9]+)回?-?(国会)?(閣|衆|参)法?-?第?([0-9]+)号?'
     match = re.search(pattern, replace_kansuji_to_number(text))
     if not match:
         return None

@@ -11,6 +11,7 @@ def test_extract_bill_number_or_none():
     assert extract_bill_number_or_none('200-衆-1') == '第200回国会衆法第1号'
     assert extract_bill_number_or_none('二〇〇衆一') == '第200回国会衆法第1号'
     assert extract_bill_number_or_none('地方税法等の一部を改正する法律案') is None
+    assert extract_bill_number_or_none('204') is None
 
 
 def test_extract_bill_category_or_none():
