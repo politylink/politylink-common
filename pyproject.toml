@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "politylink"
-version = "0.1.75"
+version = "0.1.76"
 description = ""
 readme = "README.md"
 homepage = "https://politylink.jp"
