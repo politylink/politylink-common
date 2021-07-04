@@ -1,12 +1,20 @@
 import os
 import re
+import unicodedata
 from datetime import datetime
 
 from kanjize import kanji2int
 
+KANSUJI = '〇一二三四五六七八九'
+KANSUJI_DIGIT = '十百千万'
+
 
 def get_env_or_default(key, default):
     return os.environ[key] if key in os.environ else default
+
+
+def to_date_str(dt):
+    return '{:02d}-{:02d}-{:02d}'.format(dt.year, dt.month, dt.day)
 
 
 def filter_dict_by_value(dict_, num_items):
@@ -25,6 +33,61 @@ def filter_dict_by_thresh(dict_, thresh):
     """
 
     return dict(filter(lambda x: x[1] >= thresh, dict_.items()))
+
+
+def contains_word(text, allow_list=None, block_list=None):
+    """
+    単語を含むか判定する
+    allowとblockの両方が含まれていた場合はFalseを返す
+    """
+
+    allow_list = allow_list or list()
+    block_list = block_list or list()
+    has_allow_word = any(w in text for w in allow_list)
+    has_block_word = any(w in text for w in block_list)
+    return has_allow_word and not has_block_word
+
+
+def strip_join(str_list, sep=''):
+    return sep.join(map(lambda x: x.strip(), str_list))
+
+
+def deduplicate(items):
+    """
+    順番を保持したままリストの重複を除く
+    """
+
+    return list(dict.fromkeys(items))
+
+
+def convert_kansuji_to_int(s):
+    buffer = ''
+    sr = s[::-1]  # digitを後ろから変換する
+    for i, si in enumerate(sr):
+        if si in KANSUJI_DIGIT:
+            zeros = KANSUJI_DIGIT.find(si) + 1
+            if len(buffer) > zeros:
+                raise ValueError(f'too many numbers before "{si}": {s}')
+            buffer += '〇' * (zeros - len(buffer))  # 〇で桁を埋める
+            if i == len(sr) - 1 or sr[i + 1] not in KANSUJI:
+                buffer += '一'
+        elif si in KANSUJI:
+            buffer += si
+        else:
+            raise ValueError(f'found non-kansuji "{si}": {s}')
+    return int(''.join([str(int(unicodedata.numeric(x))) for x in buffer[::-1]]))
+
+
+def replace_kansuji_to_number(s):
+    pattern = f'[{KANSUJI + KANSUJI_DIGIT}]+'
+    return re.sub(pattern, lambda x: str(convert_kansuji_to_int(x.group(0))), s)
+
+
+def get_str_offset(s):
+    for i, c in enumerate(s):
+        if c not in {' ', '　'}:
+            return i
+    return -1
 
 
 class DateConverter:
