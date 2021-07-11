@@ -1,5 +1,6 @@
 from enum import Enum
 
+import politylink.graphql.schema
 from politylink.graphql.schema import Bill
 
 
@@ -166,3 +167,22 @@ class BillCategory(IndexedEnum):
             if bill.category == bill_category.name:
                 return bill_category
         raise ValueError(f'bill does not have valid category: {bill.category}')
+
+
+class ParliamentaryGroup(IndexedEnum):
+    JIMIN = (0, '自民')
+    RIKKEN = (1, '立憲')
+    KOMEI = (2, '公明')
+    KYOSAN = (3, '共産')
+    KOKUMIN = (4, '国民')
+
+    def __init__(self, index, label):
+        super().__init__(index)
+        self.label = label
+
+    @staticmethod
+    def from_gql(gql_group: politylink.graphql.schema.ParliamentaryGroup):
+        for es_group in ParliamentaryGroup:
+            if gql_group == es_group.name:
+                return es_group
+        raise ValueError(f'failed to map ParliamentaryGroup: {gql_group}')
