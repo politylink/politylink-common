@@ -90,6 +90,9 @@ class BillText(AbstractText):
         MINISTRIES = 'ministries'
         SUBMITTED_DIET = 'submitted_diet'
         BELONGED_TO_DIETS = 'belonged_to_diets'
+        SUBMITTED_GROUPS = 'submitted_groups'
+        SUPPORTED_GROUPS = 'supported_groups'
+        OPPOSED_GROUPS = 'opposed_groups'
 
 
 class MinutesText(AbstractText):
