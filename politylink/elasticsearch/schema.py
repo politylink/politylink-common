@@ -177,7 +177,8 @@ class ParliamentaryGroup(IndexedEnum):
     RIKKEN = (1, '立憲')
     KOMEI = (2, '公明')
     KYOSAN = (3, '共産')
-    KOKUMIN = (4, '国民')
+    ISHIN = (4, '維新')
+    KOKUMIN = (5, '国民')
 
     def __init__(self, index, label):
         super().__init__(index)
