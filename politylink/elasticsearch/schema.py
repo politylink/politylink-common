@@ -17,6 +17,8 @@ def to_cls(id_):
         return MinutesText
     elif id_.startswith('Speech'):
         return SpeechText
+    elif id_.startswith('Member'):
+        return MemberText
     else:
         raise ValueError(f'unknown id type: {id_}')
 
@@ -43,6 +45,9 @@ class AbstractText:
 
     def set(self, field: Field, value):
         setattr(self, field.value, value)
+
+    def get(self, field: Field):
+        getattr(self, field.value)
 
     def __repr__(self):
         return f'<{self.__class__.__name__}: {self.__dict__}>'
@@ -114,6 +119,17 @@ class SpeechText(AbstractText):
         SPEAKER = 'speaker'
         BODY = 'body'
         DATE = 'date'
+
+
+class MemberText(AbstractText):
+    index = 'member'
+
+    class Field(str, Enum):
+        ID = 'id'
+        NAME = 'name'
+        NAME_HIRA = 'name_hira'
+        DESCRIPTION = 'description'
+        GROUP = 'group'
 
 
 class IndexedEnum(Enum):
