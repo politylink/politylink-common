@@ -130,6 +130,7 @@ class MemberText(AbstractText):
         NAME_HIRA = 'name_hira'
         DESCRIPTION = 'description'
         GROUP = 'group'
+        LAST_UPDATED_DATE = 'last_updated_date'
 
 
 class IndexedEnum(Enum):
