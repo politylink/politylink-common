@@ -131,6 +131,7 @@ class MemberText(AbstractText):
         DESCRIPTION = 'description'
         GROUP = 'group'
         LAST_UPDATED_DATE = 'last_updated_date'
+        HOUSE = 'house'
 
 
 class IndexedEnum(Enum):
