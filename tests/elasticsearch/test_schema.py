@@ -1,5 +1,5 @@
 import politylink.graphql.schema
-from politylink.elasticsearch.schema import BillStatus, BillCategory, BillText, ParliamentaryGroup
+from politylink.elasticsearch.schema import BillStatus, BillCategory, BillText, ParliamentaryGroup, House
 from politylink.graphql.schema import Bill, _Neo4jDateTime
 
 
@@ -33,3 +33,11 @@ def test_parliamentary_group():
 
     assert ParliamentaryGroup.from_gql(politylink.graphql.schema.ParliamentaryGroup.JIMIN) == ParliamentaryGroup.JIMIN
     assert ParliamentaryGroup.from_gql(politylink.graphql.schema.ParliamentaryGroup.RIKKEN) == ParliamentaryGroup.RIKKEN
+
+
+def test_house():
+    assert House.from_index(0) == House.REPRESENTATIVES
+    assert House.from_index(1) == House.COUNCILORS
+
+    assert House.from_gql(politylink.graphql.schema.House.REPRESENTATIVES) == House.REPRESENTATIVES
+    assert House.from_gql(politylink.graphql.schema.House.COUNCILORS) == House.COUNCILORS

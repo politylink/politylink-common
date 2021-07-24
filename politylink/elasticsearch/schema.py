@@ -134,8 +134,9 @@ class MemberText(AbstractText):
 
 
 class IndexedEnum(Enum):
-    def __init__(self, index, *args, **kwargs):
+    def __init__(self, index, label):
         self.index = index
+        self.label = label
 
     @classmethod
     def from_index(cls, index: int):
@@ -152,10 +153,6 @@ class BillStatus(IndexedEnum):
     PASSED_COUNCILORS_COMMITTEE = (3, '参委可決')
     PASSED_COUNCILORS = (4, '参可決')
     PROCLAIMED = (5, '公布')
-
-    def __init__(self, index, label):
-        super().__init__(index)
-        self.label = label
 
     @staticmethod
     def from_gql(bill: Bill):
@@ -177,10 +174,6 @@ class BillCategory(IndexedEnum):
     SHUHOU = (1, '衆法')
     SANHOU = (2, '参法')
 
-    def __init__(self, index, label):
-        super().__init__(index)
-        self.label = label
-
     @staticmethod
     def from_gql(bill: Bill):
         for bill_category in BillCategory:
@@ -197,13 +190,21 @@ class ParliamentaryGroup(IndexedEnum):
     ISHIN = (4, '維新')
     KOKUMIN = (5, '国民')
 
-    def __init__(self, index, label):
-        super().__init__(index)
-        self.label = label
-
     @staticmethod
     def from_gql(gql_group: politylink.graphql.schema.ParliamentaryGroup):
         for es_group in ParliamentaryGroup:
             if gql_group == es_group.name:
                 return es_group
         raise ValueError(f'failed to map ParliamentaryGroup: {gql_group}')
+
+
+class House(IndexedEnum):
+    REPRESENTATIVES = (0, '衆議院')
+    COUNCILORS = (1, '参議院')
+
+    @staticmethod
+    def from_gql(gql_house: politylink.graphql.schema.House):
+        for es_house in House:
+            if gql_house == es_house.name:
+                return es_house
+        raise ValueError(f'failed to map House: {gql_house}')
