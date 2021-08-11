@@ -1,3 +1,4 @@
+from enum import Enum
 from os import path
 
 import spacy
@@ -10,18 +11,30 @@ STOPWORDS_SLOTHLIB_PATH = path.join(path.dirname(__file__), 'stopwords_slothlib.
 STOPWORDS_MINUTES_PATH = path.join(path.dirname(__file__), 'stopwords_minutes.txt')
 
 
-def filter_by_pos(texts, pos_tags):
+class MatchMode(str, Enum):
+    ANY = 'any'
+    ALL = 'all'
+    LAST = 'last'
+
+
+def filter_by_pos(texts, pos_tags, mode=MatchMode.ANY):
     """
-    filter text that includes target Part-Of-Speech tags
+    filter text that match with target Part-Of-Speech tags
     https://spacy.io/api/annotation#pos-tagging
     """
 
     ret = []
     for doc in nlp.pipe(texts):
-        for token in doc:
-            if token.pos_ in pos_tags:
-                ret.append(doc.text)
-                break
+        if mode == MatchMode.ANY:
+            is_match = any([token.pos_ in pos_tags for token in doc])
+        elif mode == MatchMode.ALL:
+            is_match = all([token.pos_ in pos_tags for token in doc])
+        elif mode == MatchMode.LAST:
+            is_match = doc[-1].pos_ in pos_tags
+        else:
+            raise ValueError(f'unknown match mode: {mode}')
+        if is_match:
+            ret.append(doc.text)
     return ret
 
 
