@@ -4,7 +4,7 @@ from politylink.elasticsearch.client import ElasticsearchClient, ElasticsearchEx
 from politylink.elasticsearch.schema import BillText, NewsText, MinutesText, SpeechText, MemberText
 
 
-class TestGraphQLClient:
+class TestElasticsearchClient:
     bill_texts = [
         BillText({'id': 'Bill:1', 'title': '猫法改正案'}),
         BillText({'id': 'Bill:3', 'title': '犬法改正案'})
