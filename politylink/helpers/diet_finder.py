@@ -22,5 +22,4 @@ def is_date_match(diet, date):
     def to_str(dt):
         return f'{dt.year:04}-{dt.month:02}-{dt.day:02}'
 
-    print('eval {} <= {} <= {}'.format(to_str(diet.start_date), to_str(date), to_str(diet.end_date)))
     return to_str(diet.start_date) <= to_str(date) <= to_str(diet.end_date)

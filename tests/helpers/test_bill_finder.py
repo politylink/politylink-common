@@ -2,7 +2,7 @@ import pytest
 
 from politylink.graphql.schema import Bill, BillCategory
 from politylink.helpers import BillFinder
-from politylink.helpers.abstract_finder import is_text_match
+from politylink.helpers.bill_finder import is_diet_match, DietRelation
 
 
 class TestBillFinder:
@@ -41,11 +41,19 @@ class TestBillFinder:
         assert len(bill_finder.find('法律案', category=BillCategory.KAKUHOU)) == 1
         assert len(bill_finder.find('法律案', category=BillCategory.SANHOU)) == 0
 
-    def test_match(self):
-        search_fields = ['name', 'aliases']
 
-        assert is_text_match(Bill({'name': '法律案A'}), search_fields, text='法律案', exact_match=False)
-        assert is_text_match(Bill({'name': '法律案A'}), search_fields, text='法律案A', exact_match=True)
-        assert not is_text_match(Bill({'name': '法律案A'}), search_fields, text='法律案', exact_match=True)
-        assert is_text_match(Bill({'aliases': ['猫ちゃん', '法律案']}), search_fields, text='法律案', exact_match=True)
-        assert not is_text_match(Bill({'aliases': ['法律', '案']}), search_fields, text='法律案', exact_match=True)
+def test_is_diet_match():
+    bill = Bill({
+        'id': 'Bill:0',
+        'billNumber': '第200回国会閣法第1号',
+        'belongedToDiets': [{'number': 200}, {'number': 201}]
+    })
+
+    assert not is_diet_match(bill, 199, DietRelation.SUBMITTED)
+    assert is_diet_match(bill, 200, DietRelation.SUBMITTED)
+    assert not is_diet_match(bill, 201, DietRelation.SUBMITTED)
+
+    assert not is_diet_match(bill, 199, DietRelation.BELONGED)
+    assert is_diet_match(bill, 200, DietRelation.BELONGED)
+    assert is_diet_match(bill, 201, DietRelation.BELONGED)
+    assert not is_diet_match(bill, 202, DietRelation.BELONGED)
