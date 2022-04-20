@@ -10,6 +10,8 @@ class KeyPhraseExtractor:
     https://zenn.dev/knok/articles/098b265fb2b779
     """
 
+    TEXT_LENGTH_LIMIT = 2000
+
     def __init__(self):
         # load stop words
         stopwords = set()
@@ -38,7 +40,11 @@ class KeyPhraseExtractor:
         :return: list of key phrases
         """
 
-        extractor = pke.unsupervised.MultipartiteRank()
+        # trim text to avoid tokenization error
+        if len(text) > self.TEXT_LENGTH_LIMIT:
+            text = text[:self.TEXT_LENGTH_LIMIT]
+
+        extractor = pke.unsupervised.MultipartiteRank()  # POL-257: need to init every time
         extractor.load_document(input=text, language='ja', normalization=None)
         extractor.candidate_selection(pos={'NOUN', 'PROPN', 'ADJ', 'NUM'})
         extractor.candidate_weighting(threshold=0.74, method='average', alpha=1.1)
