@@ -2,6 +2,7 @@ import pytest
 
 from politylink.graphql.schema import Bill, BillCategory
 from politylink.helpers import BillFinder
+from politylink.helpers.abstract_finder import is_text_match
 
 
 class TestBillFinder:
@@ -41,10 +42,10 @@ class TestBillFinder:
         assert len(bill_finder.find('法律案', category=BillCategory.SANHOU)) == 0
 
     def test_match(self):
-        bill_finder = BillFinder(bills=[], search_fields=['name', 'aliases'])
+        search_fields = ['name', 'aliases']
 
-        assert bill_finder.is_text_match(Bill({'name': '法律案A'}), text='法律案', exact_match=False)
-        assert bill_finder.is_text_match(Bill({'name': '法律案A'}), text='法律案A', exact_match=True)
-        assert not bill_finder.is_text_match(Bill({'name': '法律案A'}), text='法律案', exact_match=True)
-        assert bill_finder.is_text_match(Bill({'aliases': ['猫ちゃん', '法律案']}), text='法律案', exact_match=True)
-        assert not bill_finder.is_text_match(Bill({'aliases': ['法律', '案']}), text='法律案', exact_match=True)
+        assert is_text_match(Bill({'name': '法律案A'}), search_fields, text='法律案', exact_match=False)
+        assert is_text_match(Bill({'name': '法律案A'}), search_fields, text='法律案A', exact_match=True)
+        assert not is_text_match(Bill({'name': '法律案A'}), search_fields, text='法律案', exact_match=True)
+        assert is_text_match(Bill({'aliases': ['猫ちゃん', '法律案']}), search_fields, text='法律案', exact_match=True)
+        assert not is_text_match(Bill({'aliases': ['法律', '案']}), search_fields, text='法律案', exact_match=True)

@@ -1,5 +1,5 @@
 from politylink.graphql.client import GraphQLClient
-from politylink.helpers.abstract_finder import AbstractFinder
+from politylink.helpers.abstract_finder import AbstractFinder, is_text_match
 
 
 class MemberFinder(AbstractFinder):
@@ -8,7 +8,7 @@ class MemberFinder(AbstractFinder):
     """
 
     def __init__(self, members=None, search_fields=None, **kwargs):
-        super().__init__(search_fields or ['name', 'name_hira'])
+        self.search_fields = search_fields or ['name', 'name_hira']
         if members:
             self.members = members
         else:
@@ -16,4 +16,4 @@ class MemberFinder(AbstractFinder):
             self.members = client.get_all_members(['id'] + self.search_fields)
 
     def find(self, text, exact_match=False, *args, **kwargs):
-        return list(filter(lambda x: self.is_text_match(x, text, exact_match), self.members))
+        return list(filter(lambda x: is_text_match(x, self.search_fields, text, exact_match), self.members))
