@@ -1,4 +1,3 @@
-import nltk
 import pke
 from spacy.lang.ja import stop_words
 
@@ -7,6 +6,11 @@ from politylink.nlp.utils import load_stopwords, STOPWORDS_SLOTHLIB_PATH, STOPWO
 
 
 class KeyPhraseExtractor:
+    """
+    https://zenn.dev/knok/articles/098b265fb2b779
+    """
+
+    TEXT_LENGTH_LIMIT = 2000
 
     def __init__(self):
         # load stop words
@@ -18,10 +22,7 @@ class KeyPhraseExtractor:
         stopwords = list(stopwords)
 
         # set stop words
-        pke.base.lang_stopwords['ja_ginza'] = 'japanese'
-        nltk.corpus.stopwords.words_org = nltk.corpus.stopwords.words
-        nltk.corpus.stopwords.words = lambda lang: stopwords if lang == 'japanese' else nltk.corpus.stopwords.words_org(
-            lang)
+        pke.base.stopwords['ja'] = stopwords
 
     def get_member_names(self):
         client = GraphQLClient()
@@ -39,8 +40,12 @@ class KeyPhraseExtractor:
         :return: list of key phrases
         """
 
-        extractor = pke.unsupervised.MultipartiteRank()
-        extractor.load_document(input=text, language='ja_ginza', normalization=None)
+        # trim text to avoid tokenization error
+        if len(text) > self.TEXT_LENGTH_LIMIT:
+            text = text[:self.TEXT_LENGTH_LIMIT]
+
+        extractor = pke.unsupervised.MultipartiteRank()  # POL-257: need to init every time
+        extractor.load_document(input=text, language='ja', normalization=None)
         extractor.candidate_selection(pos={'NOUN', 'PROPN', 'ADJ', 'NUM'})
         extractor.candidate_weighting(threshold=0.74, method='average', alpha=1.1)
         key_phrases = extractor.get_n_best(n)
