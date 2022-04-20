@@ -1,20 +1,21 @@
 [tool.poetry]
 name = "politylink"
-version = "0.1.86"
+version = "0.1.87"
 description = ""
 readme = "README.md"
 homepage = "https://politylink.jp"
 authors = ["Mitsuki Usui"]
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
+python = "^3.8"
 pandas = "^1.0.5"
 sgqlc = "^11.0"
 kanjize = "^0.1.0"
 elasticsearch = "^7.9.1"
 nltk = "^3.5"
-spacy = "2.3.5"
-ginza = "^4.0.5"
+spacy = "^3.2.3"
+ginza = "^5.1"
+ja-ginza = "^5.1"
 stringcase = "^1.2.0"
 elasticsearch-dsl = "^7.3.0"
 
