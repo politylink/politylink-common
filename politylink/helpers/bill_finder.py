@@ -17,12 +17,12 @@ class BillFinder(AbstractFinder):
     """
 
     def __init__(self, bills=None, search_fields=None, **kwargs):
-        self.search_fields = search_fields or ['name', 'bill_number', 'category', 'belonged_to_diets']
+        self.search_fields = search_fields or ['name', 'bill_number']
         if bills:
             self.bills = bills
         else:
             client = GraphQLClient(**kwargs)
-            self.bills = client.get_all_bills(['id'] + self.search_fields)
+            self.bills = client.get_all_bills(['id', 'category', 'belonged_to_diets'] + self.search_fields)
         self.diet_finder = DietFinder()
 
     def find(self, text, exact_match=False, diet_number=None, diet_relation=None, category=None, date=None):
@@ -32,16 +32,17 @@ class BillFinder(AbstractFinder):
             text = maybe_bill_number
 
         # set category from text
-        maybe_category = extract_bill_category_or_none(text)
-        if maybe_category:
-            category = category or maybe_category
+        if not category:
+            maybe_category = extract_bill_category_or_none(text)
+            if maybe_category:
+                category = maybe_category
 
         # set diet params from date
-        if date:
+        if (not diet_number) and date:
             diets = self.diet_finder.find(date)
             if len(diets) == 1:
-                diet_number = diet_number or diets[0].number
-                diet_relation = diet_relation or DietRelation.BELONGED
+                diet_number = diets[0].number
+                diet_relation = DietRelation.BELONGED
 
         return list(filter(
             lambda x: is_text_match(x, self.search_fields, text, exact_match) and
