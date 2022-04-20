@@ -12,7 +12,7 @@ class DietFinder(AbstractFinder):
             self.diets = diets
         else:
             client = GraphQLClient(**kwargs)
-            self.diets = client.get_all_diets(['id', 'start_date', 'end_date'])
+            self.diets = client.get_all_diets(['id', 'number', 'name', 'start_date', 'end_date'])
 
     def find(self, date):
         return list(filter(lambda x: is_date_match(x, date), self.diets))
