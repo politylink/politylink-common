@@ -1,5 +1,6 @@
 from politylink.graphql.schema import BillActionType, BillCategory
-from politylink.utils.bill import extract_bill_number_or_none, extract_bill_category_or_none, extract_bill_action_types
+from politylink.utils.bill import extract_bill_number_or_none, extract_bill_category_or_none, extract_bill_action_types, \
+    encode_bill_number, decode_bill_number
 
 
 def test_extract_bill_number_or_none():
@@ -22,3 +23,11 @@ def test_extract_bill_category_or_none():
 def test_extract_bill_action_types():
     assert extract_bill_action_types('これより質疑に入ります。') == [BillActionType.QUESTION]
     assert extract_bill_action_types('本案の趣旨の説明につきましては、これを省略します') == []
+
+
+def test_encode_bill_number():
+    assert encode_bill_number(201, BillCategory.KAKUHOU, 1) == '第201回国会閣法第1号'
+
+
+def test_decode_bill_number():
+    assert decode_bill_number('第201回国会閣法第1号') == (201, BillCategory.KAKUHOU, 1)
