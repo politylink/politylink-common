@@ -45,3 +45,23 @@ def extract_bill_action_types(speech) -> List[BillActionType]:
     if contains_word(speech, ['委員長の報告']):
         action_lst.append(BillActionType.REPORT)
     return action_lst
+
+
+BILL_CATEGORY_TO_NAME = {
+    BillCategory.KAKUHOU: '閣法',
+    BillCategory.SHUHOU: '衆法',
+    BillCategory.SANHOU: '参法'
+}
+NAME_TO_BILL_CATEGORY = dict([(v, k) for k, v in BILL_CATEGORY_TO_NAME.items()])
+
+
+def encode_bill_number(diet_number: int, bill_category: BillCategory, submission_number: int):
+    return f'第{diet_number}回国会{BILL_CATEGORY_TO_NAME.get(bill_category)}第{submission_number}号'
+
+
+def decode_bill_number(bill_number):
+    pattern = r'第([0-9]+)回国会({})第([0-9]+)号'.format('|'.join(NAME_TO_BILL_CATEGORY.keys()))
+    match = re.match(pattern, bill_number)
+    if not match:
+        raise ValueError(f'invalid bill_number: {bill_number}')
+    return int(match.group(1)), NAME_TO_BILL_CATEGORY.get(match.group(2)), int(match.group(3))
